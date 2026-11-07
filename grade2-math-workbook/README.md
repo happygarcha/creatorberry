@@ -60,4 +60,4 @@ foods, hygiene, feelings, fair play and outdoor-safety icons; Day 5 ends with a 
 - `phe_generators.py` - question generators
 - `build_phe.py` - lessons, body/plate diagrams, front matter (reuses the picture drawers in `build_social.py`)
 
-Run `python3 build_phe.py`. Units follow the Grade 2 PHE items confirmed by search; official wording not verified.
+Run `python3 build_phe.py`. Units were rebuilt against the official BC Grade 2 PHE Big Ideas, Content and Curricular Competencies (curriculum.gov.bc.ca).

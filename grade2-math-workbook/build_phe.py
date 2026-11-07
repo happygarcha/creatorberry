@@ -17,13 +17,12 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "Grade2_PHE_Picture_Workbook.pdf"
 TITLE = "Grade 2 Health & Active Living Picture Workbook"
 B.BOOK_TITLE = TITLE
 B.STD_LABEL = "BC PHE focus"
-NAMES = {1: "My Body & How It Moves", 2: "Moving Skills", 3: "Active Play Every Day", 4: "Heart, Breathing & Resting",
-         5: "Healthy Eating", 6: "Healthy Habits & Staying Clean", 7: "Feelings & Well-Being", 8: "Friends, Fair Play & Leadership",
-         9: "Outdoor Fun & Staying Safe", 10: "Moving Together: Review & Challenge"}
+NAMES = {1: "My Body & Physical Literacy", 2: "Fundamental Movement Skills", 3: "Ways to Be Active Every Day", 4: "How My Body Feels When I Move",
+         5: "Healthy Eating & Energy", 6: "Healthy Habits & Preventing Illness", 7: "Feelings & Who I Am", 8: "Friends, Fair Play & Leadership",
+         9: "Staying Safe & Getting Help", 10: "Healthy Living Together"}
 LEVEL = {1: "Starter", 2: "Starter", 3: "Starter", 4: "Building", 5: "Building", 6: "Building", 7: "Stretch", 8: "Stretch", 9: "Stretch", 10: "Challenge"}
-FOCUS = {1: "Physical literacy", 2: "Fundamental movement skills", 3: "Daily physical activity", 4: "Monitoring exertion & rest",
-         5: "Healthy eating choices", 6: "Healthy personal practices", 7: "Emotional well-being", 8: "Safety, fair play, leadership",
-         9: "Safe, active outdoor play", 10: "Healthy, active me"}
+FOCUS = {1: "Physical literacy", 2: "Fundamental movement skills", 3: "Daily activity, 60-90 min", 4: "Exertion & effects of activity", 5: "Healthy eating choices",
+         6: "Illness prevention practices", 7: "Emotions & self-identity", 8: "Safety, fair play, leadership", 9: "Safety strategies & support", 10: "Components of healthy living"}
 for d, src in ((B.UNIT_NAMES, NAMES), (B.UNIT_LEVEL, LEVEL), (B.UNIT_CC, FOCUS)):
     d.clear()
     d.update(src)
@@ -84,6 +83,15 @@ def d_diagram(c, x, yt, w, h, data, **kw):
         c.drawString(cx + r + 14, cy - 40, "protein")
         c.setStrokeColor(black)
         c.setLineWidth(1)
+    elif t == "exert":
+        labels = ["cold", "getting warmer", "warm", "getting hot", "very hot"]
+        sp = (w - 40) / 5
+        for i in range(5):
+            cx = x + 20 + sp * (i + .5)
+            draw_icon(c, f"exert{i + 1}", cx, yt - 34, 46)
+            c.setFillColor(black)
+            c.setFont("Helvetica-Bold", 9.5)
+            c.drawCentredString(cx, yt - 74, labels[i])
     else:
         _old_diagram(c, x, yt, w, h, data, **kw)
 
@@ -92,44 +100,44 @@ B.DRAW["diagram"] = d_diagram
 
 BS.LESSON.clear()
 BS.LESSON.update({
-    1: dict(goal="I can name body parts and how they help me move.", vocab=["eye", "ear", "nose", "hand", "foot", "heart", "lungs", "run"],
-            learn=["Our bodies are made to move.", "Each body part has a job.", "Moving every day helps us grow strong."],
+    1: dict(goal="I can name body parts and how moving helps my whole body.", vocab=["eye", "ear", "nose", "hand", "foot", "heart", "lungs", "run"],
+            learn=["Moving every day helps all of our well-being.", "Learning different activities builds physical literacy.", "Each body part has a job."],
             ex=("pic", ("What do you use to see?", ["eye", "ear", "hand"]), "A"),
             tryit=[("pic", ("What do you use to kick?", ["hand", "foot", "ear"]), "B"), ("word", ("lungs", "What body part is this?  (heart / lungs / nose)"), "lungs")]),
-    2: dict(goal="I can name moving skills: travelling, balancing and ball skills.", vocab=["run", "jump", "hop", "balance", "stretch", "throw", "catch", "kick"],
-            learn=["Travelling moves go from place to place.", "Balance and stretch stay in one place.", "Throw, catch, kick and bounce are ball skills."],
-            ex=("word", ("jump", "Which kind of move?  (travel / ball skill)"), "travel"),
-            tryit=[("word", ("catch", "Which kind of move?  (travel / ball skill)"), "ball skill"), ("pic", ("Which one is balancing?", ["run", "balance", "kick"]), "B")]),
-    3: dict(goal="I can tell active play from not active, and aim for 60 minutes a day.", vocab=["run", "swim", "dance", "skiprope", "bike", "canoe", "sit_tv", "sleep"],
-            learn=["Be active about 60 minutes every day.", "Active play makes our bodies strong.", "Find fun ways to move with family and friends."],
-            ex=("word", ("swim", "Active or not?  (active / not active)"), "active"),
-            tryit=[("word", ("sit_tv", "Active or not?  (active / not active)"), "not active"), ("pic", ("Which is more active?", ["sleep", "dance"]), "B")]),
-    4: dict(goal="I can tell how active play changes my heart and breathing.", vocab=["heart", "lungs", "run", "sleep", "bed", "water", "breath_hard", "breath_easy"],
-            learn=["Hard play makes your heart beat faster.", "If you cannot talk, slow down.", "Rest and water help your body."],
-            ex=("pic", ("Which makes your heart beat fastest?", ["sit_tv", "run", "sleep"]), "B"),
-            tryit=[("word", ("sleep", "Does your heart beat faster or slower?  (faster / slower)"), "slower"), ("pic", ("Which pumps blood?", ["lungs", "heart", "hand"]), "B")]),
-    5: dict(goal="I can make healthy food choices.", vocab=["apple", "carrot", "broccoli", "bread", "rice", "egg", "salmon", "water"],
-            learn=["Eat vegetables, fruits, whole grains and protein.", "Make water your drink of choice.", "Some foods are for sometimes."],
+    2: dict(goal="I can name movement skills: on the spot, travelling and with a ball.", vocab=["balance", "twist", "lift", "roll", "gallop", "bounce", "kick", "strike"],
+            learn=["On the spot: balance, bend, twist, lift.", "Travelling: roll, jump, hop, run, gallop.", "With a ball: bounce, throw, catch, kick, strike."],
+            ex=("word", ("gallop", "Which kind of move?  (travelling / with a ball)"), "travelling"),
+            tryit=[("word", ("twist", "Which kind of move?  (on the spot / travelling)"), "on the spot"), ("pic", ("Which one is striking?", ["run", "strike", "balance"]), "B")]),
+    3: dict(goal="I can name ways to be active and aim for 60 to 90 minutes a day.", vocab=["skiprope", "swim", "bike", "yoga", "hulahoop", "dance", "gymnastics", "tag"],
+            learn=["Get 60 to 90 minutes of active play every day.", "Be active alone, with a partner, to music, or in games.", "Be active at school, at home and in your community."],
+            ex=("word", ("swim", "Which kind of activity?  (alone or with a partner / rhythm / game with rules)"), "alone or with a partner"),
+            tryit=[("word", ("tag", "Which kind of activity?  (rhythm / game with rules)"), "game with rules"), ("word", ("playground", "Where can you be active?  (at school / at home)"), "at school")]),
+    4: dict(goal="I can tell how my body feels when I move, using the 1 to 5 scale.", vocab=["sweat", "breath_hard", "glass", "muscle", "happy", "exert1", "exert3", "exert5"],
+            learn=["Active play makes us breathe harder, sweat and feel thirsty.", "Our muscles work and we feel good.", "Use the scale: 1 cold, 3 warm, 5 very hot."],
+            ex=("pic", ("Which shows sweating?", ["sleep", "sweat", "glass"]), "B"),
+            tryit=[("pic", ("Which number feels very hot?", ["exert1", "exert3", "exert5"]), "C"), ("pic", ("Which shows feeling thirsty?", ["glass", "happy", "muscle"]), "A")]),
+    5: dict(goal="I can make healthy food choices and try a variety of foods.", vocab=["apple", "carrot", "broccoli", "bread", "rice", "egg", "salmon", "water"],
+            learn=["Foods give us energy to grow, play and learn.", "Try a variety of foods.", "Make water your drink of choice."],
             ex=("word", ("apple", "Everyday or sometimes?  (everyday / sometimes)"), "everyday"),
             tryit=[("word", ("candy", "Everyday or sometimes?  (everyday / sometimes)"), "sometimes"), ("pic", ("Which drink is best every day?", ["juice", "water", "cake"]), "B")]),
-    6: dict(goal="I can use healthy habits to stay clean and protect others.", vocab=["soap", "tap", "towel", "toothbrush", "tissue", "germ", "sunhat", "sunscreen"],
-            learn=["Wash hands with soap and water.", "Brush teeth and cover sneezes.", "Healthy habits protect you and others."],
-            ex=("pic", ("What do you use to wash your hands?", ["towel", "soap", "tissue"]), "B"),
-            tryit=[("pic", ("What cleans your teeth?", ["toothbrush", "tissue", "tap"]), "A"), ("word", ("soap", "Wash hands with soap?  (yes / no)"), "yes")]),
-    7: dict(goal="I can name feelings and ideas that help me feel better.", vocab=["happy", "sad", "angry", "surprised", "tired", "worried", "proud", "hug"],
-            learn=["All feelings are OK.", "Our feelings and our bodies are connected.", "Move, rest, breathe or talk to feel better."],
+    6: dict(goal="I can use healthy habits to stop germs and stay healthy.", vocab=["soap", "tap", "towel", "cough", "tissue", "sick", "bed", "house"],
+            learn=["Wash your hands with soap and water.", "Cover your mouth when you cough.", "Rest and stay home when you are sick."],
+            ex=("pic", ("What do you do when you cough?", ["cough", "ball", "kite"]), "A"),
+            tryit=[("pic", ("Where do you stay when you are sick?", ["park", "house", "playground"]), "B"), ("word", ("soap", "Wash hands with soap?  (yes / no)"), "yes")]),
+    7: dict(goal="I can name my feelings, manage them, and be proud of who I am.", vocab=["happy", "sad", "angry", "worried", "proud", "hug", "talk", "lungs"],
+            learn=["All feelings are OK. We can manage them.", "Be proud of what you can do.", "Our body, feelings and thoughts are connected."],
             ex=("pic", ("Which face is sad?", ["happy", "sad", "angry"]), "B"),
-            tryit=[("pic", ("What helps when you feel angry?", ["lungs", "kite", "tap"]), "A"), ("pic", ("What helps when you feel sad?", ["hug", "ball", "run"]), "A")]),
-    8: dict(goal="I can show fair play, kindness and leadership.", vocab=["say_goodgame", "say_nicetry", "turns", "sharing", "include", "team", "coach", "whistle"],
-            learn=["Take turns and share.", "Include everyone and use kind words.", "Leaders help others play safely."],
+            tryit=[("pic", ("What helps when you feel angry?", ["lungs", "kite", "tap"]), "A"), ("pic", ("You learned to ride a bike. How do you feel?", ["sad", "proud", "angry"]), "B")]),
+    8: dict(goal="I can show fair play, kindness, listening and leadership.", vocab=["say_goodgame", "turns", "sharing", "include", "team", "coach", "ear", "talk"],
+            learn=["Take turns, share and include everyone.", "Listen and use kind words.", "Leaders help others play safely and fairly."],
             ex=("pic", ("Which shows taking turns?", ["sharing", "turns", "team"]), "B"),
             tryit=[("pic", ("Who helps a team?", ["coach", "ball", "tap"]), "A"), ("pic", ("Which is a kind thing to say?", ["say_cant", "say_goodgame", "say_go"]), "B")]),
-    9: dict(goal="I can play outdoors safely in every season.", vocab=["ski", "sled", "canoe", "kite", "toque", "mittens", "sunhat", "lifejacket"],
-            learn=["Play outside in every season.", "Dress for the weather and stay safe.", "Care for nature and water."],
-            ex=("pic", ("What do you wear in the snow?", ["sunhat", "toque", "lifejacket"]), "B"),
-            tryit=[("pic", ("What do you wear near deep water?", ["lifejacket", "toque", "mittens"]), "A"), ("pic", ("What do you put on in the sun?", ["mittens", "sunscreen", "toque"]), "B")]),
-    10: dict(goal="I can plan a healthy, active day.", vocab=["stretch", "run", "walk", "water", "bed", "apple", "soap", "happy"],
-             learn=["A healthy day: move, eat well, rest, stay clean.", "Feelings, body and friends all matter.", "You can make healthy choices!"],
+    9: dict(goal="I can stay safe and know who to ask for help.", vocab=["mom", "teacher", "doctor", "say_stop", "say_no", "phone", "medicine", "cleaner"],
+            learn=["Trusted adults can help you.", "Use a strong voice: \u201cNo!\u201d \u201cStop!\u201d Then tell a trusted adult.", "Ask a trusted adult about medicine and cleaning sprays."],
+            ex=("pic", ("Which is a strong voice for an unsafe moment?", ["say_hello", "say_stop", "say_thanks"]), "B"),
+            tryit=[("pic", ("Who is a trusted adult you can ask?", ["teacher", "ball", "kite"]), "A"), ("pic", ("Which should only a trusted adult give you?", ["apple", "medicine", "milk"]), "B")]),
+    10: dict(goal="I can put healthy living together: move, eat well, rest, stay clean and safe.", vocab=["run", "apple", "soap", "bed", "happy", "hug", "helmet", "water"],
+             learn=["Healthy living: move, eat well, rest, stay clean.", "Feelings, friends and safety matter too.", "You can make healthy choices every day!"],
              ex=("pic", ("What is a good warm-up?", ["stretch", "sit_tv", "sleep"]), "A"),
              tryit=[("pic", ("What helps you rest?", ["run", "bed", "kite"]), "B"), ("pic", ("What do you drink after play?", ["candy", "juice", "water"]), "C")]),
 })
@@ -170,7 +178,7 @@ def cover(b):
     c.line(W / 2 - 138, H - 462, W / 2 + 138, H - 462)
     c.setFillColor(Color(.8, .85, .95))
     c.setFont("Helvetica", 8.5)
-    c.drawCentredString(W / 2, 22, "Themes follow Grade 2 Physical and Health Education (physical literacy, daily activity, healthy choices, safety and fair play). Not affiliated with Kumon.")
+    c.drawCentredString(W / 2, 22, "Follows the BC Grade 2 Physical and Health Education curriculum. Not affiliated with Kumon.")
     b.page(footer=False)
 
 
@@ -182,7 +190,8 @@ def guide(b):
         ("A picture-first book, and a move-it book",
          ["Every question uses <b>pictures</b>. Read short questions aloud at first, then let your child lead.",
           "After each lesson, <b>do the moves for real</b>: run, jump, balance, throw and catch, wash hands the right way.",
-          "Aim for about <b>60 minutes of active play a day</b>. Count it together on the Unit 3 sheets."]),
+          "Aim for <b>60 to 90 minutes of moderate to vigorous activity a day</b>. Count it together on the Unit 3 sheets.",
+          "Ask your school or your local First Nations or Indigenous community about <b>traditional Aboriginal games</b> and try some together."]),
         ("The weekly rhythm (about 12 weeks, 5 days a week, 10–15 minutes)",
          ["<b>Lesson day:</b> look at the picture page, try the two questions, then move together.",
           "<b>Days 1–4:</b> two practice sheets a day (Sheet A, then Sheet B with new pictures).",
@@ -205,20 +214,22 @@ def guide(b):
             p.drawOn(c, M + 6, b.y - hh)
             b.y -= hh + 1
         b.y -= 8
-    b.box(M, b.y, W - 2 * M, 108, CREAM, Color(.9, .8, .5))
-    q = Paragraph("<b>About the BC curriculum:</b> The units follow the Grade 2 Physical and Health Education ideas I could confirm for BC: daily moderate-to-vigorous "
-                  "activity and its benefits, learning fundamental movement skills, monitoring exertion, safety, fair play and leadership, healthy eating choices, "
-                  "healthy personal practices that protect ourselves and others, and the link between physical, emotional and mental health. I could not open the "
-                  "official page for exact wording, so please check it against your own curriculum. Kumon’s own pages do not match its levels to school "
-                  "grades. Levels rise from <b>Starter</b> (Units 1–3) to <b>Building</b> (4–6), <b>Stretch</b> (7–9) and <b>Challenge</b> (10).", SMALL)
+    b.box(M, b.y, W - 2 * M, 150, CREAM, Color(.9, .8, .5))
+    q = Paragraph("<b>Follows the BC Grade 2 PHE curriculum.</b> The Big Ideas are: (1) daily moderate-to-vigorous activity benefits all aspects of our well-being; "
+                  "(2) learning to move in different activities builds physical literacy; (3) healthy personal practices and safety strategies protect ourselves and others; "
+                  "(4) good communication and managing emotions help healthy relationships; (5) our physical, emotional and mental health are interconnected. "
+                  "Content covered: fundamental movement skills (on the spot, travelling, with objects), types of activity (individual and dual, rhythmic, games), monitoring exertion "
+                  "(1\u20135 scale), effects of activity on the body, healthy eating, illness prevention, support and health information, safety strategies, medicine and poison safety, "
+                  "emotions and self-identity. Check your own curriculum for exact wording. Kumon\u2019s own pages do not match its levels to school grades. Levels rise from "
+                  "<b>Starter</b> (Units 1\u20133) to <b>Building</b> (4\u20136), <b>Stretch</b> (7\u20139) and <b>Challenge</b> (10).", SMALL)
     _, hh = q.wrap(W - 2 * M - 20, 1000)
     q.drawOn(c, M + 10, b.y - 8 - hh)
     b.page()
 
 
-SKILLS = ["Name body parts and how they help me move", "Name moving skills: travel, balance, ball skills", "Tell active play from not active (60 minutes a day)",
-          "Tell how my heart and breathing change", "Make healthy food choices", "Use healthy habits to stay clean",
-          "Name feelings and ways to feel better", "Show fair play, kindness and leadership", "Play outdoors safely in every season", "Plan a healthy, active day"]
+SKILLS = ["Name body parts and how they help me move", "Name moving skills: on the spot, travelling, with a ball", "Name ways to be active (60 to 90 minutes a day)",
+          "Tell how my body feels when I move (1\u20135 scale)", "Make healthy food choices and try new foods", "Use healthy habits to stop germs",
+          "Name feelings, manage them and be proud of who I am", "Show fair play, kindness and leadership", "Stay safe and know who to ask for help", "Put healthy living together"]
 
 
 def build(path, pages):

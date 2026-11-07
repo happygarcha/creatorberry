@@ -138,3 +138,57 @@ LBL.update({
     "include": "including everyone", "team": "team", "moon": "moon", "worried": "worried", "proud": "proud",
     "say_goodgame": "Good game!", "say_nicetry": "Nice try!", "say_play": "Can I play?", "say_cant": "You can't play!",
     "breath_easy": "La la la!", "breath_talk": "Hello!", "breath_hard": "Huff, puff!", "salmon": "salmon", "cake": "cake"})
+
+
+# ---------------------------------------------------------------- v2: official Grade 2 PHE content
+ICONS.update({
+    "twist": fig((0, 16), (0, 9), (0, -3), [((0, 8), (8, 10), (14, 9)), ((0, 8), (-8, 9), (-14, 8))],
+                 [((0, -3), (-3, -10), (-4, -17)), ((0, -3), (3, -10), (4, -17))], shirt="purple",
+                 extra=[A(-12, -8, 12, 4, 200, 280, "orange", 1.8), Pg([(12, -2), (14, 3), (8, 2)], "orange")]),
+    "lift": fig((0, 12), (0, 6), (0, -6), [((0, 5), (-6, 11), (-6, 16)), ((0, 5), (6, 11), (6, 16))],
+                [((0, -6), (-4, -12), (-4, -18)), ((0, -6), (4, -12), (4, -18))], shirt="green", extra=[R(-9, 16, 18, 6, "brown")]),
+    "roll": [R(-20, -18, 40, 6, "green")] + [L(-9, -8, 8, -8, "orange", 6.5), C(-13, -7, 5.2, "skin"), E(-18, -6, -8, -1, "brown"), L(8, -8, 15, -11, "pants", 3.4),
+                                            L(-7, -4, -1, -1, "skin", 2.6), A(-12, -6, 12, 12, 30, 120, "orange", 1.8), Pg([(0, 12), (-3, 9), (3, 8)], "orange")],
+    "gallop": fig((3, 16), (1, 9), (-1, -3), [((1, 8), (6, 6), (10, 8)), ((1, 8), (-3, 6), (-5, 9))],
+                  [((-1, -3), (6, -9), (11, -13)), ((-1, -3), (-4, -9), (-2, -17))], shirt="orange", extra=[L(14, -12, 18, -12, "grey", 1), L(15, -8, 19, -8, "grey", 1)]),
+    "strike": fig((-2, 16), (-2, 9), (-2, -3), [((-2, 8), (4, 9), (9, 12)), ((-2, 8), (3, 6), (8, 9))],
+                  [((-2, -3), (-6, -10), (-8, -17)), ((-2, -3), (2, -10), (4, -17))], shirt="blue",
+                  extra=[L(7, 8, 17, 18, "brown", 3), C(17, -10, 3, "white"), O(17, -10, 3, "black", .7)]),
+    "yoga": fig((0, 16), (0, 9), (0, -3), [((0, 8), (-5, 14), (0, 20)), ((0, 8), (5, 14), (0, 20))],
+                [((0, -3), (0, -10), (0, -17)), ((0, -3), (7, -8), (1, -11))], shirt="pink"),
+    "hulahoop": fig((0, 16), (0, 9), (0, -3), [((0, 8), (-9, 8), (-14, 11)), ((0, 8), (9, 8), (14, 11))],
+                    [((0, -3), (-3, -10), (-4, -17)), ((0, -3), (3, -10), (4, -17))], shirt="green",
+                    extra=[O(0, -2, 12, "red", 2.4)]),
+    "gymnastics": fig((0, -12), (0, -5), (0, 5), [((0, -5), (-6, -10), (-8, -17)), ((0, -5), (6, -10), (8, -17))],
+                      [((0, 5), (-7, 11), (-12, 18)), ((0, 5), (7, 11), (12, 18))], shirt="red"),
+    "tag": [G(-8, 0, .7, POSES["run"]), G(10, 0, .7, POSES["run"]), T(0, 18, "TAG!", 8, "red")],
+    "parachute": [E(-19, -2, 19, 18, "red")] + [Pg([(0, 8), (-19 + 9.5 * i, 8), (-19 + 9.5 * (i + 1), 8)], c) for i, c in enumerate(["yellow", "blue", "green", "orange"])] +
+                 [L(-19, 8, -14, -8, "grey", .9), L(19, 8, 14, -8, "grey", .9), L(0, 8, 0, -8, "grey", .9), G(-14, -12, .38, P("blue")), G(0, -12, .38, P("green")), G(14, -12, .38, P("orange"))],
+    "simonsays": [G(-8, 0, .85, POSES["stretch"]), E(-1, 4, 20, 18, "white"), Pg([(2, 5), (-2, -1), (7, 4)], "white"), T(9.5, 9.5, "Simon", 5.2, "black"), T(9.5, 5.5, "says", 5.2, "black")],
+    "sweat": [C(0, 0, 11, "skin"), C(-4, 2, 1.1, "black"), C(4, 2, 1.1, "black"), A(-4, -5, 4, 0, 200, 140, "black", .8),
+              Pg([(-13, 8), (-16, 2), (-10, 2)], "blue"), Pg([(13, 10), (10, 4), (16, 4)], "blue"), Pg([(-10, -9), (-13, -15), (-7, -15)], "blue"), Pg([(0, 18), (-3, 13), (3, 13)], "blue")],
+    "muscle": [Pg([(-15, -12), (-15, 3), (-8, 11), (2, 12), (11, 7), (9, -1), (3, 1), (5, -6), (0, -12)], "skin"), C(-11, 12, 4.2, "skin"), A(-6, -2, 6, 8, 40, 110, "skin3", 1.5)],
+    "glass": [Pg([(-8, 14), (8, 14), (6, -13), (-6, -13)], "lblue"), Pg([(-7.4, 4), (7.4, 4), (6, -13), (-6, -13)], "blue"), L(-4, 10, -3, -2, "white", 1.2)],
+    "cough": fig((0, 16), (0, 9), (0, -3), [((0, 8), (6, 12), (1, 15)), ((0, 8), (-5, 4), (-6, -1))],
+                 [((0, -3), (-3, -10), (-4, -17)), ((0, -3), (3, -10), (4, -17))], shirt="blue",
+                 extra=[L(8, 17, 13, 20, "grey", 1), L(9, 14, 15, 14, "grey", 1), L(8, 11, 13, 9, "grey", 1)]),
+    "sick": [C(0, 0, 16, "lgreen"), O(0, 0, 16, "dgreen", 1.2), L(-9, 4, -3, 4, "black", 1.6), L(3, 4, 9, 4, "black", 1.6), A(-6, -11, 6, -3, 20, 140, "black", 1.4),
+             L(2, -6, 13, -12, "red", 2), C(14, -13, 2, "red")],
+    "medicine": [R(-8, -14, 16, 22, "orange"), R(-9, 8, 18, 5, "white"), R(-6, -8, 12, 11, "white"), R(-1, -6, 2, 7, "red"), R(-3.5, -3.5, 7, 2, "red")],
+    "cleaner": [R(-7, -14, 14, 18, "blue"), R(-4, 4, 8, 6, "dgrey"), Pg([(-4, 10), (9, 12), (9, 8), (4, 7)], "dgrey"), Pg([(0, -3), (-5, -12), (5, -12)], "yellow"), T(0, -11, "!", 7, "black")],
+    "bat": [Pg([(-2, -17), (2, -17), (2, -6), (5, 15), (-5, 15), (-2, -6)], "tan")],
+    "hoop": [O(0, 0, 13, "red", 3.6)],
+})
+for _i, _c in enumerate([(.35, .55, .95), (.5, .82, .96), (.98, .85, .3), (.98, .6, .2), (.88, .2, .2)], 1):
+    import sticons as _s
+    _s.COL[f"ex{_i}"] = _c
+    ICONS[f"exert{_i}"] = [C(0, 0, 15, f"ex{_i}"), O(0, 0, 15, "dgrey", 1), T(0, -5, str(_i), 15, "white" if _i in (1, 5) else "black")]
+
+for _n, _t, _s2 in (("say_no", "No!", 9), ("say_stop", "Stop!", 8.5), ("say_dontlike", "I don't like this!", 4.9), ("say_ok", "OK!", 9)):
+    _bubble(_n, _t, _s2)
+
+LBL.update({"twist": "twisting", "lift": "lifting", "roll": "rolling", "gallop": "galloping", "strike": "striking", "yoga": "yoga", "hulahoop": "hula hoop",
+            "gymnastics": "gymnastics", "tag": "playing tag", "parachute": "parachute game", "simonsays": "Simon Says", "sweat": "sweating",
+            "muscle": "muscles working", "glass": "feeling thirsty", "cough": "covering a cough", "sick": "feeling sick", "medicine": "medicine",
+            "cleaner": "cleaning spray", "bat": "bat", "hoop": "hula hoop", "say_no": "No!", "say_stop": "Stop!", "say_dontlike": "I don't like this!", "say_ok": "OK!",
+            "exert1": "1 (cold)", "exert2": "2 (getting warmer)", "exert3": "3 (warm)", "exert4": "4 (getting hot)", "exert5": "5 (very hot)"})
