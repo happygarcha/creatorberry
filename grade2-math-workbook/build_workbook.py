@@ -26,6 +26,8 @@ GREY = Color(.45, .45, .45)
 SOFT = Color(.80, .80, .80)
 BLUE = Color(.25, .5, .85)
 
+BOOK_TITLE = "Grade 2 Math Mastery Workbook"
+TOP_LABEL = {"vert", "seq", "clock", "frac", "groups", "word"}
 OUT = sys.argv[1] if len(sys.argv) > 1 else "Grade2_Math_Mastery_Workbook.pdf"
 
 BODY = ParagraphStyle("body", fontName="Helvetica", fontSize=11, leading=15)
@@ -501,8 +503,8 @@ LESSONS = {
 class Book:
     def __init__(self, path, pages):
         self.c = canvas.Canvas(path, pagesize=letter)
-        self.c.setTitle("Grade 2 Math Mastery Workbook")
-        self.c.setAuthor("Grade 2 Math Mastery Workbook")
+        self.c.setTitle(BOOK_TITLE)
+        self.c.setAuthor(BOOK_TITLE)
         self.known = pages
         self.rec = {}
         self.y = 0
@@ -528,7 +530,7 @@ class Book:
         c = self.c
         c.setFont("Helvetica", 8.5)
         c.setFillColor(GREY)
-        c.drawCentredString(W / 2, 22, f"Grade 2 Math Mastery Workbook   •   page {c.getPageNumber()}")
+        c.drawCentredString(W / 2, 22, f"{BOOK_TITLE}   •   page {c.getPageNumber()}")
 
     # ---------- primitives
     def banner(self, text, sub=""):
@@ -536,7 +538,11 @@ class Book:
         c.setFillColor(NAVY)
         c.roundRect(M, self.y - 44, W - 2 * M, 44, 8, fill=1, stroke=0)
         c.setFillColor(white)
-        c.setFont("Helvetica-Bold", 17)
+        size = 17
+        room = W - 2 * M - 28 - (stringWidth(sub, "Helvetica", 10) + 14 if sub else 0)
+        while stringWidth(text, "Helvetica-Bold", size) > room and size > 9:
+            size -= .5
+        c.setFont("Helvetica-Bold", size)
         c.drawString(M + 14, self.y - 28, text)
         if sub:
             c.setFont("Helvetica", 10)
@@ -591,10 +597,12 @@ class Book:
                     data, ans = s["cells"][i]
                     x = M + k * cw
                     DRAW[s["kind"]](c, x, self.y, cw, h, data)
+                    if ans is None:
+                        continue
                     qn += 1
                     c.setFillColor(GREY)
                     c.setFont("Helvetica-Bold", 9)
-                    c.drawString(x + 2, self.y - 12 if s["kind"] in ("vert", "seq", "clock", "frac", "groups", "word")
+                    c.drawString(x + 2, self.y - 12 if s["kind"] in TOP_LABEL
                                  else self.y - h + 11, f"{qn})")
                     store.append((qn, ans))
                 self.y -= h
@@ -857,7 +865,7 @@ def contents(b, pages):
     b.page()
 
 
-def tracker(b):
+def tracker(b, skills=None):
     c = b.c
     b.banner("My Progress Tracker", "Colour a circle when both sheets are done")
     c.setFont("Helvetica-Bold", 10)
@@ -874,8 +882,8 @@ def tracker(b):
             c.setFillColor(LIGHT)
             c.rect(M, b.y - rh, W - 2 * M, rh, fill=1, stroke=0)
         c.setFillColor(black)
-        c.setFont("Helvetica-Bold", 10.5)
-        c.drawString(M + 6, b.y - 21, f"{u}. {UNIT_NAMES[u]}"[:34])
+        c.setFont("Helvetica-Bold", 9)
+        c.drawString(M + 6, b.y - 21, f"{u}. {UNIT_NAMES[u]}"[:44])
         for i in range(6):
             c.setStrokeColor(NAVY)
             c.setFillColor(white)
@@ -903,7 +911,7 @@ def tracker(b):
     c.setFont("Helvetica-Bold", 12.5)
     c.drawString(M, b.y - 8, "I can… (tick when you are confident)")
     b.y -= 24
-    skills = ["Count to 100 and say which number is bigger", "Add and subtract facts within 20 quickly",
+    skills = skills or ["Count to 100 and say which number is bigger", "Add and subtract facts within 20 quickly",
               "Add and subtract two-digit numbers (with carrying and borrowing)", "Read and compare numbers up to 1000",
               "Skip count by 2s, 5s, 10s and 100s", "Multiply with equal groups (2s, 5s, 10s)",
               "Tell time to 5 minutes and count coins", "Name shapes, measure lengths, and write fractions",
@@ -943,7 +951,7 @@ def certificate(b):
     c.drawCentredString(W / 2, H - 385, "for completing all 10 units of the")
     c.setFont("Helvetica-Bold", 22)
     c.setFillColor(NAVY)
-    c.drawCentredString(W / 2, H - 420, "Grade 2 Math Mastery Workbook")
+    c.drawCentredString(W / 2, H - 420, BOOK_TITLE)
     c.setFillColor(ORANGE)
     for i in range(5):
         p = c.beginPath()
