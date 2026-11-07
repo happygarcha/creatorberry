@@ -602,11 +602,11 @@ class Book:
         return qn
 
     # ---------- a daily practice sheet
-    def sheet(self, sh, label):
+    def sheet(self, sh, label, letter=""):
         c = self.c
         total = sum(len(s["cells"]) for s in sh["sections"])
         title = f"{label}: {sh['title']}" if label else sh["title"]
-        self.banner(title, "Daily Practice" if sh["unit"] else "Assessment")
+        self.banner(title, ("Daily Practice \u2022 Sheet " + letter) if letter else ("Daily Practice" if sh["unit"] else "Assessment"))
         c.setFillColor(black)
         c.setFont("Helvetica", 10.5)
         c.drawString(M, self.y - 4, "Name: ______________________    Date: ____________    Time: ______ min    "
@@ -629,7 +629,7 @@ class Book:
         self.y -= bh + 6
         store = []
         self.sections(sh["sections"], 0, store, title)
-        self.answers.append((title, store))
+        self.answers.append((title + (" \u2022 Sheet " + letter if letter else ""), store))
         self.page()
 
     # ---------- a lesson page
@@ -750,7 +750,7 @@ def cover(b):
     c.drawCentredString(W / 2, H - 316, "From first steps to big challenges – one small step a day")
     c.setFillColor(white)
     c.setFont("Helvetica", 13)
-    for i, t in enumerate(["10 units  •  10 lessons  •  50 daily practice sheets",
+    for i, t in enumerate(["10 units  •  10 lessons  •  100 daily practice sheets",
                            "2 check-ups  •  full answer key  •  progress tracker  •  certificate"]):
         c.drawCentredString(W / 2, H - 358 - i * 20, t)
     c.setFillColor(white)
@@ -774,13 +774,13 @@ def guide(b):
     blocks = [
         ("The method (what we learned from Kumon-style programs)",
          ["<b>Tiny steps.</b> Each sheet is only slightly harder than the last, so a child almost always succeeds.",
-          "<b>Repetition to mastery.</b> Five short sheets per skill build speed and accuracy before the next topic.",
+          "<b>Repetition to mastery.</b> Ten short sheets per skill (two a day) build speed and accuracy before the next topic.",
           "<b>Self-learning.</b> Each unit starts with a one-page lesson with worked examples a child can read and copy.",
           "<b>Correct every mistake.</b> Check together with the answer key and let your child fix each wrong answer until the sheet is 100%.",
           "<b>Short and daily.</b> Ten to fifteen minutes every day beats one long session a week."]),
-        ("The weekly rhythm (about 12 weeks, 5 days a week)",
+        ("The weekly rhythm (about 12 weeks, 5 days a week, 10\u201315 minutes)",
          ["<b>Lesson day:</b> read the lesson together, study the examples, do “Try it yourself”.",
-          "<b>Days 1–4:</b> daily practice sheets that climb in small steps. Write the time taken at the top.",
+          "<b>Days 1–4:</b> two practice sheets a day (<b>Sheet A</b>, then <b>Sheet B</b> with new problems on the same skill). Write the time at the top.",
           "<b>Day 5:</b> review sheet with mixed questions and word problems.",
           "<b>Goal:</b> 90% or better in about 10 minutes. Below 80%? Repeat the sheet tomorrow (print a spare copy first).",
           "Take the Check-Up after Unit 5 and the Final Test at the end."]),
@@ -859,7 +859,7 @@ def contents(b, pages):
 
 def tracker(b):
     c = b.c
-    b.banner("My Progress Tracker", "Colour a circle when you finish")
+    b.banner("My Progress Tracker", "Colour a circle when both sheets are done")
     c.setFont("Helvetica-Bold", 10)
     c.setFillColor(GREY)
     c.drawString(M, b.y - 4, "Unit")
@@ -1002,8 +1002,10 @@ def build(path, pages):
     for u in range(1, 11):
         b.rec[f"u{u}"] = b.c.getPageNumber()
         b.lesson(u)
-        for sh in G.unit_sheets(u):
-            b.sheet(sh, f"Unit {u} • Day {sh['day']}")
+        A, B = G.unit_sheets(u, 0), G.unit_sheets(u, 1)
+        for sa, sb in zip(A, B):
+            b.sheet(sa, f"Unit {u} • Day {sa['day']}", "A")
+            b.sheet(sb, f"Unit {u} • Day {sb['day']}", "B")
         if u == 5:
             b.rec["checkup"] = b.c.getPageNumber()
             b.sheet(G.checkup_a(), "")

@@ -744,8 +744,9 @@ def U10(day, rng):
 UNITS = {1: U1, 2: U2, 3: U3, 4: U4, 5: U5, 6: U6, 7: U7, 8: U8, 9: U9, 10: U10}
 
 
-def unit_sheets(u):
-    return [UNITS[u](d, random.Random(u * 100 + d)) for d in range(1, 6)]
+def unit_sheets(u, variant=0):
+    """variant 0 = Sheet A, 1 = Sheet B (same skills, new problems)."""
+    return [UNITS[u](d, random.Random(u * 100 + d + variant * 1000)) for d in range(1, 6)]
 
 
 # ---------------------------------------------------------------- check-ups
