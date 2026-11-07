@@ -35,3 +35,16 @@ certificate, answer key), 128 pages, with drawn plant and water-cycle diagrams.
 Run `python3 build_science.py`. Units: scientist skills, living things & plants, animals & habitats,
 life cycles, matter, changing matter & the 3 Rs, water cycle, forces & motion, light/sound/heat,
 weather/seasons/Earth.
+
+## Grade 2 Social Studies Picture Workbook
+
+Picture-first (very little reading): 10 units, 1 picture lesson + 5 days x 2 sheets A/B each, Check-Up,
+Final Test, certificate, answer key, 126 pages. Every question is answered by choosing a picture, naming a
+picture, counting, or reading a drawn map, graph, calendar or clock; Day 5 ends with a "Draw it!" box.
+
+- `Grade2_SocialStudies_Picture_Workbook.pdf` - the finished workbook
+- `sticons.py` - ~130 vector icons (people, places, vehicles, coins, symbols...) drawn in code, no image files
+- `social_generators.py` - picture question generators
+- `build_social.py` - picture lessons, maps/graphs/calendar drawers, front matter
+
+Run `python3 build_social.py`.
