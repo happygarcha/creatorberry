@@ -48,3 +48,16 @@ picture, counting, or reading a drawn map, graph, calendar or clock; Day 5 ends 
 - `build_social.py` - picture lessons, maps/graphs/calendar drawers, front matter
 
 Run `python3 build_social.py`.
+
+## Grade 2 Health & Active Living Picture Workbook (Physical & Health Education)
+
+Picture-first, 126 pages: 10 units (1 picture lesson + 5 days x 2 sheets A/B each), Check-Up, Final Test,
+certificate, answer key. Drawn movement poses (run, jump, throw, catch...), body diagram, healthy plate,
+foods, hygiene, feelings, fair play and outdoor-safety icons; Day 5 ends with a "Draw it!" box.
+
+- `Grade2_PHE_Picture_Workbook.pdf` - the finished workbook
+- `pheicons.py` - ~70 extra vector icons (action poses, body, food, hygiene, gear...)
+- `phe_generators.py` - question generators
+- `build_phe.py` - lessons, body/plate diagrams, front matter (reuses the picture drawers in `build_social.py`)
+
+Run `python3 build_phe.py`. Units follow the Grade 2 PHE items confirmed by search; official wording not verified.
