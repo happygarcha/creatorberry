@@ -22,3 +22,16 @@ Final Test, certificate, answer key), 128 pages.
 Run `python3 build_english.py`. Units: alphabet & ABC order, short/long vowels, blends/digraphs/word
 families, nouns/verbs/plurals, sentences & punctuation, opposites/synonyms/compounds, past tense/
 contractions/prefixes, reading comprehension, adjectives/homophones/word meaning, writing & challenges.
+
+## Grade 2 Science Mastery Workbook
+
+Same structure again (10 units, 1 lesson + 5 days x 2 sheets A/B each, Check-Up, Final Test,
+certificate, answer key), 128 pages, with drawn plant and water-cycle diagrams.
+
+- `Grade2_Science_Mastery_Workbook.pdf` - the finished workbook
+- `science_generators.py` - question banks, reading passages and sheet generators
+- `build_science.py` - lessons, art, diagrams and front matter; reuses the shared layout engine
+
+Run `python3 build_science.py`. Units: scientist skills, living things & plants, animals & habitats,
+life cycles, matter, changing matter & the 3 Rs, water cycle, forces & motion, light/sound/heat,
+weather/seasons/Earth.

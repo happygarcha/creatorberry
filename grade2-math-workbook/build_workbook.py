@@ -27,6 +27,7 @@ SOFT = Color(.80, .80, .80)
 BLUE = Color(.25, .5, .85)
 
 BOOK_TITLE = "Grade 2 Math Mastery Workbook"
+STD_LABEL = "Common Core"
 TOP_LABEL = {"vert", "seq", "clock", "frac", "groups", "word"}
 OUT = sys.argv[1] if len(sys.argv) > 1 else "Grade2_Math_Mastery_Workbook.pdf"
 
@@ -827,7 +828,7 @@ def contents(b, pages):
     c.setFillColor(GREY)
     c.drawString(M, b.y - 4, "Unit / topic")
     c.drawString(M + 285, b.y - 4, "Level")
-    c.drawString(M + 345, b.y - 4, "Common Core")
+    c.drawString(M + 345, b.y - 4, STD_LABEL)
     c.drawRightString(W - M, b.y - 4, "Page")
     b.y -= 14
     rows = []
