@@ -486,7 +486,13 @@ UNITS = {1: U1, 2: U2, 3: U3, 4: U4, 5: U5, 6: U6, 7: U7, 8: U8, 9: U9, 10: U10}
 
 
 def unit_sheets(u, variant=0):
-    return [fit(UNITS[u](d, random.Random(u * 100 + d + variant * 1000), variant)) for d in range(1, 6)]
+    from phe_text import BANK
+    import mix
+    out = []
+    for d in range(1, 6):
+        sh = UNITS[u](d, random.Random(u * 100 + d + variant * 1000), variant)
+        out.append(fit(mix.mixify(sh, BANK[u], u, d, variant)))
+    return out
 
 
 def checkup_a():

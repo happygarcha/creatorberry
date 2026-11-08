@@ -9,12 +9,13 @@ import build_workbook as B
 import build_social as BS           # reuses the picture drawers and the picture-lesson layout
 import phe_generators as PG
 import pheicons  # noqa: F401
+import mixdraw  # noqa: F401
 import sticons as ST
 from build_workbook import (W, H, M, NAVY, TEAL, ORANGE, LIGHT, CREAM, MINT, GREY, SOFT, BLUE, BUL, SMALL)
 from sticons import draw_icon
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else "Grade2_PHE_Picture_Workbook.pdf"
-TITLE = "Grade 2 Health & Active Living Picture Workbook"
+OUT = sys.argv[1] if len(sys.argv) > 1 else "Grade2_PHE_Workbook.pdf"
+TITLE = "Grade 2 Health & Active Living Workbook"
 B.BOOK_TITLE = TITLE
 B.STD_LABEL = "BC PHE focus"
 NAMES = {1: "My Body & Physical Literacy", 2: "Fundamental Movement Skills", 3: "Ways to Be Active Every Day", 4: "How My Body Feels When I Move",
@@ -166,7 +167,7 @@ def cover(b):
     c.drawCentredString(W / 2, H - 316, "Move, eat well, rest and feel good – every day")
     c.setFillColor(white)
     c.setFont("Helvetica", 13)
-    for i, t in enumerate(["10 units  •  10 picture lessons  •  100 daily practice sheets",
+    for i, t in enumerate(["10 units  •  10 lessons  •  100 daily practice sheets",
                            "Physical & Health Education  •  full answer key  •  certificate"]):
         c.drawCentredString(W / 2, H - 358 - i * 20, t)
     c.roundRect(W / 2 - 150, H - 470, 300, 56, 10, fill=1, stroke=0)
@@ -187,8 +188,8 @@ def guide(b):
     b.rec["guide"] = c.getPageNumber()
     b.banner("A Note for Parents & Teachers", "How to use this book")
     blocks = [
-        ("A picture-first book, and a move-it book",
-         ["Every question uses <b>pictures</b>. Read short questions aloud at first, then let your child lead.",
+        ("A balanced mix, and a move-it book",
+         ["Each sheet mixes <b>pictures</b> with <b>true/false, fill-in-the-blank (word bank), matching, short reading and writing</b>. Read short passages together at first, then let your child lead.",
           "After each lesson, <b>do the moves for real</b>: run, jump, balance, throw and catch, wash hands the right way.",
           "Aim for <b>60 to 90 minutes of moderate to vigorous activity a day</b>. Count it together on the Unit 3 sheets.",
           "Ask your school or your local First Nations or Indigenous community about <b>traditional Aboriginal games</b> and try some together."]),

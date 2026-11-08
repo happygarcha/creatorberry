@@ -61,3 +61,16 @@ foods, hygiene, feelings, fair play and outdoor-safety icons; Day 5 ends with a 
 - `build_phe.py` - lessons, body/plate diagrams, front matter (reuses the picture drawers in `build_social.py`)
 
 Run `python3 build_phe.py`. Units were rebuilt against the official BC Grade 2 PHE Big Ideas, Content and Curricular Competencies (curriculum.gov.bc.ca).
+
+
+## Update: balanced mix, aligned to the official BC Grade 2 curriculum
+
+The PHE and Social Studies workbooks were rebuilt as a **mix** (roughly a third pictures; the rest true/false,
+fill-in-the-blank with a word bank, matching, short reading passages with questions, short answers and writing),
+and aligned to the official Grade 2 Big Ideas / Content / Curricular Competencies on curriculum.gov.bc.ca.
+
+- `Grade2_PHE_Workbook.pdf` - Health & Active Living (`build_phe.py`, `phe_generators.py`, `phe_text.py`, `pheicons.py`)
+- `Grade2_SocialStudies_Workbook.pdf` - Social Studies (`build_ss.py`, `ss2_generators.py`, `ss_text.py`, `ss2icons.py`)
+- shared: `mix.py` (turns picture sheets into mixed sheets), `mixdraw.py` (word bank + matching), `sticons.py` (icons)
+
+Science still needs to be realigned to the official Grade 2 content (life cycles, changing materials, forces, water cycle).

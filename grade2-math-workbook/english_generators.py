@@ -939,11 +939,11 @@ def _need(sc):
     if sc["kind"] in ("qline", "write"):
         n = max(len(simpleSplit(c[0], "Helvetica", 11.5, PAGE_W - 2 * PAGE_M - 30)) for c in sc["cells"])
         return 13 + 14 * n + (22 if sc["kind"] == "qline" else 30)
-    return {"eq": 25, "seq": 34, "cmp": 34}.get(sc["kind"], sc["h"])
+    return {"eq": 25, "seq": 34, "cmp": 34, "draw": 70, "match": 100, "pic": 84, "word": 56, "count": 56, "coins": 66}.get(sc["kind"], sc["h"])
 
 
 def fit(sh, avail=562):
-    """Make a daily sheet fit one page: tighten rows first, then drop the last few items."""
+    """Make a daily sheet fit one page: tighten rows first, then drop the last few items, then whole sections."""
     import math
     for sc in sh["sections"]:
         if sc["kind"] in ("qline", "write"):
@@ -952,16 +952,34 @@ def fit(sh, avail=562):
     def total():
         return sum((24 if sc["head"] else 4) + math.ceil(len(sc["cells"]) / sc["cols"]) * sc["h"] + 6
                    for sc in sh["sections"])
-    while total() > avail:
+    guard = 0
+    while total() > avail and guard < 500:
+        guard += 1
         shrunk = False
         for sc in sh["sections"]:
             if sc["kind"] not in ("passage",) and sc["h"] > _need(sc):
                 sc["h"] -= 1
                 shrunk = True
-        if not shrunk:
-            big = max((sc for sc in sh["sections"] if sc["kind"] != "passage" and len(sc["cells"]) > sc["cols"]),
-                      key=lambda sc: math.ceil(len(sc["cells"]) / sc["cols"]) * sc["h"])
+        if shrunk:
+            continue
+        cand = [sc for sc in sh["sections"] if sc["kind"] not in ("passage", "diagram", "bank", "match", "write", "draw") and len(sc["cells"]) > sc["cols"]]
+        if cand:
+            big = max(cand, key=lambda sc: math.ceil(len(sc["cells"]) / sc["cols"]) * sc["h"])
             del big["cells"][-big["cols"]:]
+            continue
+        # drop a whole section (lowest priority first), and an orphaned word bank with it
+        order = ("write", "draw", "match", "qline", "eq", "pic", "word", "count", "coins", "picp")
+        for kind in order:
+            idx = [i for i, sc in enumerate(sh["sections"]) if sc["kind"] == kind]
+            if idx:
+                sh["sections"].pop(idx[-1])
+                break
+        else:
+            break
+        secs = sh["sections"]
+        for i in range(len(secs) - 1, -1, -1):
+            if secs[i]["kind"] == "bank" and (i + 1 >= len(secs) or secs[i + 1]["kind"] != "eq"):
+                secs.pop(i)
     return sh
 
 
