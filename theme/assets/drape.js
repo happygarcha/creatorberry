@@ -41,4 +41,17 @@
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
+
+  /* floating capsule: turns and drifts as the page scrolls (skipped for reduced motion) */
+  var cap = $(".dw-capsule");
+  if (cap && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var ticking = false;
+    var move = function () {
+      var y = window.scrollY;
+      cap.style.transform = "translate3d(0," + (Math.sin(y / 180) * 14) + "px,0) rotate(" + (-28 + y * 0.18) + "deg)";
+      ticking = false;
+    };
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
+    move();
+  }
 })();

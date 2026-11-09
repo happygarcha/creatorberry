@@ -254,3 +254,44 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
   .dw-rail-item, .dw-chip, .dw-shape, .dw-shape img, .card .ph img, .dw-drop { transition: none; }
   .dw-rail-item:hover, .dw-chip:hover { translate: none; rotate: none; }
 }
+
+/* ============================================================
+   v3: shopify.design influence. One enormous centred headline,
+   quiet mono labels with hairline rules, floating capsule.
+   ============================================================ */
+:root { --mono: ui-monospace, "SF Mono", "Fragment Mono", Menlo, Consolas, monospace; }
+
+/* hero: centred, edge to edge */
+.dw-hero-top { grid-template-columns: 1fr !important; justify-items: center; text-align: center; gap: var(--s6); position: relative; }
+.dw-hero-main { position: relative; display: grid; justify-items: center; width: 100%; }
+.dw-hero h1 { max-width: none; font-size: clamp(44px, 8.6vw, 136px); line-height: .88; letter-spacing: -0.065em; text-wrap: balance; }
+.dw-hero-side { display: grid; justify-items: center; }
+.dw-hero-sub { max-width: none; font-size: 19px; color: var(--text); margin-bottom: var(--s5); }
+.dw-hero-cta { justify-content: center; }
+.dw-capsule { position: absolute; top: clamp(40px, 8vw, 120px); right: clamp(0px, 4vw, 70px); width: clamp(58px, 7vw, 100px); aspect-ratio: 2.3 / 1; border-radius: 999px; background: linear-gradient(90deg, var(--neon-a) 0 50%, #fff 50% 100%); box-shadow: inset 0 -6px 10px oklch(0 0 0 / .18), inset 0 6px 8px oklch(1 0 0 / .55), 0 18px 30px -12px oklch(0.3 0.05 30 / .5); transform: rotate(-28deg); will-change: transform; pointer-events: none; z-index: 2; }
+
+/* section labels: mono caps, green dot, hairline rule, tools on the right */
+.dw-head, .row-head { display: flex; align-items: center; gap: 16px; flex-wrap: nowrap; padding: 0; }
+.dw-head h2, .row-head h2 { flex: 1 1 auto; display: flex; align-items: center; gap: 14px; margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.2; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
+.dw-head h2::before, .row-head h2::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2fc46a; flex: none; box-shadow: 0 0 0 3px oklch(0.8 0.15 150 / .25); }
+.dw-head h2::after, .row-head h2::after { content: ""; flex: 1 1 auto; height: 1px; background: var(--line); }
+.dw-head h2 sup, .row-head h2 sup { order: 3; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; vertical-align: baseline; margin: 0; color: var(--text-soft); }
+.dw-head-tools { padding: 0; gap: 14px; flex: none; }
+.dw-link, .row-link { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.dw-link:hover, .row-link:hover { background: var(--text); color: #fff; border-color: var(--text); }
+.sortbar select { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* tinted tiles for products, like the work samples on shopify.design */
+.card .ph { background: var(--surface-2); border-radius: 28px; }
+.cell:nth-child(5n+2) .ph { background: var(--p1); }
+.cell:nth-child(5n+4) .ph { background: var(--p5); }
+.card .ph img { mix-blend-mode: multiply; }
+.dw-trust { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
+.dw-kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; }
+.dw-about p:last-child, .eyebrow { font-family: var(--font); }
+
+@media (max-width: 759px) {
+  .dw-capsule { top: 8px; right: 2px; width: 54px; }
+  .dw-head h2, .row-head h2 { font-size: 12px; letter-spacing: .1em; }
+}
+@media (prefers-reduced-motion: reduce) { .dw-capsule { transform: rotate(-28deg) !important; } }
