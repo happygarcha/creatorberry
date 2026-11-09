@@ -428,3 +428,12 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
 
 /* size chips: short letters (S, M, L, XL) in round buttons */
 .pg-tip button.pg-size { min-width: 42px; height: 42px; padding: 0 8px; border-radius: 999px; display: inline-grid; place-items: center; font-weight: 700; letter-spacing: .02em; }
+
+/* ============================================================
+   Photos read clearer on light backgrounds: no pastel tint and no
+   blend mode on product photos (grid tiles and hero ring cards).
+   ============================================================ */
+.pg-item { background: #fff; box-shadow: 0 0 0 1px var(--line); }
+.pg-face img, .dw-ring-card img, .card .ph img, .dw-shape img { mix-blend-mode: normal !important; }
+.dw-ring-card { background: #fff; }
+.cell .ph, .cell:nth-child(5n+2) .ph, .cell:nth-child(5n+4) .ph { background: #fff; }
