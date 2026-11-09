@@ -7,45 +7,45 @@
 {%- if new_src == blank or new_src.products_count == 0 -%}{%- assign new_src = collections.all -%}{%- endif -%}
 {%- if new_src.handle == 'all' -%}{%- assign newest = new_src.products | sort: 'created_at' | reverse -%}{%- else -%}{%- assign newest = new_src.products -%}{%- endif -%}
 
-{%- comment -%} ---------- HERO ---------- {%- endcomment -%}
-<section class="dw-hero" aria-labelledby="hero-h">
-  <div class="dw-hero-top">
-    <div class="dw-hero-main">
+{%- comment -%} ---------- HERO: scroll-driven product ring (Riffle-style) ---------- {%- endcomment -%}
+{%- assign offer_col = collections['buy-2-save-10'] -%}
+{%- assign pastel = 'p1,p2,p3,p4,p5,p6' | split: ',' -%}
+<section class="dw-ring" data-ring aria-labelledby="hero-h">
+  <div class="dw-ring-stage">
+    <div class="dw-ring-copy">
       <p class="dw-kicker"><i aria-hidden="true"></i>{{ 'home.new_label' | t }}</p>
-      <span class="dw-capsule" aria-hidden="true"></span>
       <h1 id="hero-h">{{ 'home.intro_h' | t }}</h1>
-    </div>
-    <div class="dw-hero-side">
       <p class="dw-hero-sub">{{ 'home.discover_new' | t }}</p>
       <div class="dw-hero-cta">
         <a class="btn primary dw-btn-lg" href="{% if new_src.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ new_src.url }}{% endif %}">{{ 'home.open' | t }}</a>
-        {%- assign offer_col = collections['buy-2-save-10'] -%}
         {%- if offer_col != blank and offer_col.products_count > 0 -%}
           <a class="btn dw-btn-lg" href="{{ offer_col.url }}">Buy 2, save 10%</a>
         {%- endif -%}
       </div>
     </div>
-  </div>
+    <span class="dw-capsule" aria-hidden="true"></span>
 
-  <div class="dw-rail" role="list">
-    {%- assign t = 0 -%}
-    {%- for product in newest -%}
-      {%- if t < 6 and product.available and product.featured_image -%}
-        {%- assign lead = product.featured_image -%}
-        {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
-        <a class="dw-rail-item" role="listitem" href="{{ product.url }}">
-          <figure class="dw-shape">
-            {%- if t == 0 -%}
-              {{ lead | image_url: width: 600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '300, 450, 600', sizes: '(min-width: 1000px) 19vw, 60vw', alt: '' }}
+    <div class="dw-ring-cards" data-ring-cards>
+      {%- assign t = 0 -%}
+      {%- for product in newest -%}
+        {%- if t < 14 and product.available and product.featured_image -%}
+          {%- assign lead = product.featured_image -%}
+          {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
+          {%- assign pk = t | modulo: 6 -%}
+          <a class="dw-ring-card" href="{{ product.url }}" data-title="{{ product.title | escape }}" data-price="{{ product.price | money }}" style="--pc: var(--{{ pastel[pk] }})">
+            {%- if t < 4 -%}
+              {{ lead | image_url: width: 400 | image_tag: loading: 'eager', widths: '200, 300, 400', sizes: '190px', alt: product.title }}
             {%- else -%}
-              {{ lead | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 1000px) 19vw, 60vw', alt: '' }}
+              {{ lead | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '190px', alt: product.title }}
             {%- endif -%}
-          </figure>
-          <span class="dw-rail-cap"><span class="dw-rail-t">{{ product.title | truncate: 34 }}</span><span class="dw-rail-p">{% render 'price', product: product %}</span></span>
-        </a>
-        {%- assign t = t | plus: 1 -%}
-      {%- endif -%}
-    {%- endfor -%}
+          </a>
+          {%- assign t = t | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <p class="dw-ring-now" data-ring-now aria-hidden="true"></p>
+    <span class="dw-ring-scroll" aria-hidden="true">Scroll<i></i></span>
   </div>
 </section>
 
