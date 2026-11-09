@@ -297,59 +297,6 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 @media (prefers-reduced-motion: reduce) { .dw-capsule { transform: rotate(-28deg) !important; } }
 
 /* ============================================================
-   v4: Riffle-style hero. A pinned dark stage where product cards
-   sit on a ring; scrolling spins the ring, then folds it into a
-   stack. Plain CSS 3D-ish transforms driven by drape.js.
-   ============================================================ */
-html { overflow-x: clip; }
-.dw-ring { position: relative; width: 100vw; margin-left: calc(50% - 50vw); margin-top: calc(var(--s6) * -1); height: 330vh; background: #0b0b0d; color: #f3efe8; }
-.dw-ring-stage { position: sticky; top: var(--hdr, 158px); height: calc(100svh - var(--hdr, 158px)); min-height: 520px; overflow: hidden; display: flex; flex-direction: column;
-  background: radial-gradient(ellipse 70% 55% at 50% 45%, oklch(0.24 0.012 60), #0b0b0d 70%); }
-.dw-ring-copy { position: absolute; z-index: 5; left: 50%; top: 46%; translate: -50% -50%; width: min(560px, 44vw); display: grid; justify-items: center; text-align: center; transition: opacity .4s; }
-.dw-ring .dw-kicker { background: transparent; color: #f3efe8; border-color: oklch(1 0 0 / .22); margin-bottom: var(--s4); }
-.dw-ring h1 { margin: 0; color: #f6f2ea; font-size: clamp(26px, 3.5vw, 56px); line-height: .94; letter-spacing: -0.055em; max-width: none; }
-.dw-ring .dw-hero-sub { color: oklch(0.8 0.01 80); font-size: 16px; line-height: 24px; margin: var(--s4) 0 var(--s5); }
-.dw-ring .btn { color: #f6f2ea; border-color: oklch(1 0 0 / .45); }
-.dw-ring .btn:hover:not(:disabled) { background: #f6f2ea; color: #0b0b0d; }
-.dw-ring .btn.primary { background: #f6f2ea; color: #0b0b0d; border-color: #f6f2ea; }
-.dw-ring .btn.primary:hover:not(:disabled) { background: var(--neon-a); border-color: var(--neon-a); color: #fff; }
-.dw-ring .dw-capsule { top: 6%; right: 7%; }
-
-.dw-ring-cards { position: absolute; inset: 0; }
-.dw-ring-card { position: absolute; left: 0; top: 0; width: clamp(104px, 12.5vw, 196px); aspect-ratio: 1; border-radius: 22px; overflow: hidden; background: var(--pc, var(--p1)); box-shadow: 0 24px 50px -18px #000, 0 0 0 1px oklch(1 0 0 / .08); will-change: transform; transform: translate3d(-50%, -50%, 0); opacity: 0; transition: opacity .6s; }
-.js .dw-ring-card.is-ready { opacity: 1; }
-.dw-ring-card img { width: 100%; height: 100%; object-fit: cover; display: block; mix-blend-mode: multiply; }
-.dw-ring-card:focus-visible { outline: 3px solid var(--neon-a); outline-offset: 3px; }
-html:not(.js) .dw-ring { height: auto; }
-html:not(.js) .dw-ring-stage { position: static; height: auto; padding: var(--s8) var(--gut); }
-html:not(.js) .dw-ring-copy { position: static; translate: none; width: auto; }
-html:not(.js) .dw-ring-cards { position: static; display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s6); }
-html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
-
-.dw-ring-now { position: absolute; z-index: 6; left: var(--gut); bottom: 22px; margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: oklch(0.8 0.01 80); transition: opacity .3s; }
-.dw-ring-scroll { position: absolute; z-index: 6; right: var(--gut); bottom: 14px; display: grid; justify-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: oklch(0.7 0.01 80); }
-.dw-ring-scroll i { width: 1px; height: 34px; background: linear-gradient(#f3efe8, transparent); animation: dwscroll 1.8s ease-in-out infinite; transform-origin: top; }
-@keyframes dwscroll { 0% { scale: 1 0; } 60% { scale: 1 1; } 100% { scale: 1 1; opacity: 0; } }
-
-@media (max-width: 899px) {
-  .dw-ring { height: 300vh; }
-  .dw-ring-copy { position: relative; left: auto; top: auto; translate: none; width: auto; padding: var(--s5) var(--gut) 0; z-index: 5; }
-  .dw-ring h1 { font-size: clamp(26px, 8vw, 40px); }
-  .dw-ring .dw-hero-sub { display: none; }
-  .dw-ring .dw-hero-cta { gap: 8px; }
-  .dw-ring .dw-btn-lg { min-height: 44px; padding: 0 20px; font-size: 14px; }
-  .dw-ring .dw-kicker { margin-bottom: var(--s3); }
-  .dw-ring-cards { position: relative; inset: auto; flex: 1; min-height: 0; }
-  .dw-ring .dw-capsule { top: 10px; right: 10px; }
-  .dw-ring-now { bottom: 12px; font-size: 10px; letter-spacing: .1em; max-width: 70%; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dw-ring { height: auto; }
-  .dw-ring-stage { position: relative; top: 0; height: calc(100svh - var(--hdr, 158px)); }
-  .dw-ring-scroll i { animation: none; }
-}
-
-/* ============================================================
    v5: product grid adapted from Codrops "Responsive Product Grid
    Layout" (MIT): 3D flip tile, options bar with pop-overs, info row.
    Restyled to match the rounded Drapewell look.
@@ -445,3 +392,25 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
 
 .dw-menu summary a.dw-menu-parent { display: inline; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; text-decoration: none; }
 .dw-menu summary a.dw-menu-parent:active { opacity: .6; }
+
+/* ============================================================
+   v6: calm hero. A fan of five product cards under the headline.
+   No pinning, no scroll motion; cards only lift on hover.
+   ============================================================ */
+.dw-fan { --w: clamp(104px, 17vw, 250px); display: flex; justify-content: center; align-items: flex-end; padding: var(--s8) 0 var(--s6); }
+.dw-fan-card { position: relative; display: block; flex: none; width: var(--w); aspect-ratio: 4 / 5; margin-left: calc(var(--w) * -0.2); overflow: hidden; border-radius: 28px; background: #fff; color: var(--text); text-decoration: none;
+  box-shadow: 0 26px 44px -22px oklch(0.2 0.02 60 / .5), 0 0 0 1px var(--line); transform: translateY(var(--y, 0)) rotate(var(--r, 0deg)); transition: transform .55s var(--spring), box-shadow .3s; }
+.dw-fan-card:first-child { margin-left: 0; }
+.dw-fan-card:nth-child(1) { --r: -10deg; --y: 30px; z-index: 1; }
+.dw-fan-card:nth-child(2) { --r: -5deg; --y: 8px; z-index: 3; }
+.dw-fan-card:nth-child(3) { --r: 0deg; --y: -10px; z-index: 5; }
+.dw-fan-card:nth-child(4) { --r: 5deg; --y: 8px; z-index: 3; }
+.dw-fan-card:nth-child(5) { --r: 10deg; --y: 30px; z-index: 1; }
+.dw-fan-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dw-fan-cap { position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between; gap: 8px; padding: 28px 14px 12px; font-size: 13px; line-height: 17px; font-weight: 600; background: linear-gradient(transparent, #fff 62%); opacity: 0; transition: opacity .25s; }
+.dw-fan-cap b { font-weight: 700; white-space: nowrap; }
+.dw-fan-card:hover, .dw-fan-card:focus-visible { transform: translateY(-26px) rotate(0deg) scale(1.05); z-index: 10; box-shadow: 0 34px 56px -22px oklch(0.2 0.02 60 / .55), 0 0 0 1px var(--line); }
+.dw-fan-card:hover .dw-fan-cap, .dw-fan-card:focus-visible .dw-fan-cap { opacity: 1; }
+.dw-fan-card:focus-visible { outline: 3px solid var(--neon-a); outline-offset: 3px; }
+@media (max-width: 759px) { .dw-fan { --w: 25vw; padding-top: var(--s6); } .dw-fan-card { border-radius: 18px; margin-left: calc(var(--w) * -0.24); } .dw-fan-cap { display: none; } }
+@media (prefers-reduced-motion: reduce) { .dw-fan-card { transition: none; } }
