@@ -457,3 +457,9 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .pg-optcell:focus-within .pg-tip, .pg-optcell.is-open .pg-tip { translate: 0 0; }
 .pg-opt span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 759px) { .pg-opts > li:nth-last-child(-n+2) .pg-tip { left: 0; right: 0; } }
+
+@media (max-width: 759px) {
+  .pg-opts > li:first-child, .pg-opts > li:last-child { flex: 0 0 40px; }
+  .pg-opts > li.pg-optcell { flex: 1 1 0; }
+  .pg-opt { padding: 0 2px; font-size: 12px; letter-spacing: -0.01em; }
+}
