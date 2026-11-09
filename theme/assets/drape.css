@@ -447,3 +447,13 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
   .pg-opt { font-size: 12.5px; }
 }
 @media (min-width: 760px) { dialog.pg-sheet { display: none !important; } }
+
+/* pop-over spans the options bar (never pokes outside the card); labels stay on one line */
+.pg-opts { position: relative; }
+.pg-opts > li.pg-optcell { position: static; }
+.pg-tip { left: 0; right: 0; width: auto; max-width: none; translate: 0 6px; }
+.pg-tip::after { display: none; }
+@media (hover: hover) { .pg-optcell:hover .pg-tip { translate: 0 0; } }
+.pg-optcell:focus-within .pg-tip, .pg-optcell.is-open .pg-tip { translate: 0 0; }
+.pg-opt span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 759px) { .pg-opts > li:nth-last-child(-n+2) .pg-tip { left: 0; right: 0; } }

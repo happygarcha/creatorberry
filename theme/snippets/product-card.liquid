@@ -46,7 +46,7 @@
           {%- if option.values.size > 1 -%}
           <li class="pg-optcell">
             <button type="button" class="pg-opt" data-pg-opt data-opt-name="{{ option.name | escape }}" aria-expanded="false" aria-label="{{ option.name | escape }}: {{ option.values.size }}">
-              <span>{{ option.name | truncate: 8, '' }}</span><sup>{{ option.values.size }}</sup>
+              <span>{{ option.name | split: ' ' | first | truncate: 10, '' }}</span><sup>{{ option.values.size }}</sup>
             </button>
             <div class="pg-tip" role="group" aria-label="{{ option.name | escape }}">
               {%- assign is_size = false -%}
