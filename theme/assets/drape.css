@@ -381,8 +381,7 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
    blend mode on product photos (grid tiles and hero ring cards).
    ============================================================ */
 .pg-item { background: #fff; box-shadow: 0 0 0 1px var(--line); }
-.pg-face img, .dw-ring-card img, .card .ph img, .dw-shape img { mix-blend-mode: normal !important; }
-.dw-ring-card { background: #fff; }
+.pg-face img, .card .ph img, .dw-shape img { mix-blend-mode: normal !important; }
 .cell .ph, .cell:nth-child(5n+2) .ph, .cell:nth-child(5n+4) .ph { background: #fff; }
 
 /* menu: the category name is its own link; the list under it shows only sub-categories */
