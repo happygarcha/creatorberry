@@ -469,3 +469,7 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
   .pg-opt { font-size: 11.5px; letter-spacing: -0.02em; }
   .pg-opt span { text-overflow: clip; }
 }
+
+/* no option buttons (single-choice products): heart and bag share the bar equally, on every screen size */
+.pg-opts:not(:has(.pg-optcell)) > li { flex: 1 1 0 !important; }
+.pg-opts:not(:has(.pg-optcell)) .pg-opt { font-size: 13px; }
