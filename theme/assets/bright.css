@@ -1,0 +1,152 @@
+/* ============================================================
+   Drapewell "bright and friendly" layer
+   Loaded after theme.css. Redefines the design tokens and the
+   few places that hard-code the old dark/neon look.
+   Remove the <link> to this file in layout/theme.liquid to revert.
+   ============================================================ */
+
+:root {
+  /* surfaces */
+  --bg: oklch(0.985 0.012 85);          /* warm cream */
+  --surface: oklch(1 0 0);              /* white cards */
+  --surface-2: oklch(0.955 0.03 80);    /* soft sand */
+  --line: oklch(0.3 0.03 60 / 0.12);
+
+  /* text */
+  --text: oklch(0.25 0.03 280);         /* deep ink */
+  --text-soft: oklch(0.5 0.03 280);
+
+  /* friendly accents (the old "neon" token names are reused so every rule inherits them) */
+  --neon-a: oklch(0.62 0.2 33);         /* coral: primary actions */
+  --neon-b: oklch(0.62 0.11 195);       /* teal: focus, links, badges */
+  --neon-c: oklch(0.55 0.19 33);        /* deep coral: prices, active states (readable on white) */
+  --sun: oklch(0.87 0.16 90);           /* sunny yellow: highlights, stars */
+  --on-accent: oklch(1 0 0);            /* text on coral */
+  --hue: 35;
+
+  --r: 20px;
+  --r-sm: 14px;
+  --shadow-1: 0 1px 2px oklch(0.3 0.04 60 / 0.06), 0 8px 24px -12px oklch(0.3 0.04 60 / 0.18);
+  --shadow-2: 0 2px 4px oklch(0.3 0.04 60 / 0.06), 0 18px 40px -16px oklch(0.45 0.15 33 / 0.35);
+}
+
+html { color-scheme: light; scrollbar-color: oklch(0.8 0.03 80) var(--bg); }
+body { background: var(--bg); color: var(--text); caret-color: var(--neon-b); }
+body::before {
+  background:
+    radial-gradient(55vw 45vh at 0% 0%, oklch(0.93 0.07 70 / 0.55), transparent 70%),
+    radial-gradient(50vw 45vh at 100% 100%, oklch(0.93 0.06 195 / 0.45), transparent 70%);
+}
+body::after { display: none; } /* remove the film-grain overlay */
+::selection { background: var(--sun); color: var(--text); }
+:focus-visible { outline-color: var(--neon-b); }
+
+/* ---------- headings: friendly, not shouty ---------- */
+.brand { color: var(--neon-a); font-stretch: 100%; font-weight: 800; letter-spacing: -0.01em; text-transform: none; font-size: 26px; }
+.hero h1, .feed-head h2, .hero-price, h1, h2, h3 { font-stretch: 100%; text-transform: none; letter-spacing: -0.015em; }
+.hero h1 { font-weight: 800; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.06; }
+.feed-head h2 { font-weight: 800; font-size: 28px; }
+.eyebrow { color: var(--neon-b); letter-spacing: 0.1em; }
+
+/* ---------- header bar ---------- */
+.topbar { background: oklch(1 0 0 / 0.82); border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 oklch(1 0 0 / 0.6) inset; }
+.announce { color: var(--text); font-weight: 500; }
+.icon-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.icon-btn:hover, .icon-btn:focus-visible { border-color: var(--neon-a); }
+.topbar .cart-btn, .cart-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.cart-btn:hover { border-color: var(--neon-a); }
+.cart-btn [data-cart-count] { background: var(--neon-a); color: var(--on-accent); }
+.cart-total { color: var(--text-soft); }
+
+/* ---------- sidebar (category navigation) ---------- */
+.side { background: oklch(1 0 0 / 0.7); }
+@media (min-width: 1100px) { .side { box-shadow: var(--shadow-1); } }
+.rooms a, .rooms button { color: var(--text-soft); }
+.rooms button:hover { background: var(--surface-2); }
+.rooms a[aria-current="page"], .rooms button[aria-pressed="true"] {
+  color: var(--text); background: oklch(0.96 0.05 40); border-color: oklch(0.62 0.2 33 / 0.4); }
+.sub-wrap .sub a[aria-current="page"] { color: var(--neon-c); }
+.subrow a[aria-current="page"] { background: var(--neon-a); color: var(--on-accent); }
+.search input { background: var(--surface); box-shadow: var(--shadow-1); }
+.search input:focus { border-color: var(--neon-b); box-shadow: 0 0 0 4px oklch(0.62 0.11 195 / 0.2); }
+.search-go { background: var(--neon-a); color: var(--on-accent); }
+
+/* ---------- buttons ---------- */
+.btn { background: var(--surface); }
+.btn.primary { color: var(--on-accent); background-color: var(--neon-a); background-image: linear-gradient(180deg, oklch(0.67 0.2 35), var(--neon-a)); box-shadow: var(--shadow-2); }
+.btn.primary:hover:not(:disabled) { box-shadow: 0 20px 44px -14px oklch(0.55 0.2 33 / 0.55); }
+.btn.primary::after, .co::after { background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / 0.35) 50%, transparent 65%); }
+.cart .co, .up-go, .pager .cur, #hero-pause[aria-pressed="true"], .qv:hover, .qv:focus-visible, .up-add:hover:not(:disabled) {
+  background-color: var(--neon-a); background-image: none; color: var(--on-accent); }
+
+/* ---------- hero ---------- */
+.hero { background: oklch(0.96 0.045 70); border: 1px solid var(--line); box-shadow: var(--shadow-1); }
+.hero-glow {
+  background:
+    radial-gradient(40% 50% at var(--gx, 78%) var(--gy, 28%), oklch(0.85 0.12 var(--hue) / 0.9), transparent 70%),
+    radial-gradient(36% 46% at 12% 92%, oklch(0.9 0.08 195 / 0.7), transparent 70%),
+    radial-gradient(30% 40% at 52% 8%, oklch(0.93 0.12 95 / 0.6), transparent 70%);
+  filter: none; }
+.hero::after { background: linear-gradient(180deg, transparent 55%, oklch(1 0 0 / 0.35)); }
+.hero-sub { color: var(--text-soft); }
+.hero-art .ph, .slide .hero-art .ph { box-shadow: 0 28px 56px -24px oklch(0.4 0.1 40 / 0.45); }
+.hero-dots button::after { background: oklch(0.3 0.03 60 / 0.2); }
+.hero-dots button[aria-pressed="true"]::after { background: var(--text); }
+.hero-bar { background: oklch(0.3 0.03 60 / 0.12); }
+.hero-bar i { background: var(--neon-a); }
+.ctl { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow-1); }
+.ctl:hover { background: var(--surface-2); }
+
+/* ---------- product cards ---------- */
+.ph { background: radial-gradient(circle at 30% 20%, color-mix(in oklch, var(--tint, oklch(0.9 0.04 80)) 70%, white), color-mix(in oklch, var(--tint, oklch(0.9 0.04 80)) 35%, oklch(0.97 0.02 80))); }
+.card { box-shadow: var(--shadow-1); }
+.card::before { background: conic-gradient(from var(--ga), transparent 0 45%, var(--neon-a), var(--sun) 72%, var(--neon-b) 86%, transparent 96%); }
+@media (hover: hover) { .card:hover { box-shadow: var(--shadow-2); } }
+.card .p, .mini-card .p, .hero-price { color: var(--neon-c); font-weight: 700; }
+.card .t { color: var(--text); }
+.chip { background: oklch(1 0 0 / 0.85); color: var(--text); box-shadow: var(--shadow-1); }
+.offer-badge { background: var(--sun); color: oklch(0.3 0.06 80); box-shadow: 0 2px 8px oklch(0.4 0.08 80 / 0.25); }
+.offer-box { background: oklch(0.97 0.04 90); border-left-color: var(--neon-a); }
+.card .t mark { background: linear-gradient(oklch(0.87 0.16 90 / 0.5), oklch(0.87 0.16 90 / 0.5)) left center / 100% 100% no-repeat; }
+.off { background: var(--neon-a); color: var(--on-accent); }
+
+/* ---------- category tiles, mini lists, feedboxes ---------- */
+.feedbox, .room-tile { background: var(--surface); box-shadow: var(--shadow-1); }
+.room-tile .ph { background: var(--surface-2); }
+@media (hover: hover) { .room-tile:hover { border-color: oklch(0.62 0.2 33 / 0.5); box-shadow: var(--shadow-2); } }
+
+/* ---------- ratings ---------- */
+.stars > span { background: linear-gradient(90deg, oklch(0.78 0.17 80) var(--r), oklch(0.3 0.03 60 / 0.18) var(--r)); -webkit-background-clip: text; background-clip: text; }
+
+/* ---------- product page extras ---------- */
+.sticky-atc { background: oklch(1 0 0 / 0.9); box-shadow: 0 -8px 30px -12px oklch(0.3 0.04 60 / 0.25); }
+.trust-list svg, .size-guide summary::after, .co-secure { color: var(--neon-b); }
+.chipb input:checked + span { background-color: var(--neon-a); background-image: none; color: var(--on-accent); }
+
+/* ---------- dialogs: cart drawer, quick view ---------- */
+dialog.panel::backdrop, dialog.cart::backdrop, dialog.quick::backdrop { background: oklch(0.25 0.03 280 / 0.45); }
+.co-pay li { background: #fff; box-shadow: 0 0 0 1px var(--line); }
+
+/* ---------- footer ---------- */
+.site-foot { background: oklch(0.96 0.03 75); border-top: 1px solid var(--line); margin-top: var(--s8); }
+.site-foot .foot-bar { background: oklch(0.25 0.03 280); color: oklch(0.92 0.01 280); border-top: 0; }
+.site-foot .foot-bar a, .site-foot .foot-bar .fine { color: oklch(0.88 0.015 280); }
+.site-foot .foot-bar a:hover { color: #fff; }
+.news label { font-family: var(--display); font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.news-row input { background: var(--surface); box-shadow: var(--shadow-1); }
+.news-row input:focus { border-color: var(--neon-b); box-shadow: 0 0 0 4px oklch(0.62 0.11 195 / 0.2); }
+.news-ok { color: var(--neon-b); }
+.news-err { color: oklch(0.55 0.2 25); }
+.soc a { background: var(--surface); color: var(--text); box-shadow: var(--shadow-1); }
+.soc a:hover { box-shadow: var(--shadow-2); }
+
+/* ---------- search hint bubble ---------- */
+.search.hint input { border-color: var(--neon-b); box-shadow: 0 0 0 3px oklch(0.62 0.11 195 / 0.45); }
+.search.hint::after { background: var(--neon-a); color: var(--on-accent); }
+
+/* ---------- misc ---------- */
+.to-top { background: var(--surface); color: var(--text); box-shadow: var(--shadow-1); border: 1px solid var(--line); }
+.skip { background: var(--sun); color: var(--text); }
+.vid-pane { background: var(--surface-2); }
+
+@media (forced-colors: active) { .topbar, .site-foot { border-color: CanvasText; } }
