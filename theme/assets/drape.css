@@ -418,3 +418,32 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
   .dw-hero h1 { font-size: 9vw; letter-spacing: -0.06em; }
   .dw-fan { --w: 23vw; }
 }
+
+/* ============================================================
+   v7: option pop-over fixes. Scrollable on desktop, bottom sheet
+   on phones, never covered by neighbouring cards, no cut-off text.
+   ============================================================ */
+.pg-cell:has(.pg-optcell.is-open), .pg-cell.pg-pop { position: relative; z-index: 60; }
+.pg-tip { max-width: 300px; max-height: 250px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.pg-tip button { max-width: 100%; white-space: normal; text-align: center; line-height: 1.25; }
+.pg-tip button.pg-more { background: transparent; border-style: dashed; }
+.pg-info .t { display: block; overflow: visible; -webkit-line-clamp: unset; }
+
+dialog.pg-sheet { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: none; max-height: 72vh; padding: 18px 16px calc(20px + env(safe-area-inset-bottom)); border: 0; border-radius: 30px 30px 0 0; background: var(--surface); color: var(--text); box-shadow: 0 -20px 60px -20px oklch(0.2 0.02 280 / .5); overflow-y: auto; }
+dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
+.pg-sheet-head { display: flex; align-items: start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.pg-sheet-t { margin: 0; font-family: var(--display); font-size: 22px; line-height: 1.05; letter-spacing: -0.04em; font-weight: 700; }
+.pg-sheet-s { margin: 4px 0 0; color: var(--text-soft); font-size: 13px; line-height: 18px; }
+.pg-sheet-x { flex: none; min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font: inherit; font-weight: 600; cursor: pointer; }
+.pg-sheet-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pg-sheet-list button { min-height: 46px; padding: 0 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); font: inherit; font-weight: 600; font-size: 15px; line-height: 1.2; cursor: pointer; text-align: center; }
+.pg-sheet-list button.pg-size { min-width: 52px; padding: 0 12px; }
+.pg-sheet-list button.pg-more { background: transparent; border-style: dashed; }
+.pg-sheet-list button:active { background: var(--text); color: #fff; }
+
+@media (max-width: 759px) {
+  .pg-tip { display: none !important; }
+  .pg-opt sup { display: none; }
+  .pg-opt { font-size: 12.5px; }
+}
+@media (min-width: 760px) { dialog.pg-sheet { display: none !important; } }

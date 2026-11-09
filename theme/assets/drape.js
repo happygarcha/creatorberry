@@ -70,9 +70,29 @@
   };
   var closePops = function (except) {
     $$(".pg-optcell.is-open").forEach(function (li) {
-      if (li !== except) { li.classList.remove("is-open"); var b = $("[data-pg-opt]", li); if (b) b.setAttribute("aria-expanded", "false"); }
+      if (li !== except) { li.classList.remove("is-open"); var b = $("[data-pg-opt]", li); if (b) b.setAttribute("aria-expanded", "false"); var ce = li.closest(".pg-cell"); if (ce) ce.classList.remove("pg-pop"); }
     });
   };
+  /* phones: option choices open in a bottom sheet instead of a small pop-over */
+  var sheet = null;
+  var openSheet = function (btn, li) {
+    if (!sheet) {
+      sheet = document.createElement("dialog");
+      sheet.className = "pg-sheet";
+      sheet.setAttribute("aria-label", "Options");
+      sheet.innerHTML = '<div class="pg-sheet-head"><div><h3 class="pg-sheet-t"></h3><p class="pg-sheet-s"></p></div><button type="button" class="pg-sheet-x" data-sheet-close>Close</button></div><div class="pg-sheet-list"></div>';
+      document.body.appendChild(sheet);
+      sheet.addEventListener("click", function (ev) {
+        if (ev.target === sheet || ev.target.closest("[data-sheet-close]") || ev.target.closest("[data-quick]")) sheet.close();
+      });
+    }
+    var cell = li.closest(".pg-cell"), title = cell && $(".pg-info .t", cell);
+    $(".pg-sheet-t", sheet).textContent = btn.dataset.optName || "Options";
+    $(".pg-sheet-s", sheet).textContent = title ? title.textContent.trim() : "";
+    $(".pg-sheet-list", sheet).innerHTML = $(".pg-tip", li).innerHTML;
+    sheet.showModal();
+  };
+
   document.addEventListener("click", function (e) {
     var rot = e.target.closest("[data-pg-rotate]");
     if (rot) {
@@ -90,9 +110,13 @@
     }
     var opt = e.target.closest("[data-pg-opt]");
     if (opt) {
-      var li = opt.closest(".pg-optcell"), open = !li.classList.contains("is-open");
+      var li = opt.closest(".pg-optcell");
+      if (matchMedia("(max-width: 759px)").matches) { openSheet(opt, li); return; }
+      var open = !li.classList.contains("is-open");
       closePops(li);
       li.classList.toggle("is-open", open);
+      var cellEl = li.closest(".pg-cell");
+      if (cellEl) cellEl.classList.toggle("pg-pop", open);
       opt.setAttribute("aria-expanded", open ? "true" : "false");
       return;
     }

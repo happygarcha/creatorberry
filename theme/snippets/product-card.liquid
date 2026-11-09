@@ -43,16 +43,17 @@
       </li>
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values limit: 2 -%}
+          {%- if option.values.size > 1 -%}
           <li class="pg-optcell">
-            <button type="button" class="pg-opt" data-pg-opt aria-expanded="false" aria-label="{{ option.name | escape }}: {{ option.values.size }}">
-              <span>{{ option.name | truncate: 7, '' }}</span><sup>{{ option.values.size }}</sup>
+            <button type="button" class="pg-opt" data-pg-opt data-opt-name="{{ option.name | escape }}" aria-expanded="false" aria-label="{{ option.name | escape }}: {{ option.values.size }}">
+              <span>{{ option.name | truncate: 8, '' }}</span><sup>{{ option.values.size }}</sup>
             </button>
             <div class="pg-tip" role="group" aria-label="{{ option.name | escape }}">
               {%- assign is_size = false -%}
               {%- assign oname = option.name | downcase -%}
               {%- if oname contains 'size' -%}{%- assign is_size = true -%}{%- endif -%}
               {%- for value in option.values limit: 8 -%}
-                {%- assign label = value | truncate: 14 -%}
+                {%- assign label = value -%}
                 {%- if is_size -%}
                   {%- assign vkey = value | downcase | strip -%}
                   {%- case vkey -%}
@@ -66,8 +67,12 @@
                 {%- endif -%}
                 <button type="button" class="{% if is_size %}pg-size{% endif %}" data-quick="{{ product.handle }}" title="{{ value | escape }}" aria-label="{{ option.name | escape }}: {{ value | escape }}">{{ label }}</button>
               {%- endfor -%}
+              {%- if option.values.size > 8 -%}
+                <button type="button" class="pg-more" data-quick="{{ product.handle }}">+{{ option.values.size | minus: 8 }} more</button>
+              {%- endif -%}
             </div>
           </li>
+          {%- endif -%}
         {%- endfor -%}
       {%- endunless -%}
       <li>
