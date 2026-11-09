@@ -442,3 +442,6 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
 .dw-menu summary .dw-menu-parent { color: inherit; text-decoration: none; }
 .dw-menu summary { gap: 16px; }
 .dw-drop ul { margin-bottom: 0; }
+
+.dw-menu summary a.dw-menu-parent { display: inline; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; text-decoration: none; }
+.dw-menu summary a.dw-menu-parent:active { opacity: .6; }
