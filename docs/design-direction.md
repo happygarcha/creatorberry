@@ -21,3 +21,14 @@ Keep all existing wording; change the design.
 5. Product page
 6. Cart drawer
 7. QA on mobile and desktop, then launch checklist
+
+## Status (test theme: Drapewell Website Test)
+Built and previewable (not published):
+- New layout without sidebars: announcement bar, sticky header with wide search, cart, category nav with dropdowns, mobile menu drawer
+- New homepage: hero with product tiles, trust bar, category tiles, new arrivals, Buy 2 save 10% banner, product rows, about text
+- Restyled product cards, collection header, product page, footer (newsletter card, link columns, wordmark)
+- Files: layout/theme.liquid, sections/home.liquid, assets/bright.css (colour tokens), assets/drape.css, assets/drape.js
+
+Next: product page and cart drawer polish, search page, remaining content pages, accessibility and speed checks, launch checklist.
+
+Preview: https://drapewell.myshopify.com/?preview_theme_id=193202716981
