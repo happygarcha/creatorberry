@@ -26,14 +26,23 @@
   {%- comment -%} ================= HEADER ================= {%- endcomment -%}
   <header class="dw-header" data-topbar>
     {%- if settings.announcement != blank -%}
-      <p class="dw-announce">{{ settings.announcement | escape }}</p>
+      {%- assign mq_parts = settings.announcement | split: '·' -%}
+      <div class="dw-marquee" role="note" aria-label="{{ settings.announcement | escape }}">
+        <div class="dw-marquee-track">
+          {%- for i in (1..4) -%}
+            <span class="dw-mq-set"{% if i > 1 %} aria-hidden="true"{% endif %}>
+              {%- for part in mq_parts -%}<span>{{ part | strip | escape }}</span><i aria-hidden="true">&#10042;</i>{%- endfor -%}
+            </span>
+          {%- endfor -%}
+        </div>
+      </div>
     {%- endif -%}
     <div class="dw-bar">
       <button type="button" class="dw-burger" data-menu-open aria-label="{{ 'general.rooms' | t }}" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <a class="dw-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        <span class="dw-logo-mark" aria-hidden="true">D</span><span class="dw-logo-text">{{ shop.name }}</span>
+        <span class="dw-logo-text">{{ shop.name }}<i aria-hidden="true">.</i></span>
       </a>
 
       {%- comment -%} The wrapper keeps the "side" class: theme.js looks for ".side .search input" for the search hint. {%- endcomment -%}
@@ -64,7 +73,7 @@
         {%- for link in linklists['main-menu'].links -%}
           {%- if link.type == 'collection_link' or link.links.size > 0 -%}
             <li class="dw-nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
-              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}{% if link.type == 'collection_link' and link.object != blank %}<sup>{{ link.object.products_count }}</sup>{% endif %}</a>
               {%- if link.links.size > 0 -%}
                 <button type="button" class="dw-sub-btn" aria-expanded="false" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
                 <div class="dw-drop">

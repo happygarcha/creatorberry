@@ -9,39 +9,38 @@
 
 {%- comment -%} ---------- HERO ---------- {%- endcomment -%}
 <section class="dw-hero" aria-labelledby="hero-h">
-  <div class="dw-hero-copy">
-    <p class="dw-kicker">{{ 'home.new_label' | t }}</p>
-    <h1 id="hero-h">{{ 'home.intro_h' | t }}</h1>
-    <p class="dw-hero-sub">{{ 'home.discover_new' | t }}</p>
-    <div class="dw-hero-cta">
-      <a class="btn primary dw-btn-lg" href="{% if new_src.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ new_src.url }}{% endif %}">{{ 'home.open' | t }}</a>
-      {%- assign offer_col = collections['buy-2-save-10'] -%}
-      {%- if offer_col != blank and offer_col.products_count > 0 -%}
-        <a class="btn dw-btn-lg" href="{{ offer_col.url }}">Buy 2, save 10%</a>
-      {%- endif -%}
+  <div class="dw-hero-top">
+    <div class="dw-hero-main">
+      <p class="dw-kicker"><i aria-hidden="true"></i>{{ 'home.new_label' | t }}</p>
+      <h1 id="hero-h">{{ 'home.intro_h' | t }}</h1>
     </div>
-    <ul class="dw-hero-chips" aria-label="{{ section.settings.trust_label }}">
-      {%- if section.settings.trust_2 != blank -%}<li>{{ section.settings.trust_2 }}</li>{%- endif -%}
-      {%- if section.settings.trust_1 != blank -%}<li>{{ section.settings.trust_1 }}</li>{%- endif -%}
-    </ul>
+    <div class="dw-hero-side">
+      <p class="dw-hero-sub">{{ 'home.discover_new' | t }}</p>
+      <div class="dw-hero-cta">
+        <a class="btn primary dw-btn-lg" href="{% if new_src.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ new_src.url }}{% endif %}">{{ 'home.open' | t }}</a>
+        {%- assign offer_col = collections['buy-2-save-10'] -%}
+        {%- if offer_col != blank and offer_col.products_count > 0 -%}
+          <a class="btn dw-btn-lg" href="{{ offer_col.url }}">Buy 2, save 10%</a>
+        {%- endif -%}
+      </div>
+    </div>
   </div>
 
-  <div class="dw-hero-tiles">
+  <div class="dw-rail" role="list">
     {%- assign t = 0 -%}
     {%- for product in newest -%}
-      {%- if t < 3 and product.available and product.featured_image -%}
+      {%- if t < 6 and product.available and product.featured_image -%}
         {%- assign lead = product.featured_image -%}
         {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
-        <a class="dw-tile dw-tile-{{ t }}" href="{{ product.url }}">
-          <figure class="dw-tile-img">
+        <a class="dw-rail-item" role="listitem" href="{{ product.url }}">
+          <figure class="dw-shape">
             {%- if t == 0 -%}
-              {{ lead | image_url: width: 800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800', sizes: '(min-width: 1000px) 28vw, 90vw', alt: '' }}
+              {{ lead | image_url: width: 600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '300, 450, 600', sizes: '(min-width: 1000px) 19vw, 60vw', alt: '' }}
             {%- else -%}
-              {{ lead | image_url: width: 500 | image_tag: loading: 'lazy', widths: '300, 500', sizes: '(min-width: 1000px) 14vw, 44vw', alt: '' }}
+              {{ lead | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 1000px) 19vw, 60vw', alt: '' }}
             {%- endif -%}
           </figure>
-          <span class="dw-tile-t">{{ product.title | truncate: 46 }}</span>
-          <span class="dw-tile-p">{% render 'price', product: product %}</span>
+          <span class="dw-rail-cap"><span class="dw-rail-t">{{ product.title | truncate: 34 }}</span><span class="dw-rail-p">{% render 'price', product: product %}</span></span>
         </a>
         {%- assign t = t | plus: 1 -%}
       {%- endif -%}
@@ -49,29 +48,27 @@
   </div>
 </section>
 
-{%- comment -%} ---------- TRUST BAR ---------- {%- endcomment -%}
+{%- comment -%} ---------- TRUST LINE ---------- {%- endcomment -%}
 <ul class="dw-trust" aria-label="{{ section.settings.trust_label }}">
   {%- for i in (1..4) -%}
     {%- assign key = 'trust_' | append: i -%}
     {%- assign line = section.settings[key] -%}
-    {%- if line != blank -%}
-      <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg><span>{{ line }}</span></li>
-    {%- endif -%}
+    {%- if line != blank -%}<li>{{ line }}</li>{%- endif -%}
   {%- endfor -%}
 </ul>
 
-{%- comment -%} ---------- SHOP BY CATEGORY ---------- {%- endcomment -%}
+{%- comment -%} ---------- SHOP BY CATEGORY (chip cloud) ---------- {%- endcomment -%}
 {%- assign tiles = 0 -%}
 <section class="dw-section" aria-labelledby="rb-h">
   <header class="dw-head"><h2 id="rb-h">{{ section.settings.rooms_title }}</h2></header>
-  <ul class="dw-cats">
+  <ul class="dw-chips">
     {%- for link in linklists['main-menu'].links -%}
-      {%- if link.type == 'collection_link' and link.object != blank and link.object.products_count > 0 and tiles < 12 -%}
+      {%- if link.type == 'collection_link' and link.object != blank and link.object.products_count > 0 and tiles < 14 -%}
         {%- assign tiles = tiles | plus: 1 -%}
         {%- assign rp = link.object.products.first -%}
-        <li><a class="dw-cat" href="{{ link.url }}">
-          <figure class="dw-cat-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(min-width: 1000px) 15vw, 40vw', alt: '' }}{%- endif -%}</figure>
-          <span class="dw-cat-t">{{ link.title }}</span>
+        <li><a class="dw-chip" href="{{ link.url }}">
+          <span class="dw-chip-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60, 120', sizes: '56px', alt: '' }}{%- endif -%}</span>
+          <span class="dw-chip-t">{{ link.title }}<sup>{{ link.object.products_count }}</sup></span>
         </a></li>
       {%- endif -%}
     {%- endfor -%}
@@ -81,7 +78,7 @@
 {%- comment -%} ---------- NEW ARRIVALS ---------- {%- endcomment -%}
 <section class="dw-section" aria-labelledby="feed-h">
   <header class="dw-head">
-    <h2 id="feed-h">{{ section.settings.feed_title }}</h2>
+    <h2 id="feed-h">{{ section.settings.feed_title }}<sup>{{ new_src.products_count }}</sup></h2>
     <div class="dw-head-tools">
       {%- if new_src.handle != 'all' -%}<a class="dw-link" href="{{ new_src.url }}">See all</a>{%- endif -%}
       <div class="sortbar">
@@ -107,6 +104,7 @@
 {%- comment -%} ---------- OFFER BANNER ---------- {%- endcomment -%}
 {%- if offer_col != blank and offer_col.products_count > 0 -%}
   <section class="dw-offer" aria-labelledby="offer-banner-h">
+    <span class="dw-sticker" aria-hidden="true">10%<br>off</span>
     <div>
       <h2 id="offer-banner-h">Buy 2, save 10%</h2>
       <p>Add any 2 items from this offer to your cart and 10% comes off automatically at checkout. You can mix pet and bath items. Shipping is not discounted.</p>
