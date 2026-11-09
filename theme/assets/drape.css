@@ -49,7 +49,7 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 .dw-search { grid-area: search; background: none; border: 0; padding: 0; box-shadow: none; position: static; max-height: none; overflow: visible; display: block; animation: none !important; }
 .dw-search .search input { height: 46px; border-radius: 999px; padding-left: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: none; }
 .dw-search .search input:focus { border-color: var(--text); box-shadow: none; }
-.dw-search .search-go { border-radius: 999px; background: var(--text); color: #fff; }
+.dw-search .search-go { border-radius: 999px; background: var(--text); color: #fff; opacity: 1 !important; }
 .dw-actions { grid-area: actions; display: flex; gap: 8px; align-items: center; }
 .dw-actions .icon-btn { display: none; background: transparent; box-shadow: none; }
 .dw-header .cart-btn { min-height: 46px; border-radius: 999px; padding: 0 8px 0 18px; gap: 10px; background: var(--text); color: #fff; border: 0; box-shadow: none; }
@@ -59,9 +59,9 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 @media (max-width: 559px) { .cart-total, .cart-label { display: none; } .dw-header .cart-btn { padding: 0 8px; } }
 
 .dw-nav { display: none; }
-.dw-nav-list { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut) 10px; list-style: none; display: flex; flex-wrap: wrap; gap: 2px 4px; }
+.dw-nav-list { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut) 10px; list-style: none; display: flex; flex-wrap: nowrap; gap: 0; justify-content: space-between; }
 .dw-nav-item { position: relative; display: flex; align-items: center; }
-.dw-nav-item > a { display: block; padding: 8px 14px; font-weight: 600; font-size: 14.5px; letter-spacing: -0.01em; color: var(--text); text-decoration: none; border-radius: 999px; transition: background-color .2s, color .2s; }
+.dw-nav-item > a { display: block; padding: 8px 9px; white-space: nowrap; font-weight: 600; font-size: 14px; letter-spacing: -0.01em; color: var(--text); text-decoration: none; border-radius: 999px; transition: background-color .2s, color .2s; }
 .dw-nav-item > a sup { font-size: 10px; margin-left: 3px; }
 .dw-nav-item > a:hover { background: var(--surface-2); }
 .dw-nav-item > a[aria-current="page"] { background: var(--text); color: #fff; }
@@ -110,7 +110,7 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 .dw-section { display: grid; gap: var(--s6); }
 .dw-head { display: flex; justify-content: space-between; align-items: end; gap: var(--s4); flex-wrap: wrap; }
 .dw-head h2, .row-head h2 { margin: 0; font-size: clamp(40px, 7vw, 104px); line-height: .92; letter-spacing: -0.055em; font-weight: 700; }
-.row-head h2 { font-size: clamp(32px, 4.5vw, 64px); }
+.row-head h2 { font-size: clamp(32px, 4.5vw, 64px); text-transform: none; font-stretch: 100%; letter-spacing: -0.055em; }
 .dw-head-tools { display: flex; align-items: center; gap: var(--s4); padding-bottom: 10px; }
 .dw-link, .row-link { color: var(--text); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1.5px; }
 .dw-link:hover, .row-link:hover { color: var(--neon-c); }
@@ -244,7 +244,7 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 .dw-foot .soc { max-width: var(--wrap); margin: var(--s8) auto 0; padding: 0 var(--gut); justify-content: flex-start; }
 .dw-foot .soc a { background: #fff; color: var(--text); box-shadow: none; }
 .dw-foot .soc a:hover { background: var(--text); color: #fff; }
-.dw-wordmark { margin-top: clamp(24px, 4vw, 56px); text-align: center; font-family: var(--display); font-weight: 800; font-size: 23.5vw; line-height: .72; letter-spacing: -0.07em; color: oklch(0.99 0.015 80); user-select: none; white-space: nowrap; padding-bottom: 0.02em; margin-bottom: -0.1em; }
+.dw-wordmark { margin-top: clamp(24px, 4vw, 56px); text-align: center; font-family: var(--display); font-weight: 800; font-size: 20.5vw; line-height: .72; letter-spacing: -0.07em; color: oklch(0.99 0.015 80); user-select: none; white-space: nowrap; padding-bottom: 0.02em; margin-bottom: -0.1em; }
 .dw-foot .foot-bar { background: var(--text); padding: var(--s4) var(--gut) calc(var(--s4) + env(safe-area-inset-bottom)); border-top: 0; position: relative; }
 .dw-foot .foot-bar .fine { color: oklch(0.8 0.01 280); margin: 0; max-width: none; }
 
