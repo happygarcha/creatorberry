@@ -413,3 +413,8 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 .dw-fan-card:focus-visible { outline: 3px solid var(--neon-a); outline-offset: 3px; }
 @media (max-width: 759px) { .dw-fan { --w: 25vw; padding-top: var(--s6); } .dw-fan-card { border-radius: 18px; margin-left: calc(var(--w) * -0.24); } .dw-fan-cap { display: none; } }
 @media (prefers-reduced-motion: reduce) { .dw-fan-card { transition: none; } }
+
+@media (max-width: 559px) {
+  .dw-hero h1 { font-size: 9vw; letter-spacing: -0.06em; }
+  .dw-fan { --w: 23vw; }
+}
