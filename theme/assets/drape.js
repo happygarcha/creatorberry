@@ -123,4 +123,47 @@
       requestAnimationFrame(step);
     }
   }
+
+  /* ---------- product grid (adapted from Codrops cbpShop, MIT): flip tile, favourites, option pop-overs ---------- */
+  var FAV_KEY = "dw-fav";
+  var readFavs = function () { try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch (e) { return []; } };
+  var writeFavs = function (a) { try { localStorage.setItem(FAV_KEY, JSON.stringify(a)); } catch (e) {} };
+  var syncFavs = function () {
+    var favs = readFavs();
+    $$("[data-fav]").forEach(function (b) { b.setAttribute("aria-pressed", favs.indexOf(b.dataset.fav) > -1 ? "true" : "false"); });
+  };
+  var closePops = function (except) {
+    $$(".pg-optcell.is-open").forEach(function (li) {
+      if (li !== except) { li.classList.remove("is-open"); var b = $("[data-pg-opt]", li); if (b) b.setAttribute("aria-expanded", "false"); }
+    });
+  };
+  document.addEventListener("click", function (e) {
+    var rot = e.target.closest("[data-pg-rotate]");
+    if (rot) {
+      var item = $(".pg-item", rot.closest(".pg-stage"));
+      var on = item.classList.toggle("is-flipped");
+      rot.setAttribute("aria-pressed", on ? "true" : "false");
+      return;
+    }
+    var fav = e.target.closest("[data-fav]");
+    if (fav) {
+      var list = readFavs(), h = fav.dataset.fav, at = list.indexOf(h);
+      if (at > -1) list.splice(at, 1); else list.push(h);
+      writeFavs(list); syncFavs();
+      return;
+    }
+    var opt = e.target.closest("[data-pg-opt]");
+    if (opt) {
+      var li = opt.closest(".pg-optcell"), open = !li.classList.contains("is-open");
+      closePops(li);
+      li.classList.toggle("is-open", open);
+      opt.setAttribute("aria-expanded", open ? "true" : "false");
+      return;
+    }
+    if (!e.target.closest(".pg-tip")) closePops(null);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePops(null); });
+  syncFavs();
+  var mainEl = $("#main");
+  if (mainEl && "MutationObserver" in window) new MutationObserver(function () { syncFavs(); }).observe(mainEl, { childList: true, subtree: true });
 })();

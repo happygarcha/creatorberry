@@ -348,3 +348,72 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
   .dw-ring-stage { position: relative; top: 0; height: calc(100svh - var(--hdr, 158px)); }
   .dw-ring-scroll i { animation: none; }
 }
+
+/* ============================================================
+   v5: product grid adapted from Codrops "Responsive Product Grid
+   Layout" (MIT): 3D flip tile, options bar with pop-overs, info row.
+   Restyled to match the rounded Drapewell look.
+   ============================================================ */
+.feed, .feed.row-feed { display: grid !important; columns: auto !important; gap: 30px 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 760px) { .feed, .feed.row-feed { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; } }
+@media (min-width: 1100px) { .feed { grid-template-columns: repeat(4, minmax(0, 1fr)); } .feed.row-feed { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.pg-cell { margin: 0; min-width: 0; }
+.pg-cell:hover, .pg-cell:focus-within { position: relative; z-index: 30; }
+.card.pg { display: block; position: relative; padding: 0; background: none; border: 0; box-shadow: none; transform: none !important; cursor: default; }
+.card.pg:hover { translate: none; }
+
+/* tile with the 3D flip */
+.pg-stage { position: relative; }
+.pg-item { display: block; aspect-ratio: 1; border-radius: 30px; overflow: hidden; background: var(--pc, var(--surface-2)); perspective: 1100px; }
+.pg-flip { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .55s var(--ease); }
+.pg-item.is-flipped .pg-flip { transform: rotateY(180deg); }
+.pg-face { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.pg-back { transform: rotateY(180deg); }
+.pg-face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; mix-blend-mode: multiply; }
+.no-3d .pg-back { display: none; }
+.pg-rotate { position: absolute; top: 12px; right: 12px; z-index: 5; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: #fff; color: var(--text); box-shadow: 0 8px 20px -8px oklch(0.2 0 0 / .4); cursor: pointer; transition: background-color .2s, color .2s, rotate .5s var(--spring); }
+.pg-rotate:hover, .pg-rotate[aria-pressed="true"] { background: var(--text); color: #fff; }
+.pg-rotate[aria-pressed="true"] { rotate: 180deg; }
+.pg-stage .offer-badge { z-index: 4; }
+
+/* options bar */
+.pg-opts { list-style: none; margin: 12px 0 0; padding: 0; display: flex; height: 50px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.pg-opts > li { position: relative; flex: 1 1 0; min-width: 0; display: flex; border-left: 1px solid var(--line); }
+.pg-opts > li:first-child { border-left: 0; }
+.pg-opt { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 2px; min-width: 0; padding: 0 6px; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color .2s, color .2s; }
+.pg-opts > li:first-child .pg-opt { border-radius: 999px 0 0 999px; }
+.pg-opts > li:last-child .pg-opt { border-radius: 0 999px 999px 0; }
+.pg-opt sup { font-size: 9px; color: inherit; opacity: .6; margin-left: 1px; }
+@media (hover: hover) { .pg-opt:hover { background: var(--text); color: #fff; } }
+.pg-optcell.is-open .pg-opt { background: var(--text); color: #fff; }
+.pg-fav[aria-pressed="true"] svg { fill: var(--neon-a); stroke: var(--neon-a); }
+.pg-fav[aria-pressed="true"]:hover svg { fill: #fff; stroke: #fff; }
+.pg-soldout { color: var(--text-soft); font-size: 12px; cursor: default; }
+.pg-opt:focus-visible { outline: 2px solid var(--neon-b); outline-offset: -3px; }
+
+/* option pop-overs */
+.pg-tip { position: absolute; left: 50%; bottom: calc(100% + 12px); translate: -50% 6px; width: max-content; max-width: 220px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 22px 50px -18px oklch(0.2 0.02 280 / .45); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s, translate .25s var(--ease), visibility 0s .2s; z-index: 10; }
+.pg-tip::after { content: ""; position: absolute; left: 50%; top: 100%; width: 12px; height: 12px; background: var(--surface); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); translate: -50% -6px; rotate: 45deg; }
+.pg-tip button { padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.pg-tip button:hover { background: var(--text); color: #fff; border-color: var(--text); }
+@media (hover: hover) { .pg-optcell:hover .pg-tip { opacity: 1; visibility: visible; pointer-events: auto; translate: -50% 0; transition-delay: 0s; } }
+.pg-optcell:focus-within .pg-tip, .pg-optcell.is-open .pg-tip { opacity: 1; visibility: visible; pointer-events: auto; translate: -50% 0; transition-delay: 0s; }
+.pg-opts > li:first-child ~ li:nth-last-child(n+3) .pg-tip { }
+
+/* info row */
+.pg-info { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: baseline; padding: 14px 6px 0; }
+.pg-info .t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--text); text-decoration: none; font-size: 15px; line-height: 20px; font-weight: 500; letter-spacing: -0.01em; padding: 0; }
+.pg-info .t:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pg-info .p { padding: 0; font-family: var(--display); font-size: 19px; font-weight: 700; letter-spacing: -0.03em; color: var(--text); justify-self: end; white-space: nowrap; }
+.pg-info .rating { grid-column: 1 / -1; padding: 0; }
+.js .pg.card .t { opacity: 1; }
+
+@media (max-width: 559px) {
+  .pg-opts { height: 46px; }
+  .pg-opt { font-size: 11.5px; padding: 0 3px; }
+  .pg-tip { max-width: 180px; }
+  .pg-opts > li:nth-last-child(-n+2) .pg-tip { left: auto; right: 0; translate: 0 6px; }
+  .pg-optcell:focus-within .pg-tip, .pg-optcell.is-open .pg-tip { translate: 0 0; }
+  .pg-opts > li:nth-last-child(-n+2) .pg-tip::after { left: auto; right: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .pg-flip, .pg-rotate, .pg-tip { transition: none; } }
