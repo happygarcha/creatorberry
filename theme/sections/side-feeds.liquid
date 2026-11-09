@@ -1,0 +1,122 @@
+{%- comment -%}
+  Right-hand column. Homepage: store-wide "Fresh picks" and the under-price feed.
+  Collection page: the same two feeds, limited to that collection.
+  Product page: the same two feeds, limited to the product's room collection (the product itself is left out).
+  Any other page (cart, search, pages, 404): a short "Good to know" box with delivery facts and the policy links.
+{%- endcomment -%}
+{%- liquid
+  assign pt = request.page_type
+  assign ctx = nil
+  assign has_ctx = false
+  if pt == 'collection'
+    unless collection.handle == 'frontpage' or collection.handle == 'all'
+      assign ctx = collection
+      assign has_ctx = true
+    endunless
+  elsif pt == 'product'
+    for c in product.collections
+      unless c.handle == 'frontpage' or c.handle == 'gifts-under-25' or c.handle == 'seasonal'
+        if has_ctx == false
+          assign ctx = c
+          assign has_ctx = true
+        endif
+      endunless
+    endfor
+    if has_ctx == false and product.collections.size > 0
+      assign ctx = product.collections.first
+      assign has_ctx = true
+    endif
+  endif
+  assign limit_cents = section.settings.under_price | times: 100
+  assign new_src = collections['new-arrivals']
+  if new_src == blank or new_src.products_count == 0
+    assign new_src = collections.all
+  endif
+-%}
+<aside class="side right" aria-label="Feeds">
+  {%- if pt == 'index' -%}
+    <section class="feedbox" aria-labelledby="fresh-h">
+      <h2 class="eyebrow" id="fresh-h">{{ section.settings.fresh_title }}</h2>
+      <ol class="mini">
+        {%- for product in new_src.products limit: 4 -%}
+          <li><a class="mini-link" href="{{ product.url }}">
+            <figure class="ph">{% if product.featured_image %}{{ product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</figure>
+            <span><span class="t">{{ product.title | truncate: 44 }}</span><span class="p">{{ product.price | money }}</span></span>
+          </a></li>
+        {%- endfor -%}
+      </ol>
+    </section>
+
+    <section class="feedbox" aria-labelledby="deal-h">
+      <h2 class="eyebrow" id="deal-h">{{ section.settings.under_title }}</h2>
+      <ol class="mini">
+        {%- assign shown = 0 -%}
+        {%- for product in new_src.products limit: 60 -%}
+          {%- if product.price < limit_cents and shown < 4 -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li><a class="mini-link" href="{{ product.url }}">
+              <figure class="ph">{% if product.featured_image %}{{ product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</figure>
+              <span><span class="t">{{ product.title | truncate: 44 }}</span><span class="p">{{ product.price | money }}</span></span>
+            </a></li>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if shown == 0 -%}<li class="fine">{{ 'general.none_under' | t }}</li>{%- endif -%}
+      </ol>
+    </section>
+  {%- elsif has_ctx -%}
+    {%- assign newest = ctx.products | sort: 'created_at' | reverse -%}
+    <section class="feedbox" aria-labelledby="fresh-h">
+      <h2 class="eyebrow" id="fresh-h">{{ 'general.feed_new_in' | t: name: ctx.title }}</h2>
+      <ol class="mini">
+        {%- assign shown = 0 -%}
+        {%- for p in newest -%}
+          {%- if shown < 4 and p.id != product.id -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li><a class="mini-link" href="{{ p.url }}">
+              <figure class="ph">{% if p.featured_image %}{{ p.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</figure>
+              <span><span class="t">{{ p.title | truncate: 44 }}</span><span class="p">{{ p.price | money }}</span></span>
+            </a></li>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if shown == 0 -%}<li class="fine">{{ 'collection.empty' | t }}</li>{%- endif -%}
+      </ol>
+    </section>
+
+    <section class="feedbox" aria-labelledby="deal-h">
+      <h2 class="eyebrow" id="deal-h">{{ section.settings.under_title }} · {{ ctx.title }}</h2>
+      <ol class="mini">
+        {%- assign shown = 0 -%}
+        {%- for p in ctx.products limit: 60 -%}
+          {%- if p.price < limit_cents and shown < 4 and p.id != product.id -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li><a class="mini-link" href="{{ p.url }}">
+              <figure class="ph">{% if p.featured_image %}{{ p.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</figure>
+              <span><span class="t">{{ p.title | truncate: 44 }}</span><span class="p">{{ p.price | money }}</span></span>
+            </a></li>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if shown == 0 -%}<li class="fine">{{ 'general.none_under' | t }}</li>{%- endif -%}
+      </ol>
+    </section>
+  {%- else -%}
+    <section class="feedbox" aria-labelledby="good-h">
+      <h2 class="eyebrow" id="good-h">{{ 'general.good_to_know' | t }}</h2>
+      <ul class="good-list">
+        <li>{{ 'general.co_delivery' | t }}</li>
+        <li>{{ 'general.co_tracking' | t }}</li>
+      </ul>
+    </section>
+  {%- endif -%}
+  <p class="fine">{{ 'general.shipping_note' | t }}</p>
+</aside>
+
+{% schema %}
+{
+  "name": "Side feeds",
+  "settings": [
+    { "type": "text", "id": "fresh_title", "label": "Homepage: first feed title", "default": "Fresh picks" },
+    { "type": "text", "id": "under_title", "label": "Second feed title", "default": "Under $20" },
+    { "type": "number", "id": "under_price", "label": "Second feed: price limit", "default": 20 }
+  ]
+}
+{% endschema %}

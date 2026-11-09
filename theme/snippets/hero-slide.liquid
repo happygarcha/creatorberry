@@ -1,0 +1,26 @@
+{%- comment -%} Usage: render 'hero-slide', product: product, label: 'New', sub: 'text', n: 0 {%- endcomment -%}
+<article class="slide{% if n == 0 %} is-active{% endif %}" data-hue="{{ n | times: 61 | plus: 340 | modulo: 360 }}" data-slide="{{ n }}"{% if n != 0 %} aria-hidden="true"{% endif %}>
+  <div class="hero-copy stagger">
+    <p class="eyebrow">{{ label }}</p>
+    <h2 class="hero-h">{{ product.title }}</h2>
+    <p class="hero-sub">{{ sub }}</p>
+    <div class="hero-actions"><a class="btn primary" href="{{ product.url }}"{% if n != 0 %} tabindex="-1"{% endif %}>{{ 'home.open' | t }}</a></div>
+  </div>
+  <div class="hero-art">
+    <figure class="ph">
+      {%- assign lead = product.featured_image -%}
+      {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
+      {%- if lead -%}
+        {%- comment -%} Only the first slide competes for bandwidth: it is eager and high priority. Hidden slides keep their URL in data-src/data-srcset and theme.js starts loading them on first interaction or after 15 s, so they never compete with the first image (lazy alone does not help: stacked slides all sit inside the viewport). The hero shows at most 320 CSS px wide. {%- endcomment -%}
+        {%- if n == 0 -%}
+          {{ lead | image_url: width: 640 | image_tag: loading: 'eager', fetchpriority: 'high', decoding: 'async', widths: '320, 480, 640, 960', sizes: '(min-width: 457px) 320px, 70vw', alt: '' }}
+        {%- else -%}
+          {%- capture slide_tag -%}{{ lead | image_url: width: 640 | image_tag: loading: 'lazy', fetchpriority: 'low', decoding: 'async', widths: '320, 480, 640, 960', sizes: '(min-width: 457px) 320px, 70vw', alt: '' }}{%- endcapture -%}
+          {{ slide_tag | replace: ' srcset="', ' data-defer data-srcset="' | replace: ' src="', ' data-src="' }}
+          <noscript>{{ slide_tag }}</noscript>
+        {%- endif -%}
+      {%- endif -%}
+    </figure>
+    <p class="hero-price">{% render 'price', product: product %}</p>
+  </div>
+</article>

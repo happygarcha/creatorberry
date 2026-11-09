@@ -1,0 +1,29 @@
+{%- comment -%}
+  Star rating from real review data only. Reads Judge.me's badge metafield (product.metafields.judgeme.badge)
+  or the standard product.metafields.reviews.rating / rating_count pair. Prints nothing when a product has no reviews,
+  so no stars are ever shown that customers did not give.
+  Usage: render 'rating-stars', product: product, link: '#reviews' (link optional), show_empty: true (draw five empty stars when there are no reviews yet; off by default)
+{%- endcomment -%}
+{%- assign rv_count = 0 -%}
+{%- assign rv_avg = 0 -%}
+{%- if product.metafields.reviews.rating_count != blank -%}
+  {%- assign rv_count = product.metafields.reviews.rating_count.value | plus: 0 -%}
+  {%- assign rv_avg = product.metafields.reviews.rating.value.value | plus: 0 -%}
+{%- elsif product.metafields.judgeme.badge != blank -%}
+  {%- assign jb = product.metafields.judgeme.badge -%}
+  {%- assign rv_count = jb | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 -%}
+  {%- assign rv_avg = jb | split: "data-average-rating='" | last | split: "'" | first | plus: 0 -%}
+{%- endif -%}
+{%- if rv_count > 0 and rv_avg > 0 -%}
+  {%- assign rv_pct = rv_avg | divided_by: 5.0 | times: 100 | round: 1 | at_most: 100 -%}
+  {%- assign rv_shown = rv_avg | round: 1 -%}
+  {%- capture rv_label -%}{{ 'product.rating_label' | t: rating: rv_shown, count: rv_count }}{%- endcapture -%}
+  {%- if link != blank -%}<a class="rating" href="{{ link }}">{%- else -%}<span class="rating">{%- endif -%}
+    <span class="stars" style="--r: {{ rv_pct }}%" role="img" aria-label="{{ rv_label | escape }}"><span aria-hidden="true">★★★★★</span></span>
+    <span class="rating-n" aria-hidden="true">{{ rv_shown }} ({{ rv_count }})</span>
+  {%- if link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+{%- elsif show_empty -%}
+  {%- if link != blank -%}<a class="rating is-empty" href="{{ link }}">{%- else -%}<span class="rating is-empty">{%- endif -%}
+    <span class="stars" style="--r: 0%" aria-hidden="true"><span>★★★★★</span></span><span class="rating-n">{{ 'product.no_reviews' | t }}</span>
+  {%- if link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+{%- endif -%}

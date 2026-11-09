@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b14">
+  <title>{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
+  {% if page_description != blank %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {% render 'seo-meta' %}
+  {{ 'inter.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: '' }}
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    @font-face { font-family: "Inter"; src: url("{{ 'inter.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: "Archivo"; src: url("{{ 'archivo.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+  </style>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="template-{{ request.page_type | handle }}">
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <a class="skip" href="#main">{{ 'general.skip' | t }}</a>
+
+  <header class="topbar" data-topbar>
+    {%- if settings.announcement != blank -%}<p class="announce">{{ settings.announcement | escape }}</p>{%- else -%}<span></span>{%- endif -%}
+    <div class="topbar-actions">
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </a>
+      <a class="cart-btn" href="{{ routes.cart_url }}" data-open-cart>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>
+        <span class="cart-label">{{ 'general.cart' | t }}</span>
+        <span data-cart-count>{{ cart.item_count }}</span>
+        <span class="cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="side left" aria-label="Browse">
+      <a class="brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
+      {%- comment -%} The sidebar search box is for shopping pages only: home, rooms, product, search and cart. Policy, contact, about and other info pages go without it. {%- endcomment -%}
+      {%- case request.page_type -%}
+        {%- when 'index', 'collection', 'list-collections', 'product', 'search', 'cart' -%}
+        <form class="search" action="{{ routes.search_url }}" method="get" role="search" data-hint="{{ 'search.hint' | t }}">
+          <label class="sr-only" for="q">{{ 'general.search' | t }}</label>
+          <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search' | t }}" autocomplete="off">
+          <input type="hidden" name="type" value="product">
+          <button class="search-go" type="submit" aria-label="{{ 'general.search_go' | t }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+      {%- endcase -%}
+      <nav aria-label="{{ 'general.rooms' | t }}">
+        <p class="eyebrow">{{ 'general.rooms' | t }}</p>
+        <ul class="rooms">
+          {%- for link in linklists['main-menu'].links -%}
+            {%- if link.type == 'collection_link' or link.links.size > 0 -%}
+              {%- assign open = false -%}
+              {%- if link.active or link.child_active -%}{%- assign open = true -%}{%- endif -%}
+              <li class="room{% if link.links.size > 0 %} has-sub{% endif %}{% if open %} is-open{% endif %}" style="--k: {{ forloop.index0 }}">
+                <div class="room-row">
+                  <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
+                  {%- if link.links.size > 0 -%}
+                    <button type="button" class="sub-toggle" aria-expanded="{{ open }}" aria-controls="sub-{{ forloop.index }}" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><span aria-hidden="true"></span></button>
+                  {%- endif -%}
+                </div>
+                {%- if link.links.size > 0 -%}
+                  <div class="sub-wrap" id="sub-{{ forloop.index }}">
+                    <ul class="sub">
+                      {%- for child in link.links -%}
+                        <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {%- comment -%} Phones: the open room's sections as a second row of chips {%- endcomment -%}
+        {%- for link in linklists['main-menu'].links -%}
+          {%- if link.links.size > 0 -%}
+            {%- if link.active or link.child_active -%}
+              <ul class="subrow" aria-label="{{ link.title }}">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </aside>
+
+    <main id="main" class="main">
+      {%- unless request.page_type == 'index' -%}
+        <a class="back-home" href="{{ routes.root_url }}"><span aria-hidden="true">&larr;</span> {{ 'general.back_home' | t }}</a>
+      {%- endunless -%}
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'side-feeds' %}
+  </div>
+
+  <footer class="site-foot">
+    <div class="foot-in">
+    {%- if settings.social_facebook != blank or settings.social_instagram != blank or settings.social_pinterest != blank or settings.social_tiktok != blank or settings.social_youtube != blank -%}
+      <ul class="soc" aria-label="{{ 'general.social' | t }}">
+        {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" rel="noopener" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a></li>{%- endif -%}
+        {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" rel="noopener" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></li>{%- endif -%}
+        {%- if settings.social_pinterest != blank -%}<li><a href="{{ settings.social_pinterest }}" rel="noopener" target="_blank" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg></a></li>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" rel="noopener" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a></li>{%- endif -%}
+        {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" rel="noopener" target="_blank" aria-label="YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a></li>{%- endif -%}
+      </ul>
+    {%- endif -%}
+    {%- form 'customer', class: 'news' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="news-email">{{ 'general.news_title' | t }}</label>
+      <div class="news-row">
+        <input id="news-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'general.news_placeholder' | t }}">
+        <button type="submit" class="btn">{{ 'general.news_button' | t }}</button>
+      </div>
+      <p class="fine">{{ 'general.news_consent' | t }}</p>
+      {%- if form.posted_successfully? -%}<p class="fine news-ok" role="status">{{ 'general.news_thanks' | t }}</p>{%- endif -%}
+      {%- if form.errors -%}<p class="fine news-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    {%- endform -%}
+    </div>
+    <div class="foot-bar">
+    <nav aria-label="{{ 'general.footer_nav' | t }}">
+      <ul class="foot-links">
+        {%- assign seen = '' -%}
+        {%- for link in linklists['main-menu'].links -%}
+          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
+            {%- unless seen contains link.url -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- assign seen = seen | append: link.url | append: '|' -%}
+            {%- endunless -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- for link in linklists['footer'].links -%}
+          {%- unless seen contains link.url -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- assign seen = seen | append: link.url | append: '|' -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+      {% render 'policy-links' %}
+      <p class="fine">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+    </div>
+  </footer>
+
+  <dialog class="quick" id="quick" aria-label="{{ 'general.quick_view' | t }}">
+    <div class="quick-in" id="quick-in"></div>
+  </dialog>
+
+  <button type="button" class="to-top" data-to-top aria-label="{{ 'general.back_to_top' | t }}" tabindex="-1" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+  </button>
+
+  {% render 'cart-drawer' %}
+  <script src="{{ 'motion.js' | asset_url }}" defer></script>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

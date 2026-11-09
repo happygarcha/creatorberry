@@ -1,0 +1,228 @@
+{%- comment -%}
+  Social preview tags and structured data. Only facts the store already shows: the product's own title, description, images, price and stock,
+  and the business details published on the Contact page. No ratings or reviews are output (none exist yet).
+{%- endcomment -%}
+<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | escape }}">
+{%- if page_description != blank -%}<meta property="og:description" content="{{ page_description | escape }}">{%- endif -%}
+{%- if template contains 'product' -%}
+  <meta property="og:type" content="product">
+  {%- if product.featured_image -%}<meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https:', 'https:' }}">{%- endif -%}
+  <meta property="product:price:amount" content="{{ product.price | divided_by: 100.0 }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+{%- else -%}
+  <meta property="og:type" content="website">
+  {%- if collection.image -%}<meta property="og:image" content="{{ collection.image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https:', 'https:' }}">
+  {%- elsif collection.products.first.featured_image -%}<meta property="og:image" content="{{ collection.products.first.featured_image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https:', 'https:' }}">
+  {%- elsif request.page_type == 'index' and collections.all.products.first.featured_image -%}<meta property="og:image" content="{{ collections.all.products.first.featured_image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https:', 'https:' }}">{%- endif -%}
+{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="en_CA">
+{%- liquid
+  assign seo_noindex = false
+  if template contains 'collection' and collection != blank
+    if collection.products_count == 0 or collection.handle == 'frontpage'
+      assign seo_noindex = true
+    endif
+  endif
+  if page.handle == 'shipping-policy' or page.handle == 'refund-policy' or page.handle == 'terms-of-service'
+    assign seo_noindex = true
+  endif
+-%}
+{%- if seo_noindex -%}<meta name="robots" content="noindex, follow">{%- endif -%}
+
+{%- if request.page_type == 'index' -%}
+{%- capture search_target -%}{{ shop.url }}{{ routes.search_url }}?q={search_term_string}{%- endcapture -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": {{ shop.url | append: '/#organization' | json }},
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "sameAs": ["https://www.pinterest.com/drapewell1/"],
+      "email": "happygarcha2018@hotmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "12088 75A Ave",
+        "addressLocality": "Surrey",
+        "addressRegion": "BC",
+        "postalCode": "V3W 1Y4",
+        "addressCountry": "CA"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "happygarcha2018@hotmail.com",
+        "areaServed": ["CA", "US"],
+        "availableLanguage": "English",
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": {{ shop.url | append: '/#website' | json }},
+      "url": {{ shop.url | json }},
+      "name": {{ shop.name | json }},
+      "publisher": { "@id": {{ shop.url | append: '/#organization' | json }} },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ search_target | json }},
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+{%- endif -%}
+
+{%- if page.handle == 'about' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Where is Drapewell based?", "acceptedAnswer": { "@type": "Answer", "text": "Drapewell is an online store based in Surrey, British Columbia, Canada. Our address is 12088 75A Ave, Surrey, BC V3W 1Y4." } },
+    { "@type": "Question", "name": "What does Drapewell sell?", "acceptedAnswer": { "@type": "Answer", "text": "Home textiles and decor (shower curtains, bath mats, towels, rugs, table runners, wall art, Christmas and autumn decor), outdoors items, pet supplies, desk and hobby items, and fashion accessories." } },
+    { "@type": "Question", "name": "Where do you ship, and what currency are prices in?", "acceptedAnswer": { "@type": "Answer", "text": "We ship to Canada and the United States. All prices are in Canadian dollars (CAD)." } },
+    { "@type": "Question", "name": "How much is shipping?", "acceptedAnswer": { "@type": "Answer", "text": "Shipping is calculated by weight at checkout. Rates start from CA$9.99 for Canada and CA$12.99 for the United States." } },
+    { "@type": "Question", "name": "How long does delivery take?", "acceptedAnswer": { "@type": "Answer", "text": "Estimated total delivery time, counted from the day you order and including 3-5 calendar days of processing, is 13-25 days to Canada and 10-20 days to the United States. Every order ships with tracking." } },
+    { "@type": "Question", "name": "Will I pay import duties on a US order?", "acceptedAnswer": { "@type": "Answer", "text": "Import duties for US orders are included in the shipping charge." } },
+    { "@type": "Question", "name": "Can I return or exchange an item?", "acceptedAnswer": { "@type": "Answer", "text": "We do not accept change-of-mind returns or exchanges. If an item arrives damaged, defective or incorrect, or is lost, contact us within 30 days of delivery for a replacement or refund. Please do not mail items back unless we give you written instructions. Approved refunds go to the original payment method within 5 business days of approval." } },
+    { "@type": "Question", "name": "How do I contact Drapewell, and when is support available?", "acceptedAnswer": { "@type": "Answer", "text": "Email happygarcha2018@hotmail.com. Support hours are Monday to Friday, 9:00 AM to 5:00 PM Pacific. We may also reply outside these hours, and we reply within 1 business day." } }
+  ]
+}
+</script>
+{%- endif -%}
+
+{%- if page.handle == 'faq' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Where does Drapewell ship?", "acceptedAnswer": { "@type": "Answer", "text": "We ship to Canada and the United States. Prices are in Canadian dollars (CAD)." } },
+    { "@type": "Question", "name": "How much is shipping?", "acceptedAnswer": { "@type": "Answer", "text": "Shipping is calculated by order weight and shown at checkout before you pay. Rates start from CA$9.99 to Canada and CA$12.99 to the United States." } },
+    { "@type": "Question", "name": "How long does delivery take?", "acceptedAnswer": { "@type": "Answer", "text": "Estimated total time from the day you order is 13–25 days to Canada and 10–20 days to the United States. That includes 3–5 calendar days of processing. These are estimates, not guarantees, and carriers, customs and weather can add time." } },
+    { "@type": "Question", "name": "Where is my order shipped from?", "acceptedAnswer": { "@type": "Answer", "text": "Orders are made and dispatched by our supplier partners and shipped directly to you. They aren't shipped from our Surrey office, so please don't send anything to that address." } },
+    { "@type": "Question", "name": "Will my order arrive in one parcel?", "acceptedAnswer": { "@type": "Answer", "text": "Not always. Items in the same order can arrive in separate parcels when they are dispatched from different facilities. You won't pay extra shipping because an order is split." } },
+    { "@type": "Question", "name": "Do I pay import duties?", "acceptedAnswer": { "@type": "Answer", "text": "Import duties and customs fees on US orders are included in your shipping charge. For Canadian orders, any applicable taxes are shown at checkout." } },
+    { "@type": "Question", "name": "Does my order have tracking?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every order ships with tracking, and you get the tracking number by email once it ships." } },
+    { "@type": "Question", "name": "Why does tracking show nothing?", "acceptedAnswer": { "@type": "Answer", "text": "Tracking can show little or no movement for the first 5–8 days while the parcel moves through the export network. That's normal." } },
+    { "@type": "Question", "name": "What if my order hasn't arrived?", "acceptedAnswer": { "@type": "Answer", "text": "If tracking hasn't moved for 15 days, or you're more than 10 days past the estimated delivery window, email us with your order number. If the carrier confirms the parcel is lost, you can choose a replacement or a refund." } },
+    { "@type": "Question", "name": "Can I return or exchange an item?", "acceptedAnswer": { "@type": "Answer", "text": "We don't accept change-of-mind returns or exchanges. We will replace or refund an order that is lost, damaged, defective, materially different from its description, or not the item you ordered." } },
+    { "@type": "Question", "name": "What if something arrives damaged or wrong?", "acceptedAnswer": { "@type": "Answer", "text": "Email us within 30 days of delivery with your order number, a description of the problem, and clear photos of the item and packaging. You don't need to send anything back unless we give you written instructions." } },
+    { "@type": "Question", "name": "How long do refunds take?", "acceptedAnswer": { "@type": "Answer", "text": "Approved refunds go to your original payment method within 5 business days of approval. Your bank may need extra time to show it." } },
+    { "@type": "Question", "name": "Can I cancel my order?", "acceptedAnswer": { "@type": "Answer", "text": "Email us as soon as possible. We can cancel and refund an order that hasn't started processing. After processing begins we can't guarantee a cancellation." } },
+    { "@type": "Question", "name": "What if I chose the wrong size or colour?", "acceptedAnswer": { "@type": "Answer", "text": "Because of the no-change-of-mind policy, please check the measurements, colour and selected option before you order. Each product page lists sizes and what's included." } },
+    { "@type": "Question", "name": "Where is Drapewell based?", "acceptedAnswer": { "@type": "Answer", "text": "Drapewell is an online store based in Surrey, British Columbia, Canada." } },
+    { "@type": "Question", "name": "How do I contact you?", "acceptedAnswer": { "@type": "Answer", "text": "Email happygarcha2018@hotmail.com. Support hours are Monday to Friday, 9:00 AM to 5:00 PM Pacific. We reply within 1 business day, and sometimes outside those hours. Please include your order number." } }
+  ]
+}
+</script>
+{%- endif -%}
+
+{%- if template contains 'product' and product != blank -%}
+{%- comment -%}
+  Shipping rates mirror the weight bands in snippets/ship-estimate.liquid (variant weight in grams). Transit times are the published
+  total delivery windows (Canada 13-25 days, US 10-20 days) minus the 3-5 day processing time. Returns follow the Refund Policy: no change-of-mind returns.
+  Shopify Collective items are skipped: the brand sets their shipping and returns, so no shipping or return data is stated for them.
+{%- endcomment -%}
+{%- capture seo_desc -%}{{ product.description | replace: '</', ' </' | replace: '<br>', ' ' | replace: '<br/>', ' ' | strip_html | strip_newlines | replace: '&amp;', '&' | replace: '&nbsp;', ' ' | replace: '  ', ' ' | strip | truncate: 480 }}{%- endcapture -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ seo_desc | json }},
+  "url": {{ canonical_url | json }},
+  "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+  "image": [
+    {%- for image in product.images limit: 6 -%}{{ image | image_url: width: 1200 | prepend: 'https:' | replace: 'https:https:', 'https:' | json }}{% unless forloop.last %}, {% endunless %}{%- endfor -%}
+  ],
+  "offers": [
+    {%- for variant in product.variants -%}
+    {%- liquid
+      assign w = variant.weight
+      assign ca_rate = blank
+      assign us_rate = blank
+      if w > 0
+        if w <= 300
+          assign ca_rate = 9.99
+          assign us_rate = 12.99
+        elsif w <= 600
+          assign ca_rate = 14.99
+          assign us_rate = 18.99
+        elsif w <= 900
+          assign ca_rate = 19.99
+          assign us_rate = 24.99
+        elsif w <= 1200
+          assign ca_rate = 24.99
+          assign us_rate = 30.99
+        elsif w <= 2000
+          assign ca_rate = 36.99
+          assign us_rate = 46.99
+        elsif w <= 3000
+          assign ca_rate = 59.99
+          assign us_rate = 74.99
+        endif
+      endif
+    -%}
+    {
+      "@type": "Offer",
+      "url": {{ shop.url | append: product.url | append: '?variant=' | append: variant.id | json }},
+      "sku": {{ variant.sku | json }},
+      "price": {{ variant.price | divided_by: 100.0 | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "availability": "{% if variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+      {%- unless product.tags contains 'Shopify Collective' -%},
+      "shippingDetails": [
+        {
+          "@type": "OfferShippingDetails",
+          {%- if ca_rate != blank %}
+          "shippingRate": { "@type": "MonetaryAmount", "value": {{ ca_rate }}, "currency": "CAD" },
+          {%- endif %}
+          "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "CA" },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": { "@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY" },
+            "transitTime": { "@type": "QuantitativeValue", "minValue": 10, "maxValue": 20, "unitCode": "DAY" }
+          }
+        },
+        {
+          "@type": "OfferShippingDetails",
+          {%- if us_rate != blank %}
+          "shippingRate": { "@type": "MonetaryAmount", "value": {{ us_rate }}, "currency": "CAD" },
+          {%- endif %}
+          "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "US" },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": { "@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY" },
+            "transitTime": { "@type": "QuantitativeValue", "minValue": 7, "maxValue": 15, "unitCode": "DAY" }
+          }
+        }
+      ],
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": ["CA", "US"],
+        "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"{% if shop.refund_policy.url != blank %},
+        "merchantReturnLink": {{ shop.refund_policy.url | json }}{% endif %}
+      }
+      {%- endunless %}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}

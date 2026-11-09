@@ -1,0 +1,17 @@
+{%- comment -%}
+  Reviews block. Reviews are stored per product by Judge.me (installed on the store), which keeps the database,
+  review-request emails and moderation. This block shows the stars, an invitation when there are no reviews yet,
+  and a button that opens Judge.me's own write-a-review form. Nothing here is placeholder or invented.
+{%- endcomment -%}
+{%- capture rv_stars -%}{% render 'rating-stars', product: product, link: '' %}{%- endcapture -%}
+{%- assign rv_has = false -%}
+{%- if rv_stars contains 'class="rating"' -%}{%- assign rv_has = true -%}{%- endif -%}
+<section class="reviews{% unless rv_has %} is-empty{% endunless %}" id="reviews" aria-labelledby="reviews-h" data-reviews>
+  <h2 id="reviews-h" class="eyebrow">{{ 'product.reviews' | t }}</h2>
+  <div class="rv-head">
+    {%- if rv_has -%}{% render 'rating-stars', product: product, show_empty: true %}{%- endif -%}
+    <button type="button" class="btn rv-write" data-write-review hidden>{{ 'product.write_review' | t }}</button>
+  </div>
+  <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ product.metafields.judgeme.widget }}</div>
+  <p class="reviews-soon" data-reviews-soon hidden>{{ 'product.reviews_soon' | t }}</p>
+</section>

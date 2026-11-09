@@ -1,0 +1,7 @@
+{%- layout none -%}
+{%- comment -%} Plain-text endpoint (/cart?view=quick) used by theme.js. It returns the quick-checkout discount code only when this shopper's cart really holds 2 or more items from the buy-2-save-10 collection; otherwise it returns nothing. The code itself is stored in the shop metafield custom.quick_code (set in Shopify, not in this repo). {%- endcomment -%}
+{%- assign offer_qty = 0 -%}
+{%- for item in cart.items -%}
+  {%- for c in item.product.collections -%}{%- if c.handle == 'buy-2-save-10' -%}{%- assign offer_qty = offer_qty | plus: item.quantity -%}{%- break -%}{%- endif -%}{%- endfor -%}
+{%- endfor -%}
+{%- if offer_qty >= 2 -%}{{- shop.metafields.custom.quick_code.value -}}{%- endif -%}

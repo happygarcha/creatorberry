@@ -1,0 +1,27 @@
+{%- comment -%} Usage: render 'offer-flag', product: product, mode: 'badge' | 'panel'. The offer is driven by the "buy-2-save-10" collection: add or remove a product there and the badge, the product-page panel and the suggestions follow. The matching automatic discount ("Buy 2 Save 10%") is set up in Shopify admin; keep this wording the same as the discount. {%- endcomment -%}
+{%- assign offer_handle = 'buy-2-save-10' -%}
+{%- assign in_offer = false -%}
+{%- if product.collections.size > 0 -%}
+  {%- for c in product.collections -%}{%- if c.handle == offer_handle -%}{%- assign in_offer = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
+{%- if in_offer -%}
+  {%- if mode == 'badge' -%}
+    <span class="offer-badge">Buy 2, save 10%</span>
+  {%- elsif mode == 'panel' -%}
+    {%- assign offer_col = collections[offer_handle] -%}
+    <aside class="offer-box" aria-labelledby="offer-h">
+      <p id="offer-h" class="offer-h">Buy 2, save 10%</p>
+      <p class="offer-p">Add any 2 items from this offer to your cart and 10% comes off automatically at checkout. You can mix pet and bath items. Shipping is not discounted.</p>
+      {%- assign shown = 0 -%}
+      <ul class="offer-list">
+        {%- for p in offer_col.products -%}
+          {%- if p.handle != product.handle and p.available and shown < 4 -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li><a href="{{ p.url }}">{% if p.featured_image %}{{ p.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '80, 120', sizes: '56px', alt: '' }}{% endif %}<span class="o-t">{{ p.title | truncate: 48 }}</span><span class="o-p">{{ p.price | money }}</span></a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <a class="offer-all" href="{{ offer_col.url }}">See all items in this offer</a>
+    </aside>
+  {%- endif -%}
+{%- endif -%}

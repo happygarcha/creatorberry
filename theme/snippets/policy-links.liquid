@@ -1,0 +1,8 @@
+{%- comment -%} Links to the store policies set up in Shopify admin (Settings > Policies). Contact information is left out: the Contact page in the footer menu covers it. {%- endcomment -%}
+{%- if shop.policies.size > 0 -%}
+  <ul class="pol-links">
+    {%- for policy in shop.policies -%}
+      {%- unless policy.title == 'Contact' or policy.url contains 'contact-information' -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endunless -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

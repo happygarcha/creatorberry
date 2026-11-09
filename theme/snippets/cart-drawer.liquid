@@ -1,0 +1,23 @@
+<dialog class="cart" id="cart-drawer" aria-label="{{ 'general.cart' | t }}">
+  <div class="cart-in">
+    <header>
+      <h2>{{ 'general.cart' | t }}</h2>
+      <button type="button" class="x" data-close-cart aria-label="{{ 'general.close' | t }}">{{ 'general.close' | t }}</button>
+    </header>
+    <div class="cart-body">
+      {% render 'offer-nudge', id: 'offer-nudge' %}
+      <div class="cart-lines" id="cart-lines"></div>
+      <section class="upsell" id="cart-up" aria-labelledby="cart-up-h" data-add-txt="{{ 'general.upsell_add' | t }}" data-choose-txt="{{ 'general.upsell_choose' | t }}" hidden>
+        <h3 id="cart-up-h" class="eyebrow">{{ 'general.upsell' | t }}</h3>
+        <ul class="up-list" id="cart-up-list"></ul>
+      </section>
+    </div>
+    <footer>
+      <div class="sub"><span>{{ 'general.subtotal' | t }}</span><span id="cart-sub">{{ cart.total_price | money }}</span></div>
+      <p class="fine">{{ 'general.shipping_note' | t }}</p>
+      <a class="co" id="cart-co" href="{{ routes.cart_url }}">{{ 'general.checkout' | t }}</a>
+    {% render 'checkout-strip' %}
+      <button type="button" class="keep" data-close-cart>{{ 'general.keep_shopping' | t }}</button>
+    </footer>
+  </div>
+</dialog>

@@ -1,0 +1,14 @@
+{%- comment -%} Usage: render 'offer-nudge', id: 'offer-nudge-page'. Progress toward the Buy 2, save 10% offer (collection buy-2-save-10). Server-renders the current state from the cart; theme.js repaints the drawer copy after every cart change. Wording matches the automatic discount in Shopify admin. {%- endcomment -%}
+{%- assign offer_col = collections['buy-2-save-10'] -%}
+{%- assign offer_qty = 0 -%}
+{%- if offer_col.products_count > 0 -%}
+  {%- for item in cart.items -%}
+    {%- for c in item.product.collections -%}{%- if c.handle == 'buy-2-save-10' -%}{%- assign offer_qty = offer_qty | plus: item.quantity -%}{%- break -%}{%- endif -%}{%- endfor -%}
+  {%- endfor -%}
+{%- endif -%}
+<div class="offer-nudge" id="{{ id | default: 'offer-nudge' }}" data-offer-ids="{% for p in offer_col.products %}{{ p.id }}{% unless forloop.last %},{% endunless %}{% endfor %}" data-offer-url="{{ offer_col.url }}" data-unlocked="{% if offer_qty >= 2 %}1{% else %}0{% endif %}"{% if offer_qty == 0 %} hidden{% endif %}>
+  <p class="on-t" data-on-text>{% if offer_qty >= 2 %}Offer unlocked: 10% off your offer items is applied at checkout.{% else %}Add 1 more offer item to save 10%.{% endif %}</p>
+  <div class="on-bar" role="progressbar" aria-valuemin="0" aria-valuemax="2" aria-valuenow="{% if offer_qty > 2 %}2{% else %}{{ offer_qty }}{% endif %}" aria-label="Progress to Buy 2, save 10%"><span data-on-fill style="width: {% if offer_qty >= 2 %}100{% elsif offer_qty == 1 %}50{% else %}0{% endif %}%"></span></div>
+  <p class="on-q" data-on-q hidden></p>
+  <a class="on-a" data-on-link href="{{ offer_col.url }}"{% if offer_qty >= 2 %} hidden{% endif %}>See items in this offer</a>
+</div>

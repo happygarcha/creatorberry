@@ -1,0 +1,95 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+-%}
+{% render 'breadcrumbs' %}
+<div class="pdp" data-product>
+  <div class="gallery">
+    <figure class="ph tall" data-main-image style="view-transition-name: pv-{{ product.handle }}">
+      {%- if product.featured_media -%}{{ product.featured_media.preview_image | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(min-width: 900px) 46vw, 92vw', alt: product.featured_media.alt | default: product.title }}{%- endif -%}
+    </figure>
+    {%- assign product_video = product.media | where: 'media_type', 'video' | first -%}
+    {%- if product_video -%}
+      <div class="vid-pane" data-video-pane role="group" aria-label="Product video" hidden>
+        {{- product_video | video_tag: image_size: '1200x', controls: true, preload: 'metadata', playsinline: true -}}
+      </div>
+    {%- endif -%}
+    {%- if product.media.size > 1 -%}
+      <ul class="thumbs">
+        {%- for media in product.media limit: 9 -%}
+          {%- if media.media_type == 'image' -%}
+            <li><button type="button" data-thumb="{{ media | image_url: width: 1200 }}" aria-label="{{ 'product.photo' | t }} {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">{{ media | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}</button></li>
+          {%- elsif media.media_type == 'video' and media.id == product_video.id -%}
+            <li><button type="button" class="vt" data-thumb-video aria-label="Play product video" aria-current="false">{{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}<span class="vt-play" aria-hidden="true"></span></button></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {%- if product.description != blank -%}<div class="desc">{{ product.description }}</div>{%- endif -%}
+  </div>
+
+  <div class="buy stagger">
+    <p class="eyebrow">{{ product.type | default: product.vendor }}</p>
+    <h1>{{ product.title }}</h1>
+    {% render 'rating-stars', product: product, link: '#reviews', show_empty: true %}
+    <p class="p-price" data-price>{{ current.price | money }}{% if current.compare_at_price > current.price %}<s class="was">{{ current.compare_at_price | money }}</s><span class="off">-{{ current.compare_at_price | minus: current.price | times: 100 | divided_by: current.compare_at_price }}%</span>{% endif %}</p>
+    {%- if product.price_varies -%}<p class="fine price-note">{{ 'product.price_varies' | t }}</p>{%- endif -%}
+    {%- assign is_collective = false -%}
+    {%- if product.tags contains 'Shopify Collective' -%}{%- assign is_collective = true -%}{%- endif -%}
+    {% render 'offer-flag', product: product, mode: 'panel' %}
+    {% render 'ship-estimate', weight: current.weight, scope: 'item', collective: is_collective, vendor: product.vendor %}
+
+    {%- form 'product', product, id: 'product-form' -%}
+      <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <fieldset class="opt-group">
+            <legend>{{ option.name }}</legend>
+            <div class="chips">
+              {%- for value in option.values -%}
+                <label class="chipb">
+                  <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}" data-option="{{ option.position }}"{% if option.selected_value == value %} checked{% endif %}>
+                  <span>{{ value }}</span>
+                </label>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      {%- endunless -%}
+      {% render 'size-guide', product: product %}
+      <div class="addrow">
+        <div class="stepper" role="group" aria-label="{{ 'product.quantity' | t }}">
+          <button type="button" data-qty-less aria-label="{{ 'product.fewer' | t }}">−</button>
+          <input class="sr-only" type="number" name="quantity" value="1" min="1" max="9" data-qty-input aria-label="{{ 'product.quantity' | t }}">
+          <output data-qty-out>1</output>
+          <button type="button" data-qty-more aria-label="{{ 'product.more' | t }}">+</button>
+        </div>
+        <button type="submit" class="btn primary" data-add{% unless current.available %} disabled{% endunless %}>{% if current.available %}{{ 'product.add' | t }}{% else %}{{ 'general.sold_out' | t }}{% endif %}</button>
+      </div>
+      <p class="msg" data-msg role="status" aria-live="polite"></p>
+    {%- endform -%}
+
+    {% render 'trust-row', collective: is_collective, vendor: product.vendor %}
+    {%- if product.type == 'Shower Curtain' -%}
+      <p class="fine mat-note">Not sure which material suits you? <a href="/pages/shower-curtain-materials">Compare PEVA, polyester and PVC-free shower curtains</a>. The material of this curtain is named in the description above.</p>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% render 'reviews', product: product %}
+
+<div class="sticky-atc" data-sticky hidden>
+  <div class="sa-t"><span class="sa-n">{{ product.title }}</span><span class="sa-p" data-sticky-price>{{ current.price | money }}</span></div>
+  <button type="submit" form="product-form" class="btn primary" data-sticky-btn{% unless current.available %} disabled{% endunless %}>{% if current.available %}{{ 'product.add' | t }}{% else %}{{ 'general.sold_out' | t }}{% endif %}</button>
+</div>
+
+<section class="recent" data-recent hidden aria-labelledby="recent-h">
+  <h2 id="recent-h" class="eyebrow">{{ 'general.recent' | t }}</h2>
+  <div class="recent-row" data-recent-row></div>
+</section>
+
+<script type="application/json" data-product-json>{{ product | json }}</script>
+
+{% schema %}
+{ "name": "Product" }
+{% endschema %}

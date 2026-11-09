@@ -1,0 +1,26 @@
+{%- comment -%} Usage: render 'product-card', product: product, index: forloop.index0, eager: 2. Only the first `eager` cards load immediately (and only the very first at high priority); everything else is lazy. Leave eager out when the cards sit below a hero. {%- endcomment -%}
+<div class="cell" data-price="{{ product.price }}" data-title="{{ product.title | escape }}" data-new="{{ product.published_at | date: '%s' }}">
+  <a class="card" href="{{ product.url }}" style="--i: {{ index | default: 0 | at_most: 14 }}">
+    <figure class="ph" style="view-transition-name: pv-{{ product.handle }}">
+      {%- assign lead = product.featured_image -%}
+      {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
+      {%- if lead -%}
+        {%- assign card_index = index | default: 99 -%}
+        {%- assign eager_n = eager | default: 0 -%}
+        {%- if card_index < eager_n -%}{%- assign card_loading = 'eager' -%}{%- else -%}{%- assign card_loading = 'lazy' -%}{%- endif -%}
+        {%- if card_index == 0 and eager_n > 0 -%}{%- assign card_prio = 'high' -%}{%- else -%}{%- assign card_prio = 'auto' -%}{%- endif -%}
+        {{ lead | image_url: width: 700 | image_tag: loading: card_loading, fetchpriority: card_prio, widths: '300, 500, 700', sizes: '(min-width: 1500px) 20vw, (min-width: 760px) 24vw, 46vw', alt: lead.alt | default: product.title }}
+      {%- endif -%}
+      {%- if product.images.size > 1 -%}
+        {{ product.images[1] | image_url: width: 500 | image_tag: loading: 'lazy', fetchpriority: 'low', class: 'alt', widths: '300, 500', sizes: '(min-width: 1500px) 20vw, (min-width: 760px) 24vw, 46vw', alt: '' }}
+      {%- endif -%}
+      {% render 'offer-flag', product: product, mode: 'badge' %}
+    </figure>
+    <span class="t">{{ product.title }}</span>
+    {% render 'rating-stars', product: product %}
+    <span class="p">{% render 'price', product: product %}</span>
+  </a>
+  {%- if product.available -%}
+    <button type="button" class="qv" data-quick="{{ product.handle }}" aria-label="{{ 'general.quick_view' | t }}: {{ product.title | escape }}"><span aria-hidden="true">+</span></button>
+  {%- endif -%}
+</div>

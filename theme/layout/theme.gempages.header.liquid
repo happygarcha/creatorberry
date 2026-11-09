@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b14">
+  <title>{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
+  {% if page_description != blank %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {{ 'inter.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: '' }}
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    @font-face { font-family: "Inter"; src: url("{{ 'inter.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: "Archivo"; src: url("{{ 'archivo.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+  </style>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="template-{{ request.page_type | handle }}">
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <a class="skip" href="#main">{{ 'general.skip' | t }}</a>
+
+  <header class="topbar" data-topbar>
+    {%- if settings.announcement != blank -%}<p class="announce">{{ settings.announcement | escape }}</p>{%- else -%}<span></span>{%- endif -%}
+    <div class="topbar-actions">
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </a>
+      <a class="cart-btn" href="{{ routes.cart_url }}" data-open-cart>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>
+        <span class="cart-label">{{ 'general.cart' | t }}</span>
+        <span data-cart-count>{{ cart.item_count }}</span>
+        <span class="cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="side left" aria-label="Browse">
+      <a class="brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
+      <form class="search" action="{{ routes.search_url }}" method="get" role="search">
+        <label class="sr-only" for="q">{{ 'general.search' | t }}</label>
+        <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search' | t }}" autocomplete="off">
+        <input type="hidden" name="type" value="product">
+        <button class="search-go" type="submit" aria-label="{{ 'general.search_go' | t }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+      <nav aria-label="{{ 'general.rooms' | t }}">
+        <p class="eyebrow">{{ 'general.rooms' | t }}</p>
+        <ul class="rooms">
+          {%- for link in linklists['main-menu'].links -%}
+            {%- if link.type == 'collection_link' or link.links.size > 0 -%}
+              {%- assign open = false -%}
+              {%- if link.active or link.child_active -%}{%- assign open = true -%}{%- endif -%}
+              <li class="room{% if link.links.size > 0 %} has-sub{% endif %}{% if open %} is-open{% endif %}" style="--k: {{ forloop.index0 }}">
+                <div class="room-row">
+                  <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
+                  {%- if link.links.size > 0 -%}
+                    <button type="button" class="sub-toggle" aria-expanded="{{ open }}" aria-controls="sub-{{ forloop.index }}" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><span aria-hidden="true"></span></button>
+                  {%- endif -%}
+                </div>
+                {%- if link.links.size > 0 -%}
+                  <div class="sub-wrap" id="sub-{{ forloop.index }}">
+                    <ul class="sub">
+                      {%- for child in link.links -%}
+                        <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        
+        {%- for link in linklists['main-menu'].links -%}
+          {%- if link.links.size > 0 -%}
+            {%- if link.active or link.child_active -%}
+              <ul class="subrow" aria-label="{{ link.title }}">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </aside>
+
+    <main id="main" class="main">
+      {%- unless request.page_type == 'index' -%}
+        <a class="back-home" href="{{ routes.root_url }}"><span aria-hidden="true">&larr;</span> {{ 'general.back_home' | t }}</a>
+      {%- endunless -%}
+      {{ content_for_layout }}
+    </main>
+
+    
+  </div>
+
+  <footer class="site-foot">
+    <nav aria-label="{{ 'general.footer_nav' | t }}">
+      <ul class="foot-links">
+        {%- assign seen = '' -%}
+        {%- for link in linklists['main-menu'].links -%}
+          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
+            {%- unless seen contains link.url -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- assign seen = seen | append: link.url | append: '|' -%}
+            {%- endunless -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- for link in linklists['footer'].links -%}
+          {%- unless seen contains link.url -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- assign seen = seen | append: link.url | append: '|' -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+    {%- form 'customer', class: 'news' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="news-email">{{ 'general.news_title' | t }}</label>
+      <div class="news-row">
+        <input id="news-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'general.news_placeholder' | t }}">
+        <button type="submit" class="btn">{{ 'general.news_button' | t }}</button>
+      </div>
+      <p class="fine">{{ 'general.news_consent' | t }}</p>
+      {%- if form.posted_successfully? -%}<p class="fine news-ok" role="status">{{ 'general.news_thanks' | t }}</p>{%- endif -%}
+      {%- if form.errors -%}<p class="fine news-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    {%- endform -%}
+    
+    <p class="fine">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+  </footer>
+
+  <dialog class="quick" id="quick" aria-label="{{ 'general.quick_view' | t }}">
+    <div class="quick-in" id="quick-in"></div>
+  </dialog>
+
+  <button type="button" class="to-top" data-to-top aria-label="{{ 'general.back_to_top' | t }}" tabindex="-1" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+  </button>
+
+  
+  <script src="{{ 'motion.js' | asset_url }}" defer></script>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

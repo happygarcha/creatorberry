@@ -1,0 +1,37 @@
+{%- comment -%}
+  BreadcrumbList structured data only (no visible trail: the owner removed the visible breadcrumb on 2026-10-02) for product and collection pages.
+  Skips the "Home page" (frontpage) and "all" collections as a trail step.
+{%- endcomment -%}
+{%- liquid
+  assign bc_collection = blank
+  if template contains 'collection' and collection.handle != 'frontpage' and collection.handle != 'all'
+    assign bc_collection = collection
+  elsif template contains 'product'
+    if collection != blank and collection.handle != 'frontpage' and collection.handle != 'all'
+      assign bc_collection = collection
+    else
+      for c in product.collections
+        if c.handle != 'frontpage' and c.handle != 'all' and bc_collection == blank
+          assign bc_collection = c
+        endif
+      endfor
+    endif
+  endif
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ 'general.home_crumb' | t | json }}, "item": {{ shop.url | json }} }
+    {%- if bc_collection != blank and template contains 'product' -%}
+    , { "@type": "ListItem", "position": 2, "name": {{ bc_collection.title | json }}, "item": {{ shop.url | append: bc_collection.url | json }} }
+    , { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+    {%- elsif template contains 'product' -%}
+    , { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+    {%- else -%}
+    , { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ shop.url | append: collection.url | json }} }
+    {%- endif -%}
+  ]
+}
+</script>

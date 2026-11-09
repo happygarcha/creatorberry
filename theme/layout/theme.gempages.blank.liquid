@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b14">
+  <title>{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
+  {% if page_description != blank %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {{ 'inter.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: '' }}
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    @font-face { font-family: "Inter"; src: url("{{ 'inter.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: "Archivo"; src: url("{{ 'archivo.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+  </style>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="template-{{ request.page_type | handle }}"><main id="main" class="main">
+      {%- unless request.page_type == 'index' -%}
+        <a class="back-home" href="{{ routes.root_url }}"><span aria-hidden="true">&larr;</span> {{ 'general.back_home' | t }}</a>
+      {%- endunless -%}
+      {{ content_for_layout }}
+    </main></body>
+</html>

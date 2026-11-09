@@ -1,0 +1,50 @@
+{%- comment -%}
+  Size guide: lists this product's own size options (so it never disagrees with the variants) and adds
+  an approximate inch conversion when a value looks like "40 x 60 cm". Renders nothing for products without a size option.
+{%- endcomment -%}
+{%- assign size_options = '' | split: '' -%}
+{%- for option in product.options_with_values -%}
+  {%- assign oname = option.name | downcase -%}
+  {%- if oname contains 'size' or oname contains 'length' or oname contains 'dimension' -%}
+    {%- assign has_dims = false -%}
+    {%- for value in option.values -%}
+      {%- assign probe = value | split: '(' | first | downcase | remove: 'cm' | replace: '×', 'x' | replace: '*', 'x' | remove: ' ' | split: 'x' -%}
+      {%- if probe.size == 2 -%}{%- assign has_dims = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if has_dims -%}{%- assign size_options = size_options | push: option -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if size_options.size > 0 -%}
+  <details class="size-guide">
+    <summary>{{ 'product.size_guide' | t }}</summary>
+    <div class="sg-body">
+      {%- for option in size_options -%}
+        <table class="sg-table">
+          <caption class="sr-only">{{ option.name }}</caption>
+          <thead><tr><th scope="col">{{ 'product.size_guide_cm' | t }}</th><th scope="col">{{ 'product.size_guide_in' | t }}</th></tr></thead>
+          <tbody>
+            {%- for value in option.values -%}
+              {%- assign clean = value | split: '(' | first | downcase | remove: 'cm' | replace: '×', 'x' | replace: '*', 'x' | remove: ' ' -%}
+              {%- assign dims = clean | split: 'x' -%}
+              {%- assign parts = value | split: '(' -%}
+              <tr>
+                <th scope="row">{{ parts[0] | strip }}</th>
+                <td>
+                  {%- if parts.size == 2 and value contains '″' -%}{{ parts[1] | remove: ')' | strip }}
+                  {%- elsif dims.size == 2 and dims[0] != blank and dims[1] != blank -%}
+                    {{ dims[0] | times: 0.3937 | round: 1 }}″ × {{ dims[1] | times: 0.3937 | round: 1 }}″
+                  {%- else -%}&nbsp;{%- endif -%}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      {%- endfor -%}
+      <ul class="sg-tips">
+        <li>{{ 'product.size_tip_1' | t }}</li>
+        <li>{{ 'product.size_tip_2' | t }}</li>
+        <li>{{ 'product.size_tip_3' | t }}</li>
+      </ul>
+    </div>
+  </details>
+{%- endif -%}

@@ -1,0 +1,41 @@
+<header class="page-head"><div><h1>{{ 'general.search' | t }}</h1>{% if search.performed %}<p class="srch-line"><span data-count>{{ search.results_count }}</span> {% if search.results_count == 1 %}{{ 'search.result_one' | t }}{% else %}{{ 'search.results' | t }}{% endif %} “<span class="q" data-q>{{ search.terms | escape }}</span>”</p>{% endif %}</div>
+  {%- if search.performed and search.results_count > 1 -%}
+    <form class="sortbar" method="get" action="{{ routes.search_url }}">
+      <input type="hidden" name="q" value="{{ search.terms | escape }}">
+      <input type="hidden" name="type" value="product">
+      <label class="sr-only" for="sort_by">{{ 'search.sort' | t }}</label>
+      {%- assign cur_sort = search.sort_by | default: 'relevance' -%}
+      <select id="sort_by" name="sort_by">
+        <option value="relevance"{% if cur_sort == 'relevance' %} selected{% endif %}>{{ 'search.sort_relevance' | t }}</option>
+        <option value="price-ascending"{% if cur_sort == 'price-ascending' %} selected{% endif %}>{{ 'search.sort_price_asc' | t }}</option>
+        <option value="price-descending"{% if cur_sort == 'price-descending' %} selected{% endif %}>{{ 'search.sort_price_desc' | t }}</option>
+        <option value="created-descending"{% if cur_sort == 'created-descending' %} selected{% endif %}>{{ 'search.sort_newest' | t }}</option>
+      </select>
+      <noscript><button class="btn" type="submit">{{ 'search.sort' | t }}</button></noscript>
+    </form>
+  {%- endif -%}
+</header>
+{%- if search.performed -%}
+  {%- paginate search.results by 24 -%}
+    {%- if search.results_count == 0 -%}
+      <p class="empty-state"><svg class="srch-ico" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span>{{ 'search.none' | t }}</span></p>
+    {%- else -%}
+      <div class="feed">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}{% render 'product-card', product: item, index: forloop.index0 %}{%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    {%- if paginate.pages > 1 -%}
+      <nav class="pager" aria-label="{{ 'general.pagination' | t }}">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+{%- else -%}
+  <p class="empty-state"><svg class="srch-ico" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span>{{ 'search.prompt' | t }}</span></p>
+{%- endif -%}
+{% schema %}
+{ "name": "Search" }
+{% endschema %}

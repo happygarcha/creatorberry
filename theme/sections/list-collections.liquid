@@ -1,0 +1,12 @@
+<header class="page-head"><div><h1>{{ 'general.rooms' | t }}</h1></div></header>
+<div class="feed">
+  {%- for collection in collections -%}
+    <a class="card" href="{{ collection.url }}" style="--i: {{ forloop.index0 | at_most: 14 }}">
+      <figure class="ph">{% if collection.featured_image %}{{ collection.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</figure>
+      <span class="t">{{ collection.title }}</span>
+    </a>
+  {%- endfor -%}
+</div>
+{% schema %}
+{ "name": "Collection list" }
+{% endschema %}

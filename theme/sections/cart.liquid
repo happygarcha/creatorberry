@@ -1,0 +1,34 @@
+<header class="page-head"><div><h1>{{ 'general.cart' | t }}</h1></div></header>
+{%- if cart.item_count == 0 -%}
+  <p class="empty-state">{{ 'cart.empty' | t }} <a href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a></p>
+{%- else -%}
+  <form action="{{ routes.cart_url }}" method="post" class="cart-page">
+    <div>
+      {% render 'offer-nudge', id: 'offer-nudge-page' %}
+      {%- for item in cart.items -%}
+        <div class="line">
+          <div class="th">{% if item.image %}{{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% endif %}</div>
+          <div class="d">
+            <a href="{{ item.url }}">{{ item.product.title }}</a>
+            {%- unless item.product.has_only_default_variant -%}<span>{{ item.variant.title }}</span>{%- endunless -%}
+            <div class="q"><label class="sr-only" for="q-{{ item.key }}">{{ 'product.quantity' | t }}</label><input id="q-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="99" style="width:64px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);padding:0 8px">
+              <a class="rm" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a></div>
+          </div>
+          <div class="pr">{{ item.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="cart-total"><span>{{ 'general.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+    {%- assign cart_collective = false -%}
+    {%- for item in cart.items -%}{%- if item.product.tags contains 'Shopify Collective' -%}{%- assign cart_collective = true -%}{%- endif -%}{%- endfor -%}
+    {% render 'ship-estimate', weight: cart.total_weight, scope: 'cart', collective: cart_collective %}
+    <p class="fine">{{ 'general.shipping_note' | t }}</p>
+    <button type="submit" name="update" class="btn block">{{ 'cart.update' | t }}</button>
+    <button type="submit" name="checkout" class="btn primary block">{{ 'general.checkout' | t }}</button>
+    {%- if additional_checkout_buttons -%}<div class="wallets">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+    {% render 'checkout-strip', collective: cart_collective %}
+  </form>
+{%- endif -%}
+{% schema %}
+{ "name": "Cart" }
+{% endschema %}

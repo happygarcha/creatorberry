@@ -1,0 +1,33 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Drapewell Discover",
+    "theme_version": "1.0.0",
+    "theme_author": "Drapewell",
+    "theme_documentation_url": "https://github.com/happygarcha/drapewell-automation",
+    "theme_support_url": "https://github.com/happygarcha/drapewell-automation/issues"
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announcement",
+        "label": "Announcement bar",
+        "info": "Short message shown at the top left of every page. Leave empty to hide it. Only state things that are true for every order.",
+        "default": "Ships to Canada & US · 13–25 day delivery · shipping from CA$9.99"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "header", "content": "Footer icons" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook page link" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram profile link" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest profile link" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok profile link" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube channel link" }
+    ]
+  }
+]

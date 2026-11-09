@@ -1,0 +1,13 @@
+<div class="nf">
+  <p class="nf-code" aria-hidden="true"><span class="nf-d">4</span><span class="nf-d nf-o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span><span class="nf-d">4</span></p>
+  <header class="page-head"><div><h1>{{ 'general.not_found' | t }}</h1><p>{{ 'general.not_found_body' | t }}</p></div></header>
+  <form class="search nf-search" action="{{ routes.search_url }}" method="get" role="search">
+    <input type="search" name="q" placeholder="{{ 'general.search' | t }}" aria-label="{{ 'general.search' | t }}" autocomplete="off">
+    <input type="hidden" name="type" value="product">
+    <button class="search-go" type="submit" aria-label="{{ 'general.search_go' | t }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+  <p class="nf-go"><a class="btn primary" href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a></p>
+</div>
+{% schema %}
+{ "name": "Not found" }
+{% endschema %}

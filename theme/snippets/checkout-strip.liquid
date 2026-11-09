@@ -1,0 +1,20 @@
+{%- comment -%}
+  Secure-checkout strip for the cart page and cart drawer. Payment icons come from the methods enabled in Shopify admin;
+  the delivery lines repeat the store's Shipping Policy (Canada 13-25 days, US 10-20 days, tracking, import duties included on US orders).
+{%- endcomment -%}
+<div class="co-strip">
+  <p class="co-secure"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>{{ 'general.secure_checkout' | t }}</span></p>
+  {%- if shop.enabled_payment_types.size > 0 -%}
+    <ul class="co-pay" aria-label="{{ 'general.accepted_payments' | t }}">
+      {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'co-ico' }}</li>{%- endfor -%}
+    </ul>
+  {%- endif -%}
+  <ul class="co-facts">
+    {%- if collective -%}
+    <li>{{ 'general.co_collective' | t }}</li>
+    {%- else -%}
+    <li>{{ 'general.co_delivery' | t }}</li>
+    <li>{{ 'general.co_tracking' | t }}</li>
+    {%- endif -%}
+  </ul>
+</div>

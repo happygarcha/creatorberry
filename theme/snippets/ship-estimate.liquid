@@ -1,0 +1,42 @@
+{%- comment -%}
+  Shipping estimate shown before checkout. Rates mirror the store's weight-based delivery profile in Shopify admin
+  (CJ Dropshipping Fulfillment). If the profile changes, change the bands string below and the matching one is read by theme.js.
+  Usage: render 'ship-estimate', weight: variant.weight (grams), scope: 'item' or 'cart', collective: true for Shopify Collective items
+  Collective items are priced and shipped by the brand, so the weight bands do not apply to them and a plain note is shown instead.
+  Bands are "max grams:price" pairs. Canada first, United States second.
+{%- endcomment -%}
+{%- if collective -%}
+<p class="ship-est" data-ship-collective>
+  {%- if scope == 'cart' -%}{{ 'ship_estimate.collective_cart' | t }}{%- else -%}{{ 'ship_estimate.collective_item' | t: vendor: vendor }}{%- endif -%}
+</p>
+{%- else -%}
+{%- assign ca_bands = '300:9.99,600:14.99,900:19.99,1200:24.99,2000:36.99,3000:59.99,4000:69.99' -%}
+{%- assign us_bands = '300:12.99,600:18.99,900:24.99,1200:30.99,2000:46.99,3000:74.99,4000:94.99' -%}
+{%- assign ca_price = blank -%}
+{%- assign us_price = blank -%}
+{%- assign ca_list = ca_bands | split: ',' -%}
+{%- assign us_list = us_bands | split: ',' -%}
+{%- if weight > 0 -%}
+  {%- for pair in ca_list -%}
+    {%- assign parts = pair | split: ':' -%}
+    {%- assign cap = parts[0] | plus: 0 -%}
+    {%- if ca_price == blank and weight <= cap -%}{%- assign ca_price = parts[1] -%}{%- endif -%}
+  {%- endfor -%}
+  {%- for pair in us_list -%}
+    {%- assign parts = pair | split: ':' -%}
+    {%- assign cap = parts[0] | plus: 0 -%}
+    {%- if us_price == blank and weight <= cap -%}{%- assign us_price = parts[1] -%}{%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+<p class="ship-est" data-ship data-ship-ca="{{ ca_bands }}" data-ship-us="{{ us_bands }}" data-ship-scope="{{ scope }}">
+  {%- if ca_price != blank and us_price != blank -%}
+    {%- if scope == 'cart' -%}
+      {{ 'ship_estimate.cart_label' | t }} <strong>CA${{ ca_price }}</strong> {{ 'ship_estimate.to_canada' | t }} · <strong>CA${{ us_price }}</strong> {{ 'ship_estimate.to_us' | t }}. {{ 'ship_estimate.cart_note' | t }}
+    {%- else -%}
+      {{ 'ship_estimate.item_label' | t }} <strong>CA${{ ca_price }}</strong> {{ 'ship_estimate.to_canada' | t }} · <strong>CA${{ us_price }}</strong> {{ 'ship_estimate.to_us' | t }}. {{ 'ship_estimate.item_note' | t }}
+    {%- endif -%}
+  {%- else -%}
+    {{ 'ship_estimate.from' | t }}
+  {%- endif -%}
+</p>
+{%- endif -%}

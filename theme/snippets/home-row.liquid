@@ -1,0 +1,12 @@
+{%- comment -%} Usage: render 'home-row', handle: 'pet-supplies', title: 'Pet supplies', count: 4. Skips itself when the collection is missing or empty. {%- endcomment -%}
+{%- assign rc = collections[handle] -%}
+{%- if rc != blank and rc.products_count > 0 -%}
+<section class="home-row" aria-labelledby="hr-{{ handle }}">
+  <header class="row-head"><h2 id="hr-{{ handle }}">{{ title }}</h2><a class="row-link" href="{{ rc.url }}">See all</a></header>
+  <div class="feed row-feed">
+    {%- for product in rc.products limit: count -%}
+      {% render 'product-card', product: product, index: forloop.index0 %}
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}

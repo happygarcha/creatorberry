@@ -1,0 +1,45 @@
+{% render 'breadcrumbs' %}
+<header class="page-head">
+  <div>
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="prose">{{ collection.description }}</div>{%- endif -%}
+  </div>
+  <form class="sortbar" method="get" action="{{ collection.url }}">
+    <label class="sr-only" for="sort_by">{{ 'collection.sort' | t }}</label>
+    <select id="sort_by" name="sort_by" onchange="this.form.submit()">
+      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+      {%- for option in collection.sort_options -%}
+        <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+      {%- endfor -%}
+    </select>
+    <noscript><button class="btn" type="submit">{{ 'collection.sort' | t }}</button></noscript>
+  </form>
+</header>
+
+{%- paginate collection.products by section.settings.per_page -%}
+  {%- if collection.products.size == 0 -%}
+    <p class="empty-state">{{ 'collection.empty' | t }}</p>
+  {%- else -%}
+    <div class="feed">
+      {%- for product in collection.products -%}
+        {% render 'product-card', product: product, index: forloop.index0, eager: 2 %}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+  {%- if paginate.pages > 1 -%}
+    <nav class="pager" aria-label="{{ 'general.pagination' | t }}">
+      {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="cur" aria-current="page">{{ part.title }}</span>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+    </nav>
+  {%- endif -%}
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [{ "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "default": 16, "label": "Products per page" }]
+}
+{% endschema %}
