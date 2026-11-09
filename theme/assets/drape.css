@@ -175,6 +175,11 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; }
 @media (min-width: 900px) { .dw-foot-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); } }
 .dw-foot-news { padding: clamp(20px, 3vw, 32px); border-radius: 28px; background: oklch(0.3 0.04 280); }
 .dw-foot .news { max-width: none; }
+.dw-foot .news, .dw-foot .news-row { width: 100%; max-width: 100%; }
+.dw-foot .news > .fine { white-space: normal; }
+.dw-foot .news-row { flex-wrap: wrap; justify-content: stretch; }
+.dw-foot .news-row input { flex: 1 1 200px; }
+.dw-foot-news, .dw-foot-cols { min-width: 0; }
 .dw-foot .news label { color: #fff; font-size: clamp(22px, 2.6vw, 30px); }
 .dw-foot .news-row input { background: #fff; color: var(--text); }
 .dw-foot .fine { color: oklch(0.78 0.02 280); }
