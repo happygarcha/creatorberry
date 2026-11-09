@@ -16,94 +16,168 @@
   </style>
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   {{ 'bright.css' | asset_url | stylesheet_tag }}
+  {{ 'drape.css' | asset_url | stylesheet_tag }}
   {{ content_for_header }}
 </head>
 <body class="template-{{ request.page_type | handle }}">
   <div class="scroll-bar" aria-hidden="true"></div>
   <a class="skip" href="#main">{{ 'general.skip' | t }}</a>
 
-  <header class="topbar" data-topbar>
-    {%- if settings.announcement != blank -%}<p class="announce">{{ settings.announcement | escape }}</p>{%- else -%}<span></span>{%- endif -%}
-    <div class="topbar-actions">
-      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+  {%- comment -%} ================= HEADER ================= {%- endcomment -%}
+  <header class="dw-header" data-topbar>
+    {%- if settings.announcement != blank -%}
+      <p class="dw-announce">{{ settings.announcement | escape }}</p>
+    {%- endif -%}
+    <div class="dw-bar">
+      <button type="button" class="dw-burger" data-menu-open aria-label="{{ 'general.rooms' | t }}" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="dw-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        <span class="dw-logo-mark" aria-hidden="true">D</span><span class="dw-logo-text">{{ shop.name }}</span>
       </a>
-      <a class="cart-btn" href="{{ routes.cart_url }}" data-open-cart>
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>
-        <span class="cart-label">{{ 'general.cart' | t }}</span>
-        <span data-cart-count>{{ cart.item_count }}</span>
-        <span class="cart-total" data-cart-total>{{ cart.total_price | money }}</span>
-      </a>
-    </div>
-  </header>
 
-  <div class="shell">
-    <aside class="side left" aria-label="Browse">
-      <a class="brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
-      {%- comment -%} The sidebar search box is for shopping pages only: home, rooms, product, search and cart. Policy, contact, about and other info pages go without it. {%- endcomment -%}
-      {%- case request.page_type -%}
-        {%- when 'index', 'collection', 'list-collections', 'product', 'search', 'cart' -%}
+      {%- comment -%} The wrapper keeps the "side" class: theme.js looks for ".side .search input" for the search hint. {%- endcomment -%}
+      <div class="side dw-search">
         <form class="search" action="{{ routes.search_url }}" method="get" role="search" data-hint="{{ 'search.hint' | t }}">
           <label class="sr-only" for="q">{{ 'general.search' | t }}</label>
           <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search' | t }}" autocomplete="off">
           <input type="hidden" name="type" value="product">
-          <button class="search-go" type="submit" aria-label="{{ 'general.search_go' | t }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="search-go" type="submit" aria-label="{{ 'general.search_go' | t }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
         </form>
-      {%- endcase -%}
-      <nav aria-label="{{ 'general.rooms' | t }}">
-        <p class="eyebrow">{{ 'general.rooms' | t }}</p>
-        <ul class="rooms">
-          {%- for link in linklists['main-menu'].links -%}
-            {%- if link.type == 'collection_link' or link.links.size > 0 -%}
-              {%- assign open = false -%}
-              {%- if link.active or link.child_active -%}{%- assign open = true -%}{%- endif -%}
-              <li class="room{% if link.links.size > 0 %} has-sub{% endif %}{% if open %} is-open{% endif %}" style="--k: {{ forloop.index0 }}">
-                <div class="room-row">
-                  <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
-                  {%- if link.links.size > 0 -%}
-                    <button type="button" class="sub-toggle" aria-expanded="{{ open }}" aria-controls="sub-{{ forloop.index }}" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><span aria-hidden="true"></span></button>
-                  {%- endif -%}
-                </div>
-                {%- if link.links.size > 0 -%}
-                  <div class="sub-wrap" id="sub-{{ forloop.index }}">
-                    <ul class="sub">
-                      {%- for child in link.links -%}
-                        <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
-                      {%- endfor -%}
-                    </ul>
-                  </div>
-                {%- endif -%}
-              </li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-        {%- comment -%} Phones: the open room's sections as a second row of chips {%- endcomment -%}
+      </div>
+
+      <div class="dw-actions">
+        <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        </a>
+        <a class="cart-btn" href="{{ routes.cart_url }}" data-open-cart>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>
+          <span class="cart-label">{{ 'general.cart' | t }}</span>
+          <span data-cart-count>{{ cart.item_count }}</span>
+          <span class="cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="dw-nav" aria-label="{{ 'general.rooms' | t }}">
+      <ul class="dw-nav-list">
         {%- for link in linklists['main-menu'].links -%}
-          {%- if link.links.size > 0 -%}
-            {%- if link.active or link.child_active -%}
-              <ul class="subrow" aria-label="{{ link.title }}">
-                {%- for child in link.links -%}
-                  <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
-                {%- endfor -%}
-              </ul>
+          {%- if link.type == 'collection_link' or link.links.size > 0 -%}
+            <li class="dw-nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
+              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              {%- if link.links.size > 0 -%}
+                <button type="button" class="dw-sub-btn" aria-expanded="false" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="dw-drop">
+                  <ul>
+                    {%- for child in link.links -%}
+                      <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                  <a class="dw-drop-all" href="{{ link.url }}">{{ link.title }} &rarr;</a>
+                </div>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+  </header>
+
+  {%- comment -%} Mobile menu {%- endcomment -%}
+  <dialog class="dw-menu" id="dw-menu" aria-label="{{ 'general.rooms' | t }}">
+    <div class="dw-menu-in">
+      <header>
+        <span class="dw-menu-t">{{ 'general.rooms' | t }}</span>
+        <button type="button" class="x" data-menu-close aria-label="{{ 'general.close' | t }}">{{ 'general.close' | t }}</button>
+      </header>
+      <ul class="dw-menu-list">
+        {%- for link in linklists['main-menu'].links -%}
+          {%- if link.type == 'collection_link' or link.links.size > 0 -%}
+            {%- if link.links.size > 0 -%}
+              <li>
+                <details{% if link.active or link.child_active %} open{% endif %}>
+                  <summary>{{ link.title }}</summary>
+                  <ul>
+                    <li><a href="{{ link.url }}">{{ link.title }} &rarr;</a></li>
+                    {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
+                  </ul>
+                </details>
+              </li>
+            {%- else -%}
+              <li><a class="dw-menu-link" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
-      </nav>
-    </aside>
+      </ul>
+      <ul class="dw-menu-more">
+        {%- for link in linklists['main-menu'].links -%}
+          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endunless -%}
+        {%- endfor -%}
+        <li><a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a></li>
+      </ul>
+    </div>
+  </dialog>
 
-    <main id="main" class="main">
-      {%- unless request.page_type == 'index' -%}
-        <a class="back-home" href="{{ routes.root_url }}"><span aria-hidden="true">&larr;</span> {{ 'general.back_home' | t }}</a>
-      {%- endunless -%}
-      {{ content_for_layout }}
-    </main>
+  {%- comment -%} ================= PAGE ================= {%- endcomment -%}
+  <main id="main" class="main dw-main">
+    {%- unless request.page_type == 'index' -%}
+      <a class="back-home" href="{{ routes.root_url }}"><span aria-hidden="true">&larr;</span> {{ 'general.back_home' | t }}</a>
+    {%- endunless -%}
+    {{ content_for_layout }}
+  </main>
 
-    {% section 'side-feeds' %}
-  </div>
+  {%- comment -%} ================= FOOTER ================= {%- endcomment -%}
+  <footer class="site-foot dw-foot">
+    <div class="dw-foot-top">
+      <div class="dw-foot-news">
+        {%- form 'customer', class: 'news' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="news-email">{{ 'general.news_title' | t }}</label>
+          <div class="news-row">
+            <input id="news-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'general.news_placeholder' | t }}">
+            <button type="submit" class="btn primary">{{ 'general.news_button' | t }}</button>
+          </div>
+          <p class="fine">{{ 'general.news_consent' | t }}</p>
+          {%- if form.posted_successfully? -%}<p class="fine news-ok" role="status">{{ 'general.news_thanks' | t }}</p>{%- endif -%}
+          {%- if form.errors -%}<p class="fine news-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+        {%- endform -%}
+      </div>
 
-  <footer class="site-foot">
-    <div class="foot-in">
+      <div class="dw-foot-cols">
+        <nav aria-label="{{ 'general.rooms' | t }}">
+          <h2 class="dw-foot-h">{{ 'general.rooms' | t }}</h2>
+          <ul class="dw-foot-list">
+            {%- assign shown = 0 -%}
+            {%- for link in linklists['main-menu'].links -%}
+              {%- if link.type == 'collection_link' or link.links.size > 0 -%}
+                {%- if shown < 8 -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- assign shown = shown | plus: 1 -%}{%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </nav>
+        <nav aria-label="{{ 'general.footer_nav' | t }}">
+          <h2 class="dw-foot-h">{{ shop.name }}</h2>
+          <ul class="dw-foot-list">
+            {%- assign seen = '' -%}
+            {%- for link in linklists['main-menu'].links -%}
+              {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
+                {%- unless seen contains link.url -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- assign seen = seen | append: link.url | append: '|' -%}{%- endunless -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            {%- for link in linklists['footer'].links -%}
+              {%- unless seen contains link.url -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- assign seen = seen | append: link.url | append: '|' -%}{%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        </nav>
+        <div>
+          <h2 class="dw-foot-h">Policies</h2>
+          {% render 'policy-links' %}
+        </div>
+      </div>
+    </div>
+
     {%- if settings.social_facebook != blank or settings.social_instagram != blank or settings.social_pinterest != blank or settings.social_tiktok != blank or settings.social_youtube != blank -%}
       <ul class="soc" aria-label="{{ 'general.social' | t }}">
         {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" rel="noopener" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a></li>{%- endif -%}
@@ -113,39 +187,9 @@
         {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" rel="noopener" target="_blank" aria-label="YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a></li>{%- endif -%}
       </ul>
     {%- endif -%}
-    {%- form 'customer', class: 'news' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <label for="news-email">{{ 'general.news_title' | t }}</label>
-      <div class="news-row">
-        <input id="news-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'general.news_placeholder' | t }}">
-        <button type="submit" class="btn">{{ 'general.news_button' | t }}</button>
-      </div>
-      <p class="fine">{{ 'general.news_consent' | t }}</p>
-      {%- if form.posted_successfully? -%}<p class="fine news-ok" role="status">{{ 'general.news_thanks' | t }}</p>{%- endif -%}
-      {%- if form.errors -%}<p class="fine news-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
-    {%- endform -%}
-    </div>
+
+    <div class="dw-wordmark" aria-hidden="true">{{ shop.name }}</div>
     <div class="foot-bar">
-    <nav aria-label="{{ 'general.footer_nav' | t }}">
-      <ul class="foot-links">
-        {%- assign seen = '' -%}
-        {%- for link in linklists['main-menu'].links -%}
-          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
-            {%- unless seen contains link.url -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {%- assign seen = seen | append: link.url | append: '|' -%}
-            {%- endunless -%}
-          {%- endunless -%}
-        {%- endfor -%}
-        {%- for link in linklists['footer'].links -%}
-          {%- unless seen contains link.url -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- assign seen = seen | append: link.url | append: '|' -%}
-          {%- endunless -%}
-        {%- endfor -%}
-      </ul>
-    </nav>
-      {% render 'policy-links' %}
       <p class="fine">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
     </div>
   </footer>
@@ -161,5 +205,6 @@
   {% render 'cart-drawer' %}
   <script src="{{ 'motion.js' | asset_url }}" defer></script>
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script src="{{ 'drape.js' | asset_url }}" defer></script>
 </body>
 </html>

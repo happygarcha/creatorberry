@@ -1,142 +1,147 @@
-{%- comment -%} Hero slides: newest products by default. In the theme editor you can switch to a collection (for example a Best sellers collection once there are sales) or to one slide per room. {%- endcomment -%}
+{%- comment -%}
+  Drapewell homepage (bright and friendly redesign).
+  Order: hero with product tiles, trust bar, shop by category, new arrivals, offer banner,
+  product rows, intro text. Product data comes from the store; nothing here is hard-coded.
+{%- endcomment -%}
 {%- assign new_src = collections['new-arrivals'] -%}
 {%- if new_src == blank or new_src.products_count == 0 -%}{%- assign new_src = collections.all -%}{%- endif -%}
-<section class="hero" id="hero" aria-label="{{ 'home.featured' | t }}" data-hero>
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="slides" id="slides">
-    {%- assign n = 0 -%}
-    {%- assign source = section.settings.slide_source -%}
-    {%- if source == 'collection' and section.settings.slide_collection != blank -%}
-      {%- for product in section.settings.slide_collection.products -%}
-        {%- if n < section.settings.slide_count and product.available and product.featured_image -%}
-          {%- assign sub_text = 'home.discover_pick' | t -%}
-          {%- render 'hero-slide', product: product, label: section.settings.slide_collection.title, sub: sub_text, n: n -%}
-          {%- assign n = n | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- elsif source == 'rooms' -%}
-      {%- for link in linklists['main-menu'].links -%}
-        {%- if link.type == 'collection_link' and link.object != blank and link.object.products.size > 0 and n < section.settings.slide_count -%}
-          {%- assign product = link.object.products.first -%}
-          {%- assign sub_text = 'home.discover' | t: room: link.title -%}
-          {%- render 'hero-slide', product: product, label: link.title, sub: sub_text, n: n -%}
-          {%- assign n = n | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-    {%- comment -%} Default (and fallback when the chosen source is empty): the newest products. {%- endcomment -%}
-    {%- if n == 0 -%}
-      {%- if new_src.handle == 'all' -%}{%- assign newest = new_src.products | sort: 'created_at' | reverse -%}{%- else -%}{%- assign newest = new_src.products -%}{%- endif -%}
-      {%- for product in newest -%}
-        {%- if n < section.settings.slide_count and product.available and product.featured_image -%}
-          {%- assign label_text = 'home.new_label' | t -%}
-          {%- assign sub_text = 'home.discover_new' | t -%}
-          {%- render 'hero-slide', product: product, label: label_text, sub: sub_text, n: n -%}
-          {%- assign n = n | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
+{%- if new_src.handle == 'all' -%}{%- assign newest = new_src.products | sort: 'created_at' | reverse -%}{%- else -%}{%- assign newest = new_src.products -%}{%- endif -%}
+
+{%- comment -%} ---------- HERO ---------- {%- endcomment -%}
+<section class="dw-hero" aria-labelledby="hero-h">
+  <div class="dw-hero-copy">
+    <p class="dw-kicker">{{ 'home.new_label' | t }}</p>
+    <h1 id="hero-h">{{ 'home.intro_h' | t }}</h1>
+    <p class="dw-hero-sub">{{ 'home.discover_new' | t }}</p>
+    <div class="dw-hero-cta">
+      <a class="btn primary dw-btn-lg" href="{% if new_src.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ new_src.url }}{% endif %}">{{ 'home.open' | t }}</a>
+      {%- assign offer_col = collections['buy-2-save-10'] -%}
+      {%- if offer_col != blank and offer_col.products_count > 0 -%}
+        <a class="btn dw-btn-lg" href="{{ offer_col.url }}">Buy 2, save 10%</a>
+      {%- endif -%}
+    </div>
+    <ul class="dw-hero-chips" aria-label="{{ section.settings.trust_label }}">
+      {%- if section.settings.trust_2 != blank -%}<li>{{ section.settings.trust_2 }}</li>{%- endif -%}
+      {%- if section.settings.trust_1 != blank -%}<li>{{ section.settings.trust_1 }}</li>{%- endif -%}
+    </ul>
   </div>
 
-  {%- if n > 1 -%}
-    <div class="hero-nav-row">
-      <div class="hero-nav">
-        <button type="button" class="ctl" data-hero-prev aria-label="{{ 'home.prev' | t }}">‹</button>
-        <div class="hero-dots" data-hero-dots role="group" aria-label="{{ 'home.featured' | t }}">
-          {%- for i in (1..n) -%}<button type="button" data-go="{{ forloop.index0 }}" aria-label="{{ 'home.show' | t }} {{ forloop.index }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"></button>{%- endfor -%}
-        </div>
-        <button type="button" class="ctl" data-hero-next aria-label="{{ 'home.next' | t }}">›</button>
-        <button type="button" class="ctl" data-hero-pause aria-pressed="false" aria-label="{{ 'home.pause' | t }}">❚❚</button>
-      </div>
-    </div>
-    <div class="hero-bar" aria-hidden="true"><i data-hero-prog></i></div>
-  {%- endif -%}
+  <div class="dw-hero-tiles">
+    {%- assign t = 0 -%}
+    {%- for product in newest -%}
+      {%- if t < 3 and product.available and product.featured_image -%}
+        {%- assign lead = product.featured_image -%}
+        {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
+        <a class="dw-tile dw-tile-{{ t }}" href="{{ product.url }}">
+          <figure class="dw-tile-img">
+            {%- if t == 0 -%}
+              {{ lead | image_url: width: 800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800', sizes: '(min-width: 1000px) 28vw, 90vw', alt: '' }}
+            {%- else -%}
+              {{ lead | image_url: width: 500 | image_tag: loading: 'lazy', widths: '300, 500', sizes: '(min-width: 1000px) 14vw, 44vw', alt: '' }}
+            {%- endif -%}
+          </figure>
+          <span class="dw-tile-t">{{ product.title | truncate: 46 }}</span>
+          <span class="dw-tile-p">{% render 'price', product: product %}</span>
+        </a>
+        {%- assign t = t | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
 </section>
 
-<ul class="trust-strip" aria-label="{{ section.settings.trust_label }}">
+{%- comment -%} ---------- TRUST BAR ---------- {%- endcomment -%}
+<ul class="dw-trust" aria-label="{{ section.settings.trust_label }}">
   {%- for i in (1..4) -%}
     {%- assign key = 'trust_' | append: i -%}
     {%- assign line = section.settings[key] -%}
-    {%- if line != blank -%}<li>{{ line }}</li>{%- endif -%}
+    {%- if line != blank -%}
+      <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg><span>{{ line }}</span></li>
+    {%- endif -%}
   {%- endfor -%}
 </ul>
 
+{%- comment -%} ---------- SHOP BY CATEGORY ---------- {%- endcomment -%}
 {%- assign tiles = 0 -%}
-<section class="rooms-band" aria-labelledby="rb-h">
-  <header class="row-head"><h2 id="rb-h">{{ section.settings.rooms_title }}</h2></header>
-  <ul class="room-tiles">
+<section class="dw-section" aria-labelledby="rb-h">
+  <header class="dw-head"><h2 id="rb-h">{{ section.settings.rooms_title }}</h2></header>
+  <ul class="dw-cats">
     {%- for link in linklists['main-menu'].links -%}
       {%- if link.type == 'collection_link' and link.object != blank and link.object.products_count > 0 and tiles < 12 -%}
         {%- assign tiles = tiles | plus: 1 -%}
         {%- assign rp = link.object.products.first -%}
-        <li><a class="room-tile" href="{{ link.url }}">
-          <figure class="ph">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(min-width: 760px) 18vw, 44vw', alt: '' }}{%- endif -%}</figure>
-          <span class="rt">{{ link.title }}</span>
+        <li><a class="dw-cat" href="{{ link.url }}">
+          <figure class="dw-cat-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(min-width: 1000px) 15vw, 40vw', alt: '' }}{%- endif -%}</figure>
+          <span class="dw-cat-t">{{ link.title }}</span>
         </a></li>
       {%- endif -%}
     {%- endfor -%}
   </ul>
 </section>
 
-
-<header class="feed-head">
-  <h2>{{ section.settings.feed_title }}</h2>
-  {%- if new_src.handle != 'all' -%}<a class="row-link" href="{{ new_src.url }}">See all</a>{%- endif -%}
-  <div class="sortbar">
-    <label class="sr-only" for="home_sort">{{ 'collection.sort' | t }}</label>
-    <select id="home_sort" data-home-sort>
-      <option value="featured">{{ 'general.sort_featured' | t }}</option>
-      <option value="new">{{ 'general.sort_new' | t }}</option>
-      <option value="price_asc">{{ 'general.sort_price_asc' | t }}</option>
-      <option value="price_desc">{{ 'general.sort_price_desc' | t }}</option>
-      <option value="az">{{ 'general.sort_az' | t }}</option>
-      <option value="za">{{ 'general.sort_za' | t }}</option>
-    </select>
+{%- comment -%} ---------- NEW ARRIVALS ---------- {%- endcomment -%}
+<section class="dw-section" aria-labelledby="feed-h">
+  <header class="dw-head">
+    <h2 id="feed-h">{{ section.settings.feed_title }}</h2>
+    <div class="dw-head-tools">
+      {%- if new_src.handle != 'all' -%}<a class="dw-link" href="{{ new_src.url }}">See all</a>{%- endif -%}
+      <div class="sortbar">
+        <label class="sr-only" for="home_sort">{{ 'collection.sort' | t }}</label>
+        <select id="home_sort" data-home-sort>
+          <option value="featured">{{ 'general.sort_featured' | t }}</option>
+          <option value="new">{{ 'general.sort_new' | t }}</option>
+          <option value="price_asc">{{ 'general.sort_price_asc' | t }}</option>
+          <option value="price_desc">{{ 'general.sort_price_desc' | t }}</option>
+          <option value="az">{{ 'general.sort_az' | t }}</option>
+          <option value="za">{{ 'general.sort_za' | t }}</option>
+        </select>
+      </div>
+    </div>
+  </header>
+  <div class="feed" id="feed">
+    {%- for product in new_src.products limit: section.settings.count -%}
+      {% render 'product-card', product: product, index: forloop.index0 %}
+    {%- endfor -%}
   </div>
-</header>
+</section>
 
-{%- comment -%} A short, fixed feed. Every product lives in its room (left menu); the homepage never lists the whole catalogue or paginates. {%- endcomment -%}
-<div class="feed" id="feed">
-  {%- for product in new_src.products limit: section.settings.count -%}
-    {% render 'product-card', product: product, index: forloop.index0 %}
-  {%- endfor -%}
-</div>
+{%- comment -%} ---------- OFFER BANNER ---------- {%- endcomment -%}
+{%- if offer_col != blank and offer_col.products_count > 0 -%}
+  <section class="dw-offer" aria-labelledby="offer-banner-h">
+    <div>
+      <h2 id="offer-banner-h">Buy 2, save 10%</h2>
+      <p>Add any 2 items from this offer to your cart and 10% comes off automatically at checkout. You can mix pet and bath items. Shipping is not discounted.</p>
+    </div>
+    <a class="btn dw-btn-lg" href="{{ offer_col.url }}">See all items in this offer</a>
+  </section>
+{%- endif -%}
 
-{%- comment -%} Featured picks: five products Google already shows for related searches; the row links straight to their product pages. Edit the "Featured Picks" collection to change it. {%- endcomment -%}
+{%- comment -%} ---------- PRODUCT ROWS ---------- {%- endcomment -%}
 {% render 'home-row', handle: 'featured-picks', title: 'Featured picks', count: 5 %}
-
 {%- if section.settings.show_rows -%}
   {% render 'home-row', handle: 'pet-supplies', title: 'Pet supplies', count: 4 %}
   {% render 'home-row', handle: 'seasonal', title: 'Seasonal picks', count: 4 %}
 {%- endif -%}
 
-<section class="intro" aria-labelledby="intro-h">
-  <h1 id="intro-h">{{ 'home.intro_h' | t }}</h1>
+{%- comment -%} ---------- ABOUT / SHIPPING ---------- {%- endcomment -%}
+<section class="dw-about" aria-label="{{ shop.name }}">
   <p>{{ 'home.intro_p1' | t }}</p>
   <p>{{ 'home.intro_p2' | t }}{% if shop.shipping_policy.url != blank %} <a href="{{ shop.shipping_policy.url }}">{{ 'home.intro_link' | t }}</a>.{% endif %}</p>
 </section>
 
 {% schema %}
 {
-  "name": "Discover home",
+  "name": "Drapewell home",
   "settings": [
-    { "type": "text", "id": "feed_title", "label": "Feed title", "default": "New arrivals" },
+    { "type": "text", "id": "feed_title", "label": "New arrivals title", "default": "New arrivals" },
     { "type": "text", "id": "rooms_title", "label": "Categories heading", "default": "Shop by category" },
-    { "type": "text", "id": "trust_label", "label": "Trust strip label (screen readers)", "default": "Shipping and returns" },
+    { "type": "text", "id": "trust_label", "label": "Trust bar label (screen readers)", "default": "Shipping and returns" },
     { "type": "text", "id": "trust_1", "label": "Trust line 1", "default": "Ships across Canada and the US" },
     { "type": "text", "id": "trust_2", "label": "Trust line 2", "default": "Tracked delivery" },
     { "type": "text", "id": "trust_3", "label": "Trust line 3", "default": "13-25 days to Canada, 10-20 days to the US" },
     { "type": "text", "id": "trust_4", "label": "Trust line 4", "default": "Damaged or wrong item? Contact us within 30 days" },
     { "type": "checkbox", "id": "show_rows", "label": "Show the Pet supplies and Seasonal rows", "default": true },
-    { "type": "select", "id": "slide_source", "label": "Slideshow shows", "default": "new", "options": [
-      { "value": "new", "label": "Newest products (automatic)" },
-      { "value": "collection", "label": "A collection (e.g. Best sellers)" },
-      { "value": "rooms", "label": "One slide per room (main menu)" }
-    ] },
-    { "type": "collection", "id": "slide_collection", "label": "Collection for the slideshow" },
-    { "type": "range", "id": "slide_count", "min": 3, "max": 8, "step": 1, "default": 5, "label": "Number of slides" },
-    { "type": "range", "id": "count", "min": 4, "max": 24, "step": 4, "default": 8, "label": "Products shown on the homepage" }
+    { "type": "range", "id": "count", "min": 4, "max": 24, "step": 4, "default": 8, "label": "Products shown in New arrivals" }
   ],
-  "presets": [{ "name": "Discover home" }]
+  "presets": [{ "name": "Drapewell home" }]
 }
 {% endschema %}
