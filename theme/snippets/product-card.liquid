@@ -48,7 +48,24 @@
               <span>{{ option.name | truncate: 7, '' }}</span><sup>{{ option.values.size }}</sup>
             </button>
             <div class="pg-tip" role="group" aria-label="{{ option.name | escape }}">
-              {%- for value in option.values limit: 8 -%}<button type="button" data-quick="{{ product.handle }}">{{ value | truncate: 14 }}</button>{%- endfor -%}
+              {%- assign is_size = false -%}
+              {%- assign oname = option.name | downcase -%}
+              {%- if oname contains 'size' -%}{%- assign is_size = true -%}{%- endif -%}
+              {%- for value in option.values limit: 8 -%}
+                {%- assign label = value | truncate: 14 -%}
+                {%- if is_size -%}
+                  {%- assign vkey = value | downcase | strip -%}
+                  {%- case vkey -%}
+                    {%- when 'extra small', 'x-small', 'xsmall' -%}{%- assign label = 'XS' -%}
+                    {%- when 'small' -%}{%- assign label = 'S' -%}
+                    {%- when 'medium' -%}{%- assign label = 'M' -%}
+                    {%- when 'large' -%}{%- assign label = 'L' -%}
+                    {%- when 'extra large', 'x-large', 'xlarge' -%}{%- assign label = 'XL' -%}
+                    {%- when 'extra extra large', 'xx-large', 'xxlarge' -%}{%- assign label = 'XXL' -%}
+                  {%- endcase -%}
+                {%- endif -%}
+                <button type="button" class="{% if is_size %}pg-size{% endif %}" data-quick="{{ product.handle }}" title="{{ value | escape }}" aria-label="{{ option.name | escape }}: {{ value | escape }}">{{ label }}</button>
+              {%- endfor -%}
             </div>
           </li>
         {%- endfor -%}

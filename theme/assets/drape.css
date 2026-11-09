@@ -425,3 +425,6 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
   .pg-stage .offer-badge { width: 54px; height: 54px; font-size: 8.5px; left: 8px; top: 8px; }
   .pg-rotate { top: 8px; right: 8px; width: 36px; height: 36px; }
 }
+
+/* size chips: short letters (S, M, L, XL) in round buttons */
+.pg-tip button.pg-size { min-width: 42px; height: 42px; padding: 0 8px; border-radius: 999px; display: inline-grid; place-items: center; font-weight: 700; letter-spacing: .02em; }
