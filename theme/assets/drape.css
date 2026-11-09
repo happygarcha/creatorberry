@@ -417,3 +417,11 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
   .pg-opts > li:nth-last-child(-n+2) .pg-tip::after { left: auto; right: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .pg-flip, .pg-rotate, .pg-tip { transition: none; } }
+
+@media (max-width: 559px) {
+  .pg-info { grid-template-columns: 1fr; gap: 4px; padding-top: 12px; }
+  .pg-info .p { justify-self: start; font-size: 18px; }
+  .pg-info .t { font-size: 14px; line-height: 19px; }
+  .pg-stage .offer-badge { width: 54px; height: 54px; font-size: 8.5px; left: 8px; top: 8px; }
+  .pg-rotate { top: 8px; right: 8px; width: 36px; height: 36px; }
+}
