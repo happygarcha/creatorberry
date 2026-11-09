@@ -437,3 +437,8 @@ html:not(.js) .dw-ring-card { position: static; opacity: 1; transform: none; }
 .pg-face img, .dw-ring-card img, .card .ph img, .dw-shape img { mix-blend-mode: normal !important; }
 .dw-ring-card { background: #fff; }
 .cell .ph, .cell:nth-child(5n+2) .ph, .cell:nth-child(5n+4) .ph { background: #fff; }
+
+/* menu: the category name is its own link; the list under it shows only sub-categories */
+.dw-menu summary .dw-menu-parent { color: inherit; text-decoration: none; }
+.dw-menu summary { gap: 16px; }
+.dw-drop ul { margin-bottom: 0; }

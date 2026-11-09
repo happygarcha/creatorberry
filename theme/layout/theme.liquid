@@ -82,7 +82,6 @@
                       <li><a href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
                     {%- endfor -%}
                   </ul>
-                  <a class="dw-drop-all" href="{{ link.url }}">{{ link.title }} &rarr;</a>
                 </div>
               {%- endif -%}
             </li>
@@ -105,9 +104,8 @@
             {%- if link.links.size > 0 -%}
               <li>
                 <details{% if link.active or link.child_active %} open{% endif %}>
-                  <summary>{{ link.title }}</summary>
+                  <summary><a class="dw-menu-parent" href="{{ link.url }}">{{ link.title }}</a></summary>
                   <ul>
-                    <li><a href="{{ link.url }}">{{ link.title }} &rarr;</a></li>
                     {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
                   </ul>
                 </details>
