@@ -969,3 +969,17 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 
 /* v22: heart is the wishlist app button (an anchor) */
 .pg-opt.pg-fav { text-decoration: none; }
+
+/* v23: heart tap feedback: instant fill, pop, ring and a little burst of dots */
+.pg-opt.pg-fav { position: relative; }
+.pg-fav::before, .pg-fav::after { content: ""; position: absolute; left: 50%; top: 50%; pointer-events: none; opacity: 0; }
+.pg-fav::before { width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 2px solid var(--neon-a); }
+.pg-fav::after { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; color: var(--neon-a);
+  box-shadow: 0 -24px 0 currentColor, 17px -17px 0 currentColor, 24px 0 0 currentColor, 17px 17px 0 currentColor, 0 24px 0 currentColor, -17px 17px 0 currentColor, -24px 0 0 currentColor, -17px -17px 0 currentColor; }
+.pg-fav.is-pop svg { animation: dwHeartPop .55s cubic-bezier(.2, 1.6, .4, 1); }
+.pg-fav.is-pop::before { animation: dwHeartRing .55s ease-out; }
+.pg-fav.is-pop::after { animation: dwHeartBurst .6s ease-out; }
+@keyframes dwHeartPop { 0% { transform: scale(.6); } 55% { transform: scale(1.4); } 100% { transform: scale(1); } }
+@keyframes dwHeartRing { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes dwHeartBurst { 0% { opacity: 1; transform: scale(.3); } 70% { opacity: 1; } 100% { opacity: 0; transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) { .pg-fav.is-pop svg, .pg-fav.is-pop::before, .pg-fav.is-pop::after { animation: none; } }

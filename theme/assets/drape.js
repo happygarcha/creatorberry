@@ -107,7 +107,16 @@
       return;
     }
     var fav = e.target.closest("[data-fav]");
-    if (fav) { e.preventDefault(); return; } /* the wishlist app handles the save itself */
+    if (fav) {
+      /* the wishlist app saves it; we show the result at once (the app confirms a moment later) and play a small burst */
+      e.preventDefault();
+      var willSave = fav.getAttribute("aria-pressed") !== "true";
+      fav.setAttribute("aria-pressed", willSave ? "true" : "false");
+      fav.classList.remove("is-pop");
+      if (willSave) { void fav.offsetWidth; fav.classList.add("is-pop"); setTimeout(function () { fav.classList.remove("is-pop"); }, 700); }
+      setTimeout(function () { fav.setAttribute("aria-pressed", fav.getAttribute("data-added") === "true" ? "true" : "false"); }, 5000); /* if the save failed, undo */
+      return;
+    }
     var opt = e.target.closest("[data-pg-opt]");
     if (opt) {
       var li = opt.closest(".pg-optcell");
