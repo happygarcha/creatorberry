@@ -76,9 +76,7 @@
   {%- endif -%}
 
   <div class="dw-reel-wrap">
-    <header class="dw-head">
-      <h2 id="reel-h">{{ reel_title }}</h2>
-    </header>
+    <h2 id="reel-h" class="sr-only">{{ reel_title }}</h2>
     {%- assign stamps = 'NEW!,JUST IN,FRESH!,TOP PICK,LOVE IT,HOT!' | split: ',' -%}
     <div class="dw-reel" data-reel aria-labelledby="reel-h" style="--logo: url('{{ 'drapewell-logo.png' | asset_url }}')">
       <div class="dw-reel-stage">
