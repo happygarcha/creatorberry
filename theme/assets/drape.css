@@ -709,3 +709,28 @@ html { scroll-behavior: smooth; }
 .rb-s:nth-child(4), .rb-s:nth-child(9) { filter: brightness(.76); }
 .rb-s:nth-child(5), .rb-s:nth-child(8) { filter: brightness(.66); }
 .rb-s:nth-child(6), .rb-s:nth-child(7) { filter: brightness(.58); }
+
+/* ============================================================
+   v19: compact category page. Title, search and sort share one row; no back button;
+   the long description moved below the products.
+   ============================================================ */
+body[class*="template-collection"] .back-home { display: none; }
+body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(--s6); }
+.dw-coll-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s4) var(--s6); padding: 0 0 var(--s4); border-bottom: 1px solid var(--line); }
+.dw-coll-head h1 { margin: 0; font-size: clamp(34px, 4.6vw, 60px); line-height: .95; letter-spacing: -0.055em; }
+.dw-coll-head h1::after { display: none; }
+.dw-coll-head .dw-coll-tools { flex: 1 1 420px; justify-content: flex-end; flex-wrap: nowrap; }
+.dw-coll-head .dw-coll-search { flex: 1 1 260px; max-width: 420px; }
+.dw-coll-head .dw-coll-tools .sortbar { flex: 0 0 auto; }
+.dw-coll-head .dw-coll-tools .sortbar select { width: auto; min-width: 190px; }
+.dw-coll-about { max-width: 80ch; padding-top: var(--s6); border-top: 1px solid var(--line); }
+.dw-coll-about .prose { color: var(--text-soft); font-size: 15px; line-height: 24px; }
+.dw-coll-about .prose h2, .dw-coll-about .prose h3 { margin: var(--s5) 0 var(--s2); font-size: 20px; letter-spacing: -0.03em; color: var(--text); }
+@media (max-width: 759px) {
+  .dw-coll-head { gap: var(--s3); padding-bottom: var(--s3); }
+  .dw-coll-head h1 { font-size: 34px; }
+  .dw-coll-head .dw-coll-tools { flex: 1 1 100%; flex-wrap: wrap; }
+  .dw-coll-head .dw-coll-search { flex: 1 1 100%; max-width: none; }
+  .dw-coll-head .dw-coll-tools .sortbar { flex: 1 1 100%; }
+  .dw-coll-head .dw-coll-tools .sortbar select { width: 100%; }
+}

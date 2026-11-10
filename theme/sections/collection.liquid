@@ -1,9 +1,5 @@
-{% render 'breadcrumbs' %}
-<header class="page-head">
-  <div>
-    <h1>{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}<div class="prose">{{ collection.description }}</div>{%- endif -%}
-  </div>
+<header class="page-head dw-coll-head">
+  <h1>{{ collection.title }}</h1>
   <div class="dw-coll-tools">
     <form class="dw-coll-search" role="search" action="{{ routes.search_url }}" method="get">
       <label class="sr-only" for="coll-q">Search in {{ collection.title | escape }}</label>
@@ -69,6 +65,11 @@
     </nav>
   {%- endif -%}
 {%- endpaginate -%}
+
+{%- comment -%} The category description sits below the products, so shoppers see products first. Search engines still read it. {%- endcomment -%}
+{%- if collection.description != blank -%}
+  <section class="dw-coll-about" aria-label="About {{ collection.title | escape }}"><div class="prose">{{ collection.description }}</div></section>
+{%- endif -%}
 
 {% schema %}
 {
