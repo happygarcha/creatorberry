@@ -846,8 +846,15 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 
 /* picture menu: small chips, all 12 on one line on desktop; no gap above the carousel, so the products sit higher */
 .dw-catmenu { padding-top: 0; }
-.dw-catmenu .dw-chips { gap: 5px; padding-top: 14px; margin-top: -8px; }
-.dw-catmenu .dw-chip { padding: 3px clamp(8px, .8vw, 12px) 3px 3px; gap: 6px; font-size: clamp(11.5px, .92vw, 14px); }
+.dw-catmenu .dw-chips { gap: 4px; padding-top: 14px; margin-top: -8px; }
+.dw-catmenu .dw-chip { padding: 3px clamp(7px, .6vw, 9px) 3px 3px; gap: 5px; font-size: clamp(11px, .88vw, 13px); white-space: nowrap; }
+.dw-catmenu .dw-chip .dw-chip-t { white-space: nowrap; }
+/* the shipping facts strip repeats the top banner: kept for screen readers, hidden to save room */
+body.template-index .dw-trust { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
+body.template-index .dw-hero-top { padding-top: 10px; }
+body.template-index .dw-hero h1 { font-size: clamp(17px, 1.6vw, 22px); }
+body.template-index .dw-hero-cta .dw-btn-lg { min-height: 38px; padding: 0 16px; font-size: 14px; }
+body.template-index .dw-main { gap: clamp(22px, 2.4vw, 34px); }
 .dw-catmenu .dw-chip-img { width: clamp(22px, 1.7vw, 26px); height: clamp(22px, 1.7vw, 26px); }
 @media (min-width: 1100px) { .dw-catmenu .dw-chips:not(.is-scroll) { flex-wrap: nowrap; justify-content: space-between; } .dw-catmenu .dw-chip { flex: none; } }
 body.template-index .dw-main { padding-top: 0; }
