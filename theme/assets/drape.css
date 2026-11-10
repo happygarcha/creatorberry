@@ -1042,3 +1042,10 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
   .dw-subchips:not(.dw-kwchips) > .dw-subchip:not(.dw-subchip-sm) { padding: 0 10px; font-size: 12.5px; letter-spacing: -0.01em; }
   .dw-subchips:not(.dw-kwchips) > .dw-subchip-more::after { margin-left: 5px; width: 5px; height: 5px; }
 }
+
+/* v32: phones: sub-category chips and the extra ones are ONE row that scrolls sideways, like the picture menu. No More button. */
+@media (max-width: 759px) {
+  .dw-subchips.is-wide:not(.dw-kwchips) { flex-wrap: nowrap; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; scroll-snap-type: x proximity; }
+  .dw-subchips.is-wide:not(.dw-kwchips)::-webkit-scrollbar { display: none; }
+  .dw-subchips.is-wide:not(.dw-kwchips) .dw-subchip, .dw-subchips.is-wide .dw-subchip-sm { flex: none; scroll-snap-align: start; min-height: 42px; padding: 0 18px; font-size: 14.5px; letter-spacing: normal; }
+}
