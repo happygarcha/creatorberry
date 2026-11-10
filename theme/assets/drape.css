@@ -660,3 +660,17 @@ html { scroll-behavior: smooth; }
 .dw-subchip-sm.is-on { background: var(--text); color: #fff; }
 @keyframes dwchipin { from { opacity: 0; transform: translateY(-14px) scale(.8); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .dw-subchip-sm { animation: none; } .dw-subchip-more::after { transition: none; } }
+
+/* ============================================================
+   v14: true geometry for the rack. Items and rods pivot about the rack's own axis
+   (transform-origin 0 0), so every hook sits exactly on the rail all the way round.
+   The floating hook ring is replaced by a clamp collar wrapped around the rail.
+   ============================================================ */
+.dw-reel-item, .dw-rod { transform-origin: 0 0; }
+.dw-cord { top: -9px; height: calc(var(--cw) * .15 + 9px); width: 3px; }
+.dw-cord::before { display: none; }
+.dw-cord::after { top: -1px; width: 18px; height: 18px; border-radius: 6px; background: linear-gradient(90deg, #7c828b, #ffffff 40%, #8f959e 70%, #6d737c); box-shadow: 0 1px 3px oklch(0 0 0 / .45), inset 0 0 0 1px oklch(1 0 0 / .5); }
+/* a stubby swivel under the collar so the cord reads as hanging from a fitting, not from nothing */
+.dw-cord { overflow: visible; }
+/* thicker rail: a darker underside layer gives the tube some body when seen from the side */
+.dw-reel-rail { filter: drop-shadow(0 3px 0 oklch(0.55 0.01 260 / .55)); }
