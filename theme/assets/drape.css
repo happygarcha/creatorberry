@@ -854,6 +854,13 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .dw-header .dw-catmenu { padding-bottom: 6px; }
 .dw-header .dw-marquee { max-height: 40px; transition: max-height .3s var(--ease); }
 /* the moving line stays visible while scrolling */
+
+/* no burger button or text drawer any more: the picture menu is the menu. Phones show the account icon next to the cart. */
+.dw-burger, .dw-menu { display: none !important; }
+.dw-bar { grid-template-columns: 1fr auto; grid-template-areas: "logo actions" "search search"; }
+.dw-actions .icon-btn { display: inline-grid; }
+@media (max-width: 759px) { .dw-header.is-stuck .dw-bar { grid-template-areas: "logo actions"; } }
+@media (min-width: 1000px) { .dw-bar { grid-template-columns: auto minmax(260px, 520px) auto; grid-template-areas: "logo search actions"; } }
 @media (max-width: 759px) {
   .dw-header.is-stuck .dw-search { display: none; }
   .dw-header.is-stuck .dw-bar { grid-template-areas: "burger logo actions"; padding-block: 6px; }

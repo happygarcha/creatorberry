@@ -45,9 +45,6 @@
       </div>
     {%- endif -%}
     <div class="dw-bar">
-      <button type="button" class="dw-burger" data-menu-open aria-label="{{ 'general.rooms' | t }}" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
       <a class="dw-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
         <img class="dw-logo-img" src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="44" height="44"><span class="dw-logo-text">{{ shop.name }}<i aria-hidden="true">.</i></span>
       </a>
@@ -98,42 +95,6 @@
     </nav>
     {% render 'category-chips' %}
   </header>
-
-  {%- comment -%} Mobile menu {%- endcomment -%}
-  <dialog class="dw-menu" id="dw-menu" aria-label="{{ 'general.rooms' | t }}">
-    <div class="dw-menu-in">
-      <header>
-        <span class="dw-menu-t">{{ 'general.rooms' | t }}</span>
-        <button type="button" class="x" data-menu-close aria-label="{{ 'general.close' | t }}">{{ 'general.close' | t }}</button>
-      </header>
-      <ul class="dw-menu-list">
-        {%- for link in linklists['main-menu'].links -%}
-          {%- if link.type == 'collection_link' or link.links.size > 0 and false -%}
-            {%- if link.links.size > 0 and false -%}
-              <li>
-                <details{% if link.active or link.child_active %} open{% endif %}>
-                  <summary><a class="dw-menu-parent" href="{{ link.url }}">{{ link.title }}</a></summary>
-                  <ul>
-                    {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
-                  </ul>
-                </details>
-              </li>
-            {%- else -%}
-              <li><a class="dw-menu-link" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-      <ul class="dw-menu-more">
-        {%- for link in linklists['main-menu'].links -%}
-          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 and false -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- endunless -%}
-        {%- endfor -%}
-        <li><a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a></li>
-      </ul>
-    </div>
-  </dialog>
 
   {%- comment -%} ================= PAGE ================= {%- endcomment -%}
   <main id="main" class="main dw-main">
