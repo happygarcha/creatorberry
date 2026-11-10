@@ -30,7 +30,7 @@
 {%- endcomment -%}
 {%- for link in linklists['main-menu'].links -%}
   {%- if link.object.handle == collection.handle and link.links.size > 0 and collection.handle != 'seasonal' -%}
-    <div class="dw-subchips" role="group" aria-label="Filter {{ collection.title | escape }}" data-sub-chips data-more-label="{{ section.settings.more_label | default: 'More' | escape }}">
+    <div class="dw-subchips" role="group" aria-label="Filter {{ collection.title | escape }}" data-sub-chips data-more-label="{{ section.settings.more_label | default: 'More' | escape }}" data-more-groups="{{ section.settings.more_groups | escape }}">
       <button type="button" class="dw-subchip is-on" data-sub="" aria-pressed="true">All</button>
       {%- for child in link.links -%}
         {%- if child.object.handle != blank -%}<button type="button" class="dw-subchip" data-sub="{{ child.object.handle }}" aria-pressed="false">{{ child.title }}</button>{%- endif -%}
@@ -75,7 +75,8 @@
   "name": "Collection",
   "settings": [
     { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "default": 48, "label": "Products per page" },
-    { "type": "text", "id": "more_label", "label": "Filter chip for products outside the sub-categories", "default": "More", "info": "Shown on categories that have sub-categories, for example Bathroom. Try 'Towels & accessories'." }
+    { "type": "text", "id": "more_label", "label": "Chip that opens the extra categories", "default": "More", "info": "Shown on categories that have sub-categories, for example Bathroom. Tapping it opens a second row of chips." },
+    { "type": "textarea", "id": "more_groups", "label": "Extra category chips (one per line)", "default": "Towels: towel\nAccessories: accessor, dispenser, holder, soap, shower head, pillow, toothbrush\nRugs & covers: toilet, rug set, door mat\nWall art: wall art, canvas\nSets: bath set, set of, 3-piece, 3 piece", "info": "Format: Chip name: word, word. A product appears under a chip when its name, type or tags contain one of the words. Products that match none go under 'Other'." }
   ]
 }
 {% endschema %}

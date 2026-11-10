@@ -649,3 +649,14 @@ html { scroll-behavior: smooth; }
 .dw-subchip.is-on { background: var(--text); color: #fff; border-color: var(--text); }
 .dw-subchip:focus-visible { outline: 3px solid var(--neon-b); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .dw-subchip { transition: none; } .dw-subchip:hover { translate: none; } }
+
+/* "More" opens a second row of smaller chips that drop in one after another */
+.dw-subchip-more::after { content: ""; display: inline-block; width: 7px; height: 7px; margin: -3px 0 0 10px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; rotate: 45deg; transition: rotate .3s var(--ease), margin .3s var(--ease); }
+.dw-subchip-more.is-open::after { rotate: 225deg; margin-top: 3px; }
+.dw-subchip-more.is-open, .dw-subchip-more.has-on { background: var(--surface-2); border-color: var(--text); }
+.dw-more-row { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 2px; }
+.dw-more-row[hidden] { display: none; }
+.dw-subchip-sm { min-height: 40px; padding: 0 18px; font-size: 14px; background: var(--p3); border-color: transparent; animation: dwchipin .5s var(--spring) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.dw-subchip-sm.is-on { background: var(--text); color: #fff; }
+@keyframes dwchipin { from { opacity: 0; transform: translateY(-14px) scale(.8); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .dw-subchip-sm { animation: none; } .dw-subchip-more::after { transition: none; } }

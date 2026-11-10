@@ -14,7 +14,8 @@
 {%- assign eager_n = eager | default: 0 -%}
 {%- if card_index < eager_n -%}{%- assign card_loading = 'eager' -%}{%- else -%}{%- assign card_loading = 'lazy' -%}{%- endif -%}
 {%- assign pk = card_index | modulo: 6 | plus: 1 -%}
-<div class="cell pg-cell" data-handle="{{ product.handle }}" data-price="{{ product.price }}" data-title="{{ product.title | escape }}" data-new="{{ product.published_at | date: '%s' }}">
+{%- capture find_text -%}{{ product.title }} {{ product.type }} {{ product.tags | join: ' ' }}{%- endcapture -%}
+<div class="cell pg-cell" data-handle="{{ product.handle }}" data-find="{{ find_text | downcase | escape }}" data-price="{{ product.price }}" data-title="{{ product.title | escape }}" data-new="{{ product.published_at | date: '%s' }}">
   <article class="card pg" style="--i: {{ index | default: 0 | at_most: 14 }}; --pc: var(--p{{ pk }})">
     <div class="pg-stage">
       {%- if has_back -%}

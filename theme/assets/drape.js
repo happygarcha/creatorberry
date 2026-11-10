@@ -315,21 +315,68 @@
       /* products that are in none of the sub-categories get their own chip, worked out here so new products are included */
       var inAny = {};
       Object.keys(subMap).forEach(function (k) { subMap[k].forEach(function (h) { inAny[h] = true; }); });
-      var rest = cells.map(function (c) { return c.dataset.handle; }).filter(function (h) { return !inAny[h]; });
-      if (rest.length && Object.keys(subMap).length) {
-        subMap.__more = rest;
-        var mb = document.createElement("button");
-        mb.type = "button"; mb.className = "dw-subchip"; mb.dataset.sub = "__more"; mb.setAttribute("aria-pressed", "false");
-        mb.textContent = subBox.dataset.moreLabel || "More";
-        subBox.appendChild(mb);
+      var restCells = cells.filter(function (c) { return !inAny[c.dataset.handle]; });
+      var moreBtn = null, moreRow = null;
+      if (restCells.length && Object.keys(subMap).length) {
+        moreBtn = document.createElement("button");
+        moreBtn.type = "button"; moreBtn.className = "dw-subchip dw-subchip-more"; moreBtn.setAttribute("aria-pressed", "false");
+        moreBtn.textContent = subBox.dataset.moreLabel || "More";
+        subBox.appendChild(moreBtn);
+
+        /* "More" opens a second row of chips. The groups come from the keyword lines in the theme settings
+           ("Towels: towel, bath sheet"), matched against each leftover product's name, type and tags. */
+        var slug = function (t) { return "g-" + String(t).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); };
+        var groups = [], used = {};
+        String(subBox.dataset.moreGroups || "").split(/\r?\n/).forEach(function (line) {
+          var at = line.indexOf(":"); if (at < 1) return;
+          var label = line.slice(0, at).trim(), words = line.slice(at + 1).split(",").map(function (w) { return norm(w); }).filter(Boolean);
+          if (!label || !words.length) return;
+          var hits = restCells.filter(function (c) { var f = c.dataset.find || norm(c.dataset.title); return words.some(function (w) { return f.indexOf(w) > -1; }); });
+          if (hits.length) { hits.forEach(function (c) { used[c.dataset.handle] = true; }); groups.push({ label: label, key: slug(label), handles: hits.map(function (c) { return c.dataset.handle; }) }); }
+        });
+        var leftover = restCells.filter(function (c) { return !used[c.dataset.handle]; });
+        if (groups.length && leftover.length) groups.push({ label: "Other", key: "g-other", handles: leftover.map(function (c) { return c.dataset.handle; }) });
+
+        if (groups.length) {
+          moreRow = document.createElement("div");
+          moreRow.className = "dw-more-row"; moreRow.hidden = true;
+          groups.forEach(function (g, i) {
+            subMap[g.key] = g.handles;
+            var gb = document.createElement("button");
+            gb.type = "button"; gb.className = "dw-subchip dw-subchip-sm"; gb.dataset.sub = g.key; gb.setAttribute("aria-pressed", "false");
+            gb.style.setProperty("--i", i); gb.textContent = g.label;
+            moreRow.appendChild(gb);
+          });
+          subBox.appendChild(moreRow);
+          moreBtn.setAttribute("aria-expanded", "false");
+          moreBtn.dataset.opener = "1";
+        } else {
+          subMap.__more = restCells.map(function (c) { return c.dataset.handle; });   /* no groups to offer: More just filters */
+          moreBtn.dataset.sub = "__more";
+        }
       }
+      var openMore = function (open) {
+        if (!moreRow) return;
+        moreRow.hidden = !open;
+        moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        moreBtn.classList.toggle("is-open", open);
+      };
       var setSub = function (value, fromUser) {
         subNow = value;
-        $$(".dw-subchip", subBox).forEach(function (b) { var on = b.dataset.sub === value; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+        $$(".dw-subchip", subBox).forEach(function (b) {
+          if (b.dataset.opener) return;
+          var on = b.dataset.sub === value; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        if (moreBtn && moreBtn.dataset.opener) moreBtn.classList.toggle("has-on", /^g-/.test(value));
+        if (/^g-/.test(value)) openMore(true);
         applyFilter();
         if (fromUser) { try { history.replaceState(null, "", location.pathname + location.search + (value ? "#" + value : "")); } catch (e) {} }
       };
-      subBox.addEventListener("click", function (e) { var b = e.target.closest(".dw-subchip"); if (b) setSub(b.dataset.sub, true); });
+      subBox.addEventListener("click", function (e) {
+        var b = e.target.closest(".dw-subchip"); if (!b) return;
+        if (b.dataset.opener) { openMore(moreRow.hidden); return; }   /* More only opens or closes the second row */
+        setSub(b.dataset.sub, true);
+      });
       var fromHash = decodeURIComponent((location.hash || "").slice(1));
       if (fromHash && subMap[fromHash]) setSub(fromHash, false);
     }
