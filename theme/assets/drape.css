@@ -619,3 +619,16 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 }
 /* badge front: photo starts right under the slot now that the logo is gone */
 .dw-id-slot { margin-bottom: 6cqw; }
+
+/* category page toolbar: search within the category + sort */
+.dw-coll-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.dw-coll-search { position: relative; flex: 1 1 260px; min-width: 220px; }
+.dw-coll-search svg { position: absolute; left: 18px; top: 50%; translate: 0 -50%; color: var(--text-soft); pointer-events: none; }
+.dw-coll-search input { width: 100%; height: 48px; padding: 0 20px 0 46px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font: inherit; color: var(--text); }
+.dw-coll-search input:focus { outline: none; border-color: var(--text); }
+.dw-coll-tools .sortbar select { height: 48px; }
+.cell[hidden] { display: none !important; }
+.dw-coll-none { margin: 0; padding: var(--s6); border-radius: 24px; background: var(--surface-2); text-align: center; }
+.dw-coll-none a { color: var(--text); text-underline-offset: 4px; font-weight: 600; }
+.page-head { gap: var(--s5); }
+@media (max-width: 759px) { .dw-coll-tools { width: 100%; } .dw-coll-search, .dw-coll-tools .sortbar { flex: 1 1 100%; } .dw-coll-tools .sortbar select { width: 100%; } }

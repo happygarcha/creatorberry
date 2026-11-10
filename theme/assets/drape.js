@@ -193,4 +193,25 @@
     document.addEventListener("visibilitychange", wake);
     paint(); wake();
   }
+
+  /* ---------- category page: instant search within the products on the page ---------- */
+  var cs = $("[data-coll-search]");
+  if (cs) {
+    var cells = $$(".feed .cell"), none = $("[data-coll-none]"), term = $("[data-coll-term]"), site = $("[data-coll-site]");
+    var norm = function (t) { return String(t || "").toLowerCase().replace(/\s+/g, " ").trim(); };
+    var applyFilter = function () {
+      var q = norm(cs.value), parts = q ? q.split(" ") : [], shown = 0;
+      cells.forEach(function (c) {
+        var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
+        c.hidden = !ok; if (ok) shown++;
+      });
+      if (none) {
+        none.hidden = !(q && shown === 0);
+        if (term) term.textContent = "“" + cs.value.trim() + "”";
+        if (site) site.href = (cs.form ? cs.form.action : "/search") + "?type=product&q=" + encodeURIComponent(cs.value.trim());
+      }
+    };
+    cs.addEventListener("input", applyFilter);
+    cs.form.addEventListener("submit", function (e) { if (cells.length && cs.value.trim()) e.preventDefault(); });
+  }
 })();
