@@ -603,3 +603,9 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .dw-reel-hint-i { width: 8px; height: 8px; border-radius: 50%; background: var(--neon-a); animation: dwhint 1.6s ease-in-out infinite; }
 @keyframes dwhint { 0%,100% { translate: 0 -3px; } 50% { translate: 0 3px; } }
 @media (prefers-reduced-motion: reduce) { .dw-reel-hint-i { animation: none; } }
+
+/* v13: the thin wire pays out of the reel; the short clear strap, loop and snap ride on its end */
+.dw-belt { height: calc(var(--cw) * .2); translate: -50% var(--pull, 0px); }
+.dw-loop { translate: -50% var(--pull, 0px); }
+.dw-wire { top: calc(var(--cw) * .15 + var(--rd) + var(--cw) * .08); width: 1.6px; height: calc(var(--pull, 0px) + var(--cw) * .04); translate: -50% 0; border-radius: 1px; background: linear-gradient(90deg, #3d4148, #c9cdd3 50%, #3d4148); box-shadow: 0 0 1px oklch(0 0 0 / .3); }
+.dw-reel-item.is-pulled .dw-neck { filter: brightness(1.08); }
