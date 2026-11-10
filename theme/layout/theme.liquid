@@ -75,7 +75,7 @@
         {%- for link in linklists['main-menu'].links -%}
           {%- if link.type == 'collection_link' or link.links.size > 0 -%}
             <li class="dw-nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
-              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}{% if link.type == 'collection_link' and link.object != blank %}<sup>{{ link.object.products_count }}</sup>{% endif %}</a>
+              <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
               {%- if link.links.size > 0 -%}
                 <button type="button" class="dw-sub-btn" aria-expanded="false" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
                 <div class="dw-drop">

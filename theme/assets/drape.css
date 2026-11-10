@@ -609,3 +609,7 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .dw-loop { translate: -50% var(--pull, 0px); }
 .dw-wire { top: calc(var(--cw) * .15 + var(--rd) + var(--cw) * .08); width: 1.6px; height: calc(var(--pull, 0px) + var(--cw) * .04); translate: -50% 0; border-radius: 1px; background: linear-gradient(90deg, #3d4148, #c9cdd3 50%, #3d4148); box-shadow: 0 0 1px oklch(0 0 0 / .3); }
 .dw-reel-item.is-pulled .dw-neck { filter: brightness(1.08); }
+
+/* no ID numbers, week stamps or collection counts */
+.dw-id-top { justify-content: flex-start; }
+.dw-id-meta { justify-content: flex-start; }

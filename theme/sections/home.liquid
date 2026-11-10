@@ -69,7 +69,7 @@
                   <span class="dw-id">
                     <span class="dw-id-face dw-id-front">
                       <i class="dw-id-slot" aria-hidden="true"></i>
-                      <span class="dw-id-top"><img class="dw-id-stamp-logo" src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="360" height="360" loading="lazy" draggable="false"><span class="dw-id-no">No.&nbsp;0{{ t | plus: 1 }}</span></span>
+                      <span class="dw-id-top"><img class="dw-id-stamp-logo" src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="360" height="360" loading="lazy" draggable="false"></span>
                       <span class="dw-id-photo">
                         {%- if t < 4 -%}
                           {{ lead | image_url: width: 400 | image_tag: loading: 'eager', widths: '200, 300, 400', sizes: '200px', alt: '', draggable: 'false' }}
@@ -79,7 +79,7 @@
                         <em class="dw-stamp" aria-hidden="true">{{ stamps[sk] }}</em>
                       </span>
                       <span class="dw-id-title">{{ product.title }}</span>
-                      <span class="dw-id-meta"><span class="dw-id-price">{% render 'price', product: product %}</span><span class="dw-id-wk">WK {{ 'now' | date: '%U' }}</span></span>
+                      <span class="dw-id-meta"><span class="dw-id-price">{% render 'price', product: product %}</span></span>
                       <span class="dw-barcode" aria-hidden="true"></span>
                     </span>
                     <span class="dw-id-face dw-id-back" aria-hidden="true">
@@ -119,7 +119,7 @@
         {%- assign rp = link.object.products.first -%}
         <li><a class="dw-chip" href="{{ link.url }}">
           <span class="dw-chip-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60, 120', sizes: '56px', alt: '' }}{%- endif -%}</span>
-          <span class="dw-chip-t">{{ link.title }}<sup>{{ link.object.products_count }}</sup></span>
+          <span class="dw-chip-t">{{ link.title }}</span>
         </a></li>
       {%- endif -%}
     {%- endfor -%}
@@ -129,7 +129,7 @@
 {%- comment -%} ---------- NEW ARRIVALS ---------- {%- endcomment -%}
 <section class="dw-section" aria-labelledby="feed-h">
   <header class="dw-head">
-    <h2 id="feed-h">{{ section.settings.feed_title }}<sup>{{ new_src.products_count }}</sup></h2>
+    <h2 id="feed-h">{{ section.settings.feed_title }}</h2>
     <div class="dw-head-tools">
       {%- if new_src.handle != 'all' -%}<a class="dw-link" href="{{ new_src.url }}">See all</a>{%- endif -%}
       <div class="sortbar">
