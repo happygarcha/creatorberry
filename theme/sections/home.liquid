@@ -26,10 +26,60 @@
     </div>
   </div>
 
+  {%- comment -%}
+    Reel selection (see the section settings in the theme editor):
+    1. Products in the "Fresh this week" collection (a smart collection of products tagged "fresh").
+    2. If fewer than the wanted number are there, it is topped up with the newest products,
+       with at most N from the same product type so one bulk import cannot take over the reel.
+    3. The heading says "Fresh this week" only when enough products are really tagged; otherwise "Just in".
+  {%- endcomment -%}
+  {%- assign reel_max = section.settings.reel_count -%}
+  {%- assign reel_cap = section.settings.reel_per_type -%}
+  {%- assign fresh_col = section.settings.reel_collection -%}
+  {%- if fresh_col == blank -%}{%- assign fresh_col = collections['fresh-this-week'] -%}{%- endif -%}
+  {%- assign picked = ',' -%}
+  {%- assign picked_n = 0 -%}
+  {%- assign fresh_n = 0 -%}
+  {%- assign type_log = '' -%}
+  {%- if fresh_col != blank -%}
+    {%- for product in fresh_col.products -%}
+      {%- if picked_n < reel_max and product.available and product.featured_image -%}
+        {%- assign picked = picked | append: product.handle | append: ',' -%}
+        {%- assign picked_n = picked_n | plus: 1 -%}
+        {%- assign fresh_n = fresh_n | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if picked_n < reel_max -%}
+    {%- for product in newest -%}
+      {%- if picked_n < reel_max and product.available and product.featured_image -%}
+        {%- assign hkey = ',' | append: product.handle | append: ',' -%}
+        {%- unless picked contains hkey -%}
+          {%- assign tkey = '|' | append: product.type | append: '|' -%}
+          {%- assign without = type_log | remove: tkey -%}
+          {%- assign used = type_log | size | minus: without.size | divided_by: tkey.size -%}
+          {%- if used < reel_cap -%}
+            {%- assign picked = picked | append: product.handle | append: ',' -%}
+            {%- assign type_log = type_log | append: tkey -%}
+            {%- assign picked_n = picked_n | plus: 1 -%}
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- assign picked_list = picked | split: ',' -%}
+  {%- if fresh_n >= 4 -%}
+    {%- assign reel_title = section.settings.reel_heading -%}
+    {%- assign reel_link = fresh_col.url -%}
+  {%- else -%}
+    {%- assign reel_title = section.settings.reel_fallback_heading -%}
+    {%- assign reel_link = new_src.url -%}
+  {%- endif -%}
+
   <div class="dw-reel-wrap">
     <header class="dw-head">
-      <h2 id="reel-h">Fresh this week</h2>
-      {%- if new_src.handle != 'all' -%}<div class="dw-head-tools"><a class="dw-link" href="{{ new_src.url }}">See all</a></div>{%- endif -%}
+      <h2 id="reel-h">{{ reel_title }}</h2>
+      {%- if reel_link != blank and new_src.handle != 'all' -%}<div class="dw-head-tools"><a class="dw-link" href="{{ reel_link }}">See all</a></div>{%- endif -%}
     </header>
     {%- assign stamps = 'NEW!,JUST IN,FRESH!,TOP PICK,LOVE IT,HOT!' | split: ',' -%}
     <div class="dw-reel" data-reel aria-labelledby="reel-h" style="--logo: url('{{ 'drapewell-logo.png' | asset_url }}')">
@@ -45,8 +95,9 @@
             <span class="dw-rod" style="--rod: 120" aria-hidden="true"></span>
             <span class="dw-rod" style="--rod: 240" aria-hidden="true"></span>
             {%- assign t = 0 -%}
-            {%- for product in newest -%}
-              {%- if t < 8 and product.available and product.featured_image -%}
+            {%- for h in picked_list -%}
+              {%- assign product = all_products[h] -%}
+              {%- if h != blank and product != blank and product.featured_image -%}
                 {%- assign lead = product.featured_image -%}
                 {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
                 {%- assign pk = t | modulo: 6 | plus: 1 -%}
@@ -186,6 +237,13 @@
     { "type": "text", "id": "trust_2", "label": "Trust line 2", "default": "Tracked delivery" },
     { "type": "text", "id": "trust_3", "label": "Trust line 3", "default": "13-25 days to Canada, 10-20 days to the US" },
     { "type": "text", "id": "trust_4", "label": "Trust line 4", "default": "Damaged or wrong item? Contact us within 30 days" },
+    { "type": "header", "content": "Hero reel (rotating badges)" },
+    { "type": "text", "id": "reel_heading", "label": "Heading when products are tagged fresh", "default": "Fresh this week" },
+    { "type": "text", "id": "reel_fallback_heading", "label": "Heading when it shows the newest products instead", "default": "Just in" },
+    { "type": "collection", "id": "reel_collection", "label": "Collection to feature", "info": "Leave empty to use the 'Fresh this week' collection (products tagged fresh). Any collection works." },
+    { "type": "range", "id": "reel_count", "min": 4, "max": 10, "step": 1, "default": 8, "label": "Number of badges" },
+    { "type": "range", "id": "reel_per_type", "min": 1, "max": 4, "step": 1, "default": 2, "label": "Most products from one type when topping up with newest" },
+    { "type": "header", "content": "Page" },
     { "type": "checkbox", "id": "show_rows", "label": "Show the Pet supplies and Seasonal rows", "default": true },
     { "type": "range", "id": "count", "min": 4, "max": 24, "step": 4, "default": 8, "label": "Products shown in New arrivals" }
   ],
