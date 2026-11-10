@@ -228,7 +228,7 @@
           ], { duration: 780, delay: delay, easing: "cubic-bezier(.3,.8,.3,1)", fill: "backwards" });
         });
       }, 0);
-    });
+    }, true);   /* capture: measure the cards before theme.js re-orders them */
   }
 
   /* ---------- category page: instant search within the products on the page ---------- */
