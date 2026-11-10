@@ -818,6 +818,11 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
   .dw-catmenu .dw-chip { flex: none; scroll-snap-align: start; }
 }
 
+/* only the chip zooms: the photo inside it stays still (no spin, no extra zoom, no shine sweep) */
+.dw-chip .dw-chip-img, .dw-chip:hover .dw-chip-img, .dw-chip:focus-visible .dw-chip-img,
+.dw-chip .dw-chip-img img, .dw-chip:hover .dw-chip-img img { rotate: none !important; scale: none !important; translate: none !important; transition: none !important; animation: none !important; }
+.dw-chip::after, .dw-chip:hover::after { display: none; }
+
 /* homepage first screen: header, picture menu and carousel together. The headline block moves below the carousel and gets smaller. */
 body.template-index .dw-main { padding-top: var(--s3); }
 body.template-index .dw-hero { display: flex; flex-direction: column; gap: var(--s6); }
