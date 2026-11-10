@@ -68,7 +68,6 @@
                   <span class="dw-id">
                     <span class="dw-id-face dw-id-front">
                       <i class="dw-id-slot" aria-hidden="true"></i>
-                      <span class="dw-id-top"><img class="dw-id-stamp-logo" src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="360" height="360" loading="lazy" draggable="false"></span>
                       <span class="dw-id-photo">
                         {%- if t < 4 -%}
                           {{ lead | image_url: width: 400 | image_tag: loading: 'eager', widths: '200, 300, 400', sizes: '200px', alt: '', draggable: 'false' }}
@@ -172,7 +171,7 @@
 
 {%- comment -%} ---------- ABOUT / SHIPPING ---------- {%- endcomment -%}
 <section class="dw-about" aria-label="{{ shop.name }}">
-  <p>{{ 'home.intro_p1' | t }}</p>
+  <p>{{ 'home.intro_p1' | t | replace: 'based in Surrey, British Columbia', 'based in British Columbia' }}</p>
   <p>{{ 'home.intro_p2' | t }}{% if shop.shipping_policy.url != blank %} <a href="{{ shop.shipping_policy.url }}">{{ 'home.intro_link' | t }}</a>.{% endif %}</p>
 </section>
 

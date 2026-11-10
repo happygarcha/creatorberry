@@ -610,3 +610,12 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 /* no ID numbers, week stamps or collection counts */
 .dw-id-top { justify-content: flex-start; }
 .dw-id-meta { justify-content: flex-start; }
+
+/* offer band on phones: sticker sits above the heading instead of covering it */
+@media (max-width: 759px) {
+  .dw-sticker { position: static; width: 86px; font-size: 22px; margin: 0 0 var(--s4); rotate: -8deg; animation: none; }
+  .dw-offer { padding-top: var(--s6); }
+  .dw-offer h2 { font-size: clamp(40px, 13vw, 64px); }
+}
+/* badge front: photo starts right under the slot now that the logo is gone */
+.dw-id-slot { margin-bottom: 6cqw; }

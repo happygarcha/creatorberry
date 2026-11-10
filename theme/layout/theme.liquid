@@ -73,10 +73,10 @@
     <nav class="dw-nav" aria-label="{{ 'general.rooms' | t }}">
       <ul class="dw-nav-list">
         {%- for link in linklists['main-menu'].links -%}
-          {%- if link.type == 'collection_link' or link.links.size > 0 -%}
-            <li class="dw-nav-item{% if link.links.size > 0 %} has-sub{% endif %}">
+          {%- if link.type == 'collection_link' or link.links.size > 0 and link.handle != 'seasonal' -%}
+            <li class="dw-nav-item{% if link.links.size > 0 and link.handle != 'seasonal' %} has-sub{% endif %}">
               <a href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-              {%- if link.links.size > 0 -%}
+              {%- if link.links.size > 0 and link.handle != 'seasonal' -%}
                 <button type="button" class="dw-sub-btn" aria-expanded="false" aria-label="{{ 'general.sections' | t }}: {{ link.title }}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
                 <div class="dw-drop">
                   <ul>
@@ -102,8 +102,8 @@
       </header>
       <ul class="dw-menu-list">
         {%- for link in linklists['main-menu'].links -%}
-          {%- if link.type == 'collection_link' or link.links.size > 0 -%}
-            {%- if link.links.size > 0 -%}
+          {%- if link.type == 'collection_link' or link.links.size > 0 and link.handle != 'seasonal' -%}
+            {%- if link.links.size > 0 and link.handle != 'seasonal' -%}
               <li>
                 <details{% if link.active or link.child_active %} open{% endif %}>
                   <summary><a class="dw-menu-parent" href="{{ link.url }}">{{ link.title }}</a></summary>
@@ -120,7 +120,7 @@
       </ul>
       <ul class="dw-menu-more">
         {%- for link in linklists['main-menu'].links -%}
-          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 -%}
+          {%- unless link.type == 'collection_link' or link.type == 'frontpage_link' or link.links.size > 0 and link.handle != 'seasonal' -%}
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {%- endunless -%}
         {%- endfor -%}
