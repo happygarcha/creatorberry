@@ -734,3 +734,9 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
   .dw-coll-head .dw-coll-tools .sortbar { flex: 1 1 100%; }
   .dw-coll-head .dw-coll-tools .sortbar select { width: 100%; }
 }
+
+/* category description: centred block under the products */
+.dw-coll-about { max-width: 760px; margin-inline: auto; text-align: center; }
+.dw-coll-about .prose { max-width: none; margin-inline: auto; }
+.dw-coll-about .prose ul, .dw-coll-about .prose ol { display: inline-block; text-align: left; }
+@media (max-width: 759px) { .dw-coll-about { padding-inline: var(--s2); } .dw-coll-about .prose { font-size: 15px; } }
