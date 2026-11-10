@@ -818,6 +818,22 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
   .dw-catmenu .dw-chip { flex: none; scroll-snap-align: start; }
 }
 
+/* ============================================================
+   v21: ONE ring, fixed to the roof of the carousel box.
+   The upper ring is gone. The posts rise from the ring and run up out of sight into the roof (the stage clips them),
+   so the ring looks bolted to the ceiling. The stage is shorter, which frees room in the first screen.
+   ============================================================ */
+.dw-reel-rail-top { display: none; }
+.dw-rod { height: 234px; }
+.dw-rod::before { display: none; }              /* no cap at the top: the post disappears into the roof */
+.dw-reel-scene { top: 82px; }
+.dw-reel-stage { height: calc(var(--cw) * 2.75 + 150px); }
+@media (max-width: 599px) { .dw-reel-stage { height: calc(var(--cw) * 2.75 + 160px); } }
+/* a subtle roof band the posts go into */
+.dw-reel-stage::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14px; z-index: 4; background: linear-gradient(#d9dce1, #eceef1); border-bottom: 1px solid oklch(0.2 0 0 / .12); pointer-events: none; }
+body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 460px) / 2.75)), 176px); }
+@media (max-width: 759px) { body.template-index .dw-reel { --cw: clamp(136px, min(37vw, calc((100svh - 445px) / 2.75)), 172px); } }
+
 /* only the chip zooms: the photo inside it stays still (no spin, no extra zoom, no shine sweep) */
 .dw-chip .dw-chip-img, .dw-chip:hover .dw-chip-img, .dw-chip:focus-visible .dw-chip-img,
 .dw-chip .dw-chip-img img, .dw-chip:hover .dw-chip-img img { rotate: none !important; scale: none !important; translate: none !important; transition: none !important; animation: none !important; }

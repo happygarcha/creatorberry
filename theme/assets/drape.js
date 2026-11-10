@@ -192,7 +192,7 @@
       $$(".dw-reel-rail", reel).forEach(function (r) { r.innerHTML = svg; });
       rods.forEach(function (r, i) {
         var th = (Number(r.dataset.at) || (i * 60)) * Math.PI / 180;
-        r.style.transform = "translate3d(" + seX(th).toFixed(1) + "px,-130px," + seZ(th).toFixed(1) + "px) translateX(-50%)";
+        r.style.transform = "translate3d(" + seX(th).toFixed(1) + "px,-230px," + seZ(th).toFixed(1) + "px) translateX(-50%)";
       });
       buildTable(); paint();
     };
