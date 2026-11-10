@@ -258,6 +258,17 @@
       }
     };
     if (subBox) {
+      /* products that are in none of the sub-categories get their own chip, worked out here so new products are included */
+      var inAny = {};
+      Object.keys(subMap).forEach(function (k) { subMap[k].forEach(function (h) { inAny[h] = true; }); });
+      var rest = cells.map(function (c) { return c.dataset.handle; }).filter(function (h) { return !inAny[h]; });
+      if (rest.length && Object.keys(subMap).length) {
+        subMap.__more = rest;
+        var mb = document.createElement("button");
+        mb.type = "button"; mb.className = "dw-subchip"; mb.dataset.sub = "__more"; mb.setAttribute("aria-pressed", "false");
+        mb.textContent = subBox.dataset.moreLabel || "More";
+        subBox.appendChild(mb);
+      }
       var setSub = function (value, fromUser) {
         subNow = value;
         $$(".dw-subchip", subBox).forEach(function (b) { var on = b.dataset.sub === value; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });

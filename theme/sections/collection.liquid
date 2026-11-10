@@ -30,7 +30,7 @@
 {%- endcomment -%}
 {%- for link in linklists['main-menu'].links -%}
   {%- if link.object.handle == collection.handle and link.links.size > 0 and collection.handle != 'seasonal' -%}
-    <div class="dw-subchips" role="group" aria-label="Filter {{ collection.title | escape }}" data-sub-chips>
+    <div class="dw-subchips" role="group" aria-label="Filter {{ collection.title | escape }}" data-sub-chips data-more-label="{{ section.settings.more_label | default: 'More' | escape }}">
       <button type="button" class="dw-subchip is-on" data-sub="" aria-pressed="true">All</button>
       {%- for child in link.links -%}
         {%- if child.object.handle != blank -%}<button type="button" class="dw-subchip" data-sub="{{ child.object.handle }}" aria-pressed="false">{{ child.title }}</button>{%- endif -%}
@@ -73,6 +73,9 @@
 {% schema %}
 {
   "name": "Collection",
-  "settings": [{ "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "default": 48, "label": "Products per page" }]
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "default": 48, "label": "Products per page" },
+    { "type": "text", "id": "more_label", "label": "Filter chip for products outside the sub-categories", "default": "More", "info": "Shown on categories that have sub-categories, for example Bathroom. Try 'Towels & accessories'." }
+  ]
 }
 {% endschema %}
