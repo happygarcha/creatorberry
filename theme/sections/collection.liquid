@@ -24,6 +24,30 @@
   </div>
 </header>
 
+{%- comment -%}
+  Filter chips: when this category has sub-categories in the main menu (for example Bathroom: Shower Curtains and Bath Mats),
+  the page shows all of its products with chips that filter them on the page. Seasonal is one list, so it gets no chips.
+{%- endcomment -%}
+{%- for link in linklists['main-menu'].links -%}
+  {%- if link.object.handle == collection.handle and link.links.size > 0 and collection.handle != 'seasonal' -%}
+    <div class="dw-subchips" role="group" aria-label="Filter {{ collection.title | escape }}" data-sub-chips>
+      <button type="button" class="dw-subchip is-on" data-sub="" aria-pressed="true">All</button>
+      {%- for child in link.links -%}
+        {%- if child.object.handle != blank -%}<button type="button" class="dw-subchip" data-sub="{{ child.object.handle }}" aria-pressed="false">{{ child.title }}</button>{%- endif -%}
+      {%- endfor -%}
+    </div>
+    <script type="application/json" data-coll-subs>{
+      {%- assign first_sub = true -%}
+      {%- for child in link.links -%}
+        {%- if child.object.handle != blank -%}
+          {%- unless first_sub -%},{%- endunless -%}{%- assign first_sub = false -%}
+          "{{ child.object.handle }}": [{% for p in child.object.products limit: 50 %}"{{ p.handle }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+        {%- endif -%}
+      {%- endfor -%}
+    }</script>
+  {%- endif -%}
+{%- endfor -%}
+
 {%- paginate collection.products by section.settings.per_page -%}
   {%- if collection.products.size == 0 -%}
     <p class="empty-state">{{ 'collection.empty' | t }}</p>

@@ -238,20 +238,36 @@
     };
 
     /* search: hide the cards that don't match, the rest slide together */
+    /* sub-category chips (for example Bathroom: Shower Curtains / Bath Mats) */
+    var subMap = {}, subNow = "", subBox = $("[data-sub-chips]"), subData = $("[data-coll-subs]");
+    if (subData) { try { subMap = JSON.parse(subData.textContent); } catch (e) { subMap = {}; } }
     var applyFilter = function () {
-      var q = norm(cs.value), parts = q ? q.split(" ") : [], shown = 0;
+      var q = cs ? norm(cs.value) : "", parts = q ? q.split(" ") : [], shown = 0;
+      var allowed = subNow && subMap[subNow] ? subMap[subNow] : null;
       reflow(function () {
         cells.forEach(function (c) {
           var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
+          if (ok && allowed) ok = allowed.indexOf(c.dataset.handle) > -1;
           c.hidden = !ok; if (ok) shown++;
         });
       });
       if (none) {
-        none.hidden = !(q && shown === 0);
-        if (term) term.textContent = "“" + cs.value.trim() + "”";
-        if (site) site.href = (cs.form ? cs.form.action : "/search") + "?type=product&q=" + encodeURIComponent(cs.value.trim());
+        none.hidden = !((q || allowed) && shown === 0);
+        if (term && cs) term.textContent = "“" + cs.value.trim() + "”";
+        if (site && cs) site.href = (cs.form ? cs.form.action : "/search") + "?type=product&q=" + encodeURIComponent(cs.value.trim());
       }
     };
+    if (subBox) {
+      var setSub = function (value, fromUser) {
+        subNow = value;
+        $$(".dw-subchip", subBox).forEach(function (b) { var on = b.dataset.sub === value; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+        applyFilter();
+        if (fromUser) { try { history.replaceState(null, "", location.pathname + location.search + (value ? "#" + value : "")); } catch (e) {} }
+      };
+      subBox.addEventListener("click", function (e) { var b = e.target.closest(".dw-subchip"); if (b) setSub(b.dataset.sub, true); });
+      var fromHash = decodeURIComponent((location.hash || "").slice(1));
+      if (fromHash && subMap[fromHash]) setSub(fromHash, false);
+    }
     if (cs) {
       cs.addEventListener("input", applyFilter);
       cs.form.addEventListener("submit", function (e) { if (cells.length && cs.value.trim()) e.preventDefault(); });

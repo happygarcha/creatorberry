@@ -641,3 +641,11 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 html { scroll-behavior: smooth; }
 #shop { scroll-margin-top: calc(var(--hdr, 158px) + 16px); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* sub-category filter chips on a category page */
+.dw-subchips { display: flex; flex-wrap: wrap; gap: 10px; }
+.dw-subchip { min-height: 46px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; transition: background-color .2s, color .2s, translate .35s var(--spring); }
+.dw-subchip:hover { translate: 0 -2px; }
+.dw-subchip.is-on { background: var(--text); color: #fff; border-color: var(--text); }
+.dw-subchip:focus-visible { outline: 3px solid var(--neon-b); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .dw-subchip { transition: none; } .dw-subchip:hover { translate: none; } }
