@@ -696,3 +696,16 @@ html { scroll-behavior: smooth; }
 .rb-l:nth-child(odd) { background-image: linear-gradient(oklch(0 0 0 / .12), oklch(0 0 0 / .12)); }
 .rb-front { transform: translateZ(6.6px); }
 .rb-back { transform: rotateY(180deg) translateZ(6.6px); }
+
+/* v18: the reel body is a short drum: two faces plus a rim of 12 flat strips (a 12-sided prism).
+   Solid from every angle, and about half the pieces of the old stacked-disc body. */
+.rb-l { display: none; }
+.rb-s { position: absolute; inset: 0; margin: auto; display: block; width: calc(var(--rd) * .2588 + 1px); height: 13px; background: var(--rc, #3b4cc0); backface-visibility: visible;
+  transform: rotateZ(calc(var(--a) * 1deg)) translateY(calc(var(--rd) * -.483)) rotateX(90deg); }
+/* shading round the rim: lit from above, darker underneath */
+.rb-s:nth-child(1), .rb-s:nth-child(12) { filter: brightness(1.12); }
+.rb-s:nth-child(2), .rb-s:nth-child(11) { filter: brightness(1.0); }
+.rb-s:nth-child(3), .rb-s:nth-child(10) { filter: brightness(.88); }
+.rb-s:nth-child(4), .rb-s:nth-child(9) { filter: brightness(.76); }
+.rb-s:nth-child(5), .rb-s:nth-child(8) { filter: brightness(.66); }
+.rb-s:nth-child(6), .rb-s:nth-child(7) { filter: brightness(.58); }
