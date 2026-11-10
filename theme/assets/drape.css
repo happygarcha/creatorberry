@@ -988,3 +988,9 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 .wishlist-card [data-hulkdeleteproduct] { box-sizing: border-box; display: inline-grid !important; place-items: center; width: 38px !important; height: 38px !important; padding: 8px !important; border-radius: 50% !important; background: var(--neon-a) !important; color: #fff !important; opacity: 1 !important; cursor: pointer; box-shadow: 0 0 0 2px #fff, 0 3px 10px rgba(0, 0, 0, .4); z-index: 3; }
 .wishlist-card [data-hulkdeleteproduct] svg, .wishlist-card [data-hulkdeleteproduct] img, .wishlist-card [data-hulkdeleteproduct] i { width: 100% !important; height: 100% !important; opacity: 1 !important; filter: brightness(0) invert(1) !important; }
 .wishlist-card [data-hulkdeleteproduct]:hover { background: #111 !important; }
+
+/* v25: catch every version of the wishlist delete button (remove / bin icon, grid or list) */
+.wishlist-card .item__delete a, .wishlist-card a[class*="icon-wishlist-bin"], .wishlist-card a[class*="icon-wishlist-remove"], .wishlist-card [class*="delete-wishlist"] { box-sizing: border-box; display: inline-grid !important; place-items: center; width: 40px !important; height: 40px !important; padding: 0 !important; line-height: 1 !important; border-radius: 50% !important; background: var(--neon-a) !important; color: #fff !important; opacity: 1 !important; cursor: pointer; box-shadow: 0 0 0 2px #fff, 0 3px 10px rgba(0, 0, 0, .45); }
+.wishlist-card .item__delete a::before, .wishlist-card a[class*="icon-wishlist-bin"]::before, .wishlist-card a[class*="icon-wishlist-remove"]::before { color: #fff !important; font-size: 20px !important; line-height: 1 !important; text-shadow: none !important; -webkit-text-stroke: .6px #fff; }
+.wishlist-card .item__delete { opacity: 1 !important; }
+.wishlist-card .item__delete a:hover { background: #111 !important; }
