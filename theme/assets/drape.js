@@ -209,6 +209,28 @@
     paint(); wake();
   }
 
+  /* ---------- homepage "New arrivals" sort: same swirl as the category pages (theme.js re-orders, this animates it) ---------- */
+  var homeSel = $("[data-home-sort]"), homeFeed = $("#feed");
+  if (homeSel && homeFeed && !$("[data-coll-sort]") && homeFeed.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    homeSel.addEventListener("change", function () {
+      var hc = $$(".cell", homeFeed), was = new Map();
+      hc.forEach(function (c) { was.set(c, c.getBoundingClientRect()); });
+      setTimeout(function () {
+        var k = 0;
+        $$(".cell", homeFeed).forEach(function (c) {
+          var o = was.get(c); if (!o) return;
+          var r = c.getBoundingClientRect(), dx = o.left - r.left, dy = o.top - r.top, delay = Math.min(k++, 16) * 28;
+          if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+          c.animate([
+            { transform: "translate(" + dx + "px," + dy + "px) rotate(0deg) scale(1)" },
+            { offset: 0.5, transform: "translate(" + dx * 0.38 + "px," + (dy * 0.38 - 18) + "px) rotate(" + ((Math.random() - 0.5) * 14) + "deg) scale(1.05)" },
+            { transform: "none" }
+          ], { duration: 780, delay: delay, easing: "cubic-bezier(.3,.8,.3,1)", fill: "backwards" });
+        });
+      }, 0);
+    });
+  }
+
   /* ---------- category page: instant search within the products on the page ---------- */
   var cs = $("[data-coll-search]"), sortSel = $("[data-coll-sort]"), feedEl = $(".feed");
   if ((cs || sortSel) && feedEl) {
@@ -342,6 +364,13 @@
       var remember = function (value) {
         try { var u = new URL(location.href); u.searchParams.set("sort_by", value); history.replaceState(null, "", u.toString()); } catch (e) {}
       };
+      /* fetch the store's own orders (Featured, Best selling) quietly after load, so those sorts shuffle at once */
+      if (!paged) {
+        var warm = function () {
+          $$("option", sortSel).forEach(function (o) { if (!local[o.value]) serverOrder(o.value).catch(function () {}); });
+        };
+        if ("requestIdleCallback" in window) requestIdleCallback(warm, { timeout: 2500 }); else setTimeout(warm, 1200);
+      }
       sortSel.addEventListener("change", function () {
         var value = sortSel.value, myPick = value;
         if (paged) { sortSel.form.submit(); return; }          /* several pages: the server has to do it */
