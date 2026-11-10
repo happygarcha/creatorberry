@@ -983,3 +983,8 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 @keyframes dwHeartRing { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.9); } }
 @keyframes dwHeartBurst { 0% { opacity: 1; transform: scale(.3); } 70% { opacity: 1; } 100% { opacity: 0; transform: scale(1.1); } }
 @media (prefers-reduced-motion: reduce) { .pg-fav.is-pop svg, .pg-fav.is-pop::before, .pg-fav.is-pop::after { animation: none; } }
+
+/* v24: wishlist page: delete button was pale and vanished on photos. Solid coral disc, white icon, white ring. */
+.wishlist-card [data-hulkdeleteproduct] { box-sizing: border-box; display: inline-grid !important; place-items: center; width: 38px !important; height: 38px !important; padding: 8px !important; border-radius: 50% !important; background: var(--neon-a) !important; color: #fff !important; opacity: 1 !important; cursor: pointer; box-shadow: 0 0 0 2px #fff, 0 3px 10px rgba(0, 0, 0, .4); z-index: 3; }
+.wishlist-card [data-hulkdeleteproduct] svg, .wishlist-card [data-hulkdeleteproduct] img, .wishlist-card [data-hulkdeleteproduct] i { width: 100% !important; height: 100% !important; opacity: 1 !important; filter: brightness(0) invert(1) !important; }
+.wishlist-card [data-hulkdeleteproduct]:hover { background: #111 !important; }
