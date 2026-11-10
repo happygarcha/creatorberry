@@ -632,3 +632,7 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .dw-coll-none a { color: var(--text); text-underline-offset: 4px; font-weight: 600; }
 .page-head { gap: var(--s5); }
 @media (max-width: 759px) { .dw-coll-tools { width: 100%; } .dw-coll-search, .dw-coll-tools .sortbar { flex: 1 1 100%; } .dw-coll-tools .sortbar select { width: 100%; } }
+
+/* the old theme hid sorting on phones; category pages keep it */
+.dw-coll-tools .sortbar { display: block; }
+.dw-coll-tools .sortbar select { appearance: auto; }
