@@ -126,4 +126,36 @@
   syncFavs();
   var mainEl = $("#main");
   if (mainEl && "MutationObserver" in window) new MutationObserver(function () { syncFavs(); }).observe(mainEl, { childList: true, subtree: true });
+
+  /* ---------- "Fresh this week" reel: slow auto-spin, drag to turn, slows on hover, pauses off-screen ---------- */
+  var reel = $("[data-reel]");
+  if (reel) {
+    var ringEl = $("[data-reel-ring]", reel), stageEl = $(".dw-reel-stage", reel), rItems = $$(".dw-reel-item", reel);
+    var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var count = rItems.length || 1, stepDeg = 360 / count;
+    rItems.forEach(function (el, i) { el.style.setProperty("--ry", (i * stepDeg).toFixed(2) + "deg"); });
+    var ang = -20, vel = still ? 0 : 0.1, base = still ? 0 : 0.1, dragging = false, lastX = 0, travelled = 0, onScreen = true, rafId = 0;
+    var paint = function () { ringEl.style.transform = "rotateY(" + ang.toFixed(2) + "deg)"; };
+    var loop = function () {
+      rafId = 0;
+      if (!dragging) { vel += (base - vel) * 0.04; ang += vel; paint(); }
+      if (!still && onScreen && !document.hidden) rafId = requestAnimationFrame(loop);
+    };
+    var wake = function () { if (!rafId && !still && onScreen && !document.hidden) rafId = requestAnimationFrame(loop); };
+    stageEl.addEventListener("pointerdown", function (e) { dragging = true; lastX = e.clientX; travelled = 0; vel = 0; });
+    window.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX; lastX = e.clientX; travelled += Math.abs(dx);
+      ang += dx * 0.45; vel = dx * 0.45; paint();
+    });
+    var release = function () { if (dragging) { dragging = false; wake(); } };
+    window.addEventListener("pointerup", release);
+    window.addEventListener("pointercancel", release);
+    reel.addEventListener("click", function (e) { if (travelled > 6) { e.preventDefault(); e.stopPropagation(); travelled = 0; } }, true);
+    stageEl.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") base = still ? 0 : 0.02; });
+    stageEl.addEventListener("pointerleave", function () { base = still ? 0 : 0.1; });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; if (onScreen) wake(); }).observe(reel);
+    document.addEventListener("visibilitychange", wake);
+    paint(); wake();
+  }
 })();

@@ -392,27 +392,6 @@ sup { font-family: var(--font); font-size: 0.4em; font-weight: 600; letter-spaci
 .dw-menu summary a.dw-menu-parent { display: inline; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; text-decoration: none; }
 .dw-menu summary a.dw-menu-parent:active { opacity: .6; }
 
-/* ============================================================
-   v6: calm hero. A fan of five product cards under the headline.
-   No pinning, no scroll motion; cards only lift on hover.
-   ============================================================ */
-.dw-fan { --w: clamp(104px, 17vw, 250px); display: flex; justify-content: center; align-items: flex-end; padding: var(--s8) 0 var(--s6); }
-.dw-fan-card { position: relative; display: block; flex: none; width: var(--w); aspect-ratio: 4 / 5; margin-left: calc(var(--w) * -0.2); overflow: hidden; border-radius: 28px; background: #fff; color: var(--text); text-decoration: none;
-  box-shadow: 0 26px 44px -22px oklch(0.2 0.02 60 / .5), 0 0 0 1px var(--line); transform: translateY(var(--y, 0)) rotate(var(--r, 0deg)); transition: transform .55s var(--spring), box-shadow .3s; }
-.dw-fan-card:first-child { margin-left: 0; }
-.dw-fan-card:nth-child(1) { --r: -10deg; --y: 30px; z-index: 1; }
-.dw-fan-card:nth-child(2) { --r: -5deg; --y: 8px; z-index: 3; }
-.dw-fan-card:nth-child(3) { --r: 0deg; --y: -10px; z-index: 5; }
-.dw-fan-card:nth-child(4) { --r: 5deg; --y: 8px; z-index: 3; }
-.dw-fan-card:nth-child(5) { --r: 10deg; --y: 30px; z-index: 1; }
-.dw-fan-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.dw-fan-cap { position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between; gap: 8px; padding: 28px 14px 12px; font-size: 13px; line-height: 17px; font-weight: 600; background: linear-gradient(transparent, #fff 62%); opacity: 0; transition: opacity .25s; }
-.dw-fan-cap b { font-weight: 700; white-space: nowrap; }
-.dw-fan-card:hover, .dw-fan-card:focus-visible { transform: translateY(-26px) rotate(0deg) scale(1.05); z-index: 10; box-shadow: 0 34px 56px -22px oklch(0.2 0.02 60 / .55), 0 0 0 1px var(--line); }
-.dw-fan-card:hover .dw-fan-cap, .dw-fan-card:focus-visible .dw-fan-cap { opacity: 1; }
-.dw-fan-card:focus-visible { outline: 3px solid var(--neon-a); outline-offset: 3px; }
-@media (max-width: 759px) { .dw-fan { --w: 25vw; padding-top: var(--s6); } .dw-fan-card { border-radius: 18px; margin-left: calc(var(--w) * -0.24); } .dw-fan-cap { display: none; } }
-@media (prefers-reduced-motion: reduce) { .dw-fan-card { transition: none; } }
 
 @media (max-width: 559px) {
   .dw-hero h1 { font-size: 9vw; letter-spacing: -0.06em; }
@@ -473,3 +452,55 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 /* no option buttons (single-choice products): heart and bag share the bar equally, on every screen size */
 .pg-opts:not(:has(.pg-optcell)) > li { flex: 1 1 0 !important; }
 .pg-opts:not(:has(.pg-optcell)) .pg-opt { font-size: 13px; }
+
+/* ============================================================
+   v8: "Fresh this week" reel. A rotating ring of ID-badge cards
+   (Drapewell logo, product photo, rubber stamp, barcode) hanging
+   from clips on a metal rail. Pure CSS 3D; drape.js spins it.
+   ============================================================ */
+.dw-reel-wrap { display: grid; gap: var(--s5); margin-top: var(--s4); }
+.dw-reel { --cw: clamp(92px, 24vw, 200px); --ch: calc(var(--cw) * 1.5); --R: calc(var(--cw) * 1.62); position: relative; }
+.dw-reel-stage { position: relative; height: calc(var(--ch) + var(--R) * 0.9 + 110px); overflow: hidden; perspective: 1700px; perspective-origin: 50% 8%; border-radius: clamp(26px, 4vw, 44px); cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 38%, #fff, oklch(0.955 0.008 90) 75%); border: 1px solid var(--line); }
+.dw-reel-stage:active { cursor: grabbing; }
+.dw-reel-stage::after { content: ""; position: absolute; left: 50%; bottom: 7%; width: 62%; height: 7%; translate: -50% 0; border-radius: 50%; background: radial-gradient(ellipse, oklch(0.2 0.02 60 / .22), transparent 70%); pointer-events: none; }
+.dw-reel-scene { position: absolute; left: 50%; top: 52px; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(-13deg); }
+.dw-reel-ring { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; transform: rotateY(-20deg); will-change: transform; }
+
+/* metal rail + rods */
+.dw-reel-rail { position: absolute; left: 0; top: 0; width: calc(var(--R) * 2 + 26px); height: calc(var(--R) * 2 + 26px); translate: -50% -50%; border-radius: 50%;
+  background: conic-gradient(#aeb3bb, #f4f5f7, #868c95, #eceef0, #aeb3bb, #f4f5f7, #868c95, #eceef0, #aeb3bb);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 10px)); mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 10px));
+  transform: rotateX(90deg); }
+.dw-rod { position: absolute; left: 0; top: 0; width: 4px; height: 300px; background: linear-gradient(90deg, #868c95, #f1f2f4 45%, #868c95); transform: rotateY(calc(var(--rod) * 1deg)) translateZ(var(--R)) translateX(-50%) translateY(-300px); }
+
+/* the ID badge */
+.dw-reel-item { position: absolute; left: 0; top: 0; width: var(--cw); height: var(--ch); display: block; color: var(--text); text-decoration: none; transform-style: preserve-3d;
+  transform: rotateY(var(--ry, 0deg)) translateZ(var(--R)) translateX(-50%) translateY(40px); -webkit-user-drag: none; }
+.dw-strap { position: absolute; left: 50%; top: -40px; width: 2px; height: 40px; translate: -50% 0; background: linear-gradient(#868c95, #c9ccd2); }
+.dw-clip { position: absolute; left: 50%; top: -12px; z-index: 3; width: calc(var(--cw) * .11); aspect-ratio: 1 / 1.25; translate: -50% 0; border-radius: 28% 28% 38% 38%; background: linear-gradient(90deg, #8e949c, #eceef0 45%, #8e949c); box-shadow: 0 2px 4px oklch(0 0 0 / .3); transform: translateZ(1px); }
+.dw-id { position: absolute; inset: 0; transform-style: preserve-3d; }
+.dw-id-face { position: absolute; inset: 0; container-type: inline-size; overflow: hidden; display: flex; flex-direction: column; padding: 7cqw; border-radius: 9cqw; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--pc, var(--p1));
+  box-shadow: inset 0 0 0 1px oklch(0.2 0 0 / .1), 0 14px 26px -14px oklch(0.2 0.02 60 / .5); }
+.dw-id-back { transform: rotateY(180deg); align-items: center; justify-content: center; text-align: center; gap: 3cqw;
+  background-image: repeating-linear-gradient(135deg, transparent 0 11cqw, oklch(1 0 0 / .4) 11cqw 12cqw); }
+.dw-id-slot { display: block; width: 24cqw; height: 4cqw; margin: 0 auto 5cqw; border-radius: 3cqw; background: oklch(0.955 0.008 90); box-shadow: inset 0 1px 2px oklch(0 0 0 / .3); }
+.dw-id-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4cqw; font-family: var(--display); }
+.dw-id-logo { font-weight: 800; font-size: 9cqw; letter-spacing: -0.06em; line-height: 1; }
+.dw-id-logo b, .dw-id-mark b { color: var(--neon-a); font-weight: 800; }
+.dw-id-no, .dw-id-wk { font-family: var(--mono); font-size: 5.2cqw; letter-spacing: .08em; opacity: .7; }
+.dw-id-photo { position: relative; display: block; aspect-ratio: 1; border-radius: 6cqw; overflow: hidden; background: #fff; box-shadow: inset 0 0 0 1px oklch(0.2 0 0 / .08); }
+.dw-id-photo img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.dw-stamp { position: absolute; left: 5cqw; bottom: 6cqw; padding: 1cqw 3.4cqw; border: .9cqw solid oklch(0.45 0.2 265); border-radius: 2cqw; color: oklch(0.45 0.2 265); font-style: normal; font-family: var(--display); font-weight: 800; font-size: 8.6cqw; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; rotate: -9deg; background: oklch(1 0 0 / .55); mix-blend-mode: multiply; }
+.dw-id-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4cqw; font-size: 7.4cqw; line-height: 1.22; font-weight: 600; letter-spacing: -0.01em; }
+.dw-id-meta { display: flex; justify-content: space-between; align-items: baseline; margin-top: auto; padding-top: 3cqw; }
+.dw-id-price { font-family: var(--display); font-size: 10cqw; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.dw-id-price s, .dw-id-price .was { font-size: .6em; opacity: .6; }
+.dw-barcode { display: block; height: 8cqw; margin-top: 3cqw; background: repeating-linear-gradient(90deg, var(--text) 0 .8cqw, transparent .8cqw 1.8cqw, var(--text) 1.8cqw 3.4cqw, transparent 3.4cqw 4.6cqw, var(--text) 4.6cqw 5.2cqw, transparent 5.2cqw 7cqw); opacity: .85; }
+.dw-id-mark { display: grid; place-items: center; width: 34cqw; aspect-ratio: 1; border-radius: 28%; background: var(--text); color: #fff; font-family: var(--display); font-weight: 800; font-size: 22cqw; letter-spacing: -0.06em; line-height: 1; rotate: -6deg; }
+.dw-id-word { font-family: var(--display); font-weight: 800; font-size: 14cqw; letter-spacing: -0.06em; line-height: 1; }
+.dw-id-small { font-family: var(--mono); font-size: 5cqw; letter-spacing: .12em; text-transform: uppercase; opacity: .65; }
+.dw-reel-item:focus-visible { outline: none; }
+.dw-reel-item:focus-visible .dw-id-front { box-shadow: 0 0 0 3px var(--neon-a), 0 14px 26px -14px oklch(0.2 0.02 60 / .5); }
+@container (max-width: 130px) { .dw-id-title, .dw-barcode, .dw-id-no, .dw-id-wk { display: none; } .dw-id-photo { margin-top: 2cqw; } }
+@media (prefers-reduced-motion: reduce) { .dw-reel-stage { cursor: default; } }

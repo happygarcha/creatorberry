@@ -27,23 +27,59 @@
     </div>
   </div>
 
-  <div class="dw-fan" role="list">
-    {%- assign t = 0 -%}
-    {%- for product in newest -%}
-      {%- if t < 5 and product.available and product.featured_image -%}
-        {%- assign lead = product.featured_image -%}
-        {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
-        <a class="dw-fan-card" role="listitem" href="{{ product.url }}">
-          {%- if t < 3 -%}
-            {{ lead | image_url: width: 600 | image_tag: loading: 'eager', widths: '300, 450, 600', sizes: '(min-width: 1000px) 17vw, 26vw', alt: '' }}
-          {%- else -%}
-            {{ lead | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 1000px) 17vw, 26vw', alt: '' }}
-          {%- endif -%}
-          <span class="dw-fan-cap"><span>{{ product.title | truncate: 30 }}</span><b>{% render 'price', product: product %}</b></span>
-        </a>
-        {%- assign t = t | plus: 1 -%}
-      {%- endif -%}
-    {%- endfor -%}
+  <div class="dw-reel-wrap">
+    <header class="dw-head">
+      <h2 id="reel-h">Fresh this week</h2>
+      {%- if new_src.handle != 'all' -%}<div class="dw-head-tools"><a class="dw-link" href="{{ new_src.url }}">See all</a></div>{%- endif -%}
+    </header>
+    {%- assign stamps = 'NEW!,JUST IN,FRESH!,TOP PICK,LOVE IT,HOT!' | split: ',' -%}
+    <div class="dw-reel" data-reel aria-labelledby="reel-h">
+      <div class="dw-reel-stage">
+        <div class="dw-reel-scene">
+          <div class="dw-reel-ring" data-reel-ring role="list">
+            <span class="dw-reel-rail" aria-hidden="true"></span>
+            <span class="dw-rod" style="--rod: 0" aria-hidden="true"></span>
+            <span class="dw-rod" style="--rod: 120" aria-hidden="true"></span>
+            <span class="dw-rod" style="--rod: 240" aria-hidden="true"></span>
+            {%- assign t = 0 -%}
+            {%- for product in newest -%}
+              {%- if t < 8 and product.available and product.featured_image -%}
+                {%- assign lead = product.featured_image -%}
+                {%- if lead.alt contains 'Safe use' and product.images.size > 1 -%}{%- assign lead = product.images[1] -%}{%- endif -%}
+                {%- assign pk = t | modulo: 6 | plus: 1 -%}
+                {%- assign sk = t | modulo: 6 -%}
+                <a class="dw-reel-item" role="listitem" href="{{ product.url }}" draggable="false" style="--i: {{ t }}; --pc: var(--p{{ pk }})">
+                  <span class="dw-strap" aria-hidden="true"></span><span class="dw-clip" aria-hidden="true"></span>
+                  <span class="dw-id">
+                    <span class="dw-id-face dw-id-front">
+                      <i class="dw-id-slot" aria-hidden="true"></i>
+                      <span class="dw-id-top"><span class="dw-id-logo">Drapewell<b>.</b></span><span class="dw-id-no">No.&nbsp;0{{ t | plus: 1 }}</span></span>
+                      <span class="dw-id-photo">
+                        {%- if t < 4 -%}
+                          {{ lead | image_url: width: 400 | image_tag: loading: 'eager', widths: '200, 300, 400', sizes: '200px', alt: '', draggable: 'false' }}
+                        {%- else -%}
+                          {{ lead | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '200px', alt: '', draggable: 'false' }}
+                        {%- endif -%}
+                        <em class="dw-stamp" aria-hidden="true">{{ stamps[sk] }}</em>
+                      </span>
+                      <span class="dw-id-title">{{ product.title }}</span>
+                      <span class="dw-id-meta"><span class="dw-id-price">{% render 'price', product: product %}</span><span class="dw-id-wk">WK {{ 'now' | date: '%U' }}</span></span>
+                      <span class="dw-barcode" aria-hidden="true"></span>
+                    </span>
+                    <span class="dw-id-face dw-id-back" aria-hidden="true">
+                      <span class="dw-id-mark">D<b>.</b></span>
+                      <span class="dw-id-word">Drapewell</span>
+                      <span class="dw-id-small">Ships to Canada &amp; US</span>
+                    </span>
+                  </span>
+                </a>
+                {%- assign t = t | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
