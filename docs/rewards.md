@@ -36,3 +36,12 @@ Not yet. The app (Loloyal, the "Rewards" bubble) is configured by the store owne
 - Cart drawer: "Earn 1 point for every CA$1" (logged in) / "Log in to earn 1 point for every CA$1" (guest)
 - Product page: same line under the price
 - Wishlist page: "Log in to earn points and keep your favourites"
+
+## Updates from the app screens
+- Reviews: pick Judge.me (it was Disconnected, needs connecting). Text review 25 points, extra 75 for photos (the extra adds on top).
+- Newsletter: Subscribe to newsletter, 25 points.
+- Place an order: change from 5 points per $1 to 1 point per $1.
+- Referrals: separate Referrals tab (plan availability not yet checked).
+- Points expiry is a Pro feature, so leave it off for now.
+- Participants: set Members only.
+- Social follow rewards: later, once the accounts exist (see docs/todo.md).

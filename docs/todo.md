@@ -15,5 +15,10 @@
 - Redirects, SEO checks, app compatibility, speed and accessibility QA.
 - Keyword chips for Kitchen, Pet Supplies and Bedroom appear only when enough products are live (default 16).
 
+## Social media (saved for later)
+- Drapewell has no social accounts yet. Create them, starting with Pinterest then Instagram (TikTok and Facebook later).
+- Same handle everywhere (check "drapewell" is free), bio, logo as profile picture, first ten posts with captions.
+- Once live: add follow links in the site footer, then turn on the follow rewards in the rewards app (Follow on Instagram / TikTok, about 10 points each).
+
 ## Next topic
 - Configure the rewards program (Loloyal, "Rewards" bubble).
