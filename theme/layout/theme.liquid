@@ -29,6 +29,11 @@
   <header class="dw-header" data-topbar>
     {%- if settings.announcement != blank -%}
       {%- assign mq_parts = settings.announcement | split: '·' -%}
+      {%- assign mq_offer = collections['buy-2-save-10'] -%}
+      {%- if mq_offer != blank and mq_offer.products_count > 0 -%}
+        {%- assign mq_extra = 'Buy 2, save 10%' | split: '|' -%}
+        {%- assign mq_parts = mq_parts | concat: mq_extra -%}
+      {%- endif -%}
       <div class="dw-marquee" role="note" aria-label="{{ settings.announcement | escape }}">
         <div class="dw-marquee-track">
           {%- for i in (1..4) -%}

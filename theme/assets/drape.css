@@ -860,6 +860,8 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
   .dw-header .dw-catmenu { padding-bottom: 4px; }
 }
 @media (prefers-reduced-motion: reduce) { .dw-header .dw-marquee { transition: none; } }
+/* the headline strip under the carousel repeats the moving line at the top, so it is hidden from view (kept for search engines and screen readers) */
+body.template-index .dw-hero-top { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
 /* the shipping facts strip repeats the top banner: kept for screen readers, hidden to save room */
 body.template-index .dw-trust { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
 body.template-index .dw-hero-top { padding-top: 10px; }
