@@ -496,6 +496,27 @@
     }
   }
 
+  /* ---------- chat bubble: the chat app keeps its button inside its own sealed container, so the same pop animation is added there ---------- */
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var chatTries = 0;
+    var chatPop = setInterval(function () {
+      chatTries++;
+      var host = $("shopify-agent-runtime"), root = host && host.shadowRoot;
+      if (root && $(".activator", root) && !$("#dw-chat-pop", root)) {
+        var st = document.createElement("style");
+        st.id = "dw-chat-pop";
+        st.textContent =
+          "@keyframes dwpop{0%,62%,100%{scale:1;rotate:0deg}68%{scale:1.2;rotate:-7deg}74%{scale:.94;rotate:6deg}80%{scale:1.1;rotate:-3deg}88%{scale:1;rotate:0deg}}" +
+          "@keyframes dwring{0%,62%{box-shadow:0 0 0 0 rgba(240,90,50,0)}68%{box-shadow:0 0 0 0 rgba(240,90,50,.5)}100%{box-shadow:0 0 0 20px rgba(240,90,50,0)}}" +
+          ".activator{animation:dwpop 7s ease-in-out 4.5s infinite,dwring 7s ease-out 4.5s infinite;transform-origin:50% 50%}" +
+          ".activator:hover{animation:none}";
+        root.appendChild(st);
+        clearInterval(chatPop);
+      }
+      if (chatTries > 40) clearInterval(chatPop);
+    }, 750);
+  }
+
   /* the old theme's magnetic-button script nudges buttons toward the cursor; cancel any leftover nudge */
   $$(".magnet").forEach(function (b) { b.classList.remove("magnet"); b.style.translate = ""; });
   document.addEventListener("pointermove", function () {
