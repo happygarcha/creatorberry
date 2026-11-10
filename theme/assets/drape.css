@@ -584,3 +584,9 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
   .dw-id-price { font-size: 11cqw; }
   .dw-stamp { font-size: 9cqw; }
 }
+
+/* v11: logo as CSS background on every reel face (never blank); cord starts above the rail with a hook and collar */
+.rb-disc { background-image: var(--logo), radial-gradient(circle at 35% 28%, #fff, #eceff3 80%); background-size: 88% 88%, auto; background-position: center, center; background-repeat: no-repeat; }
+.dw-cord { top: -30px; height: calc(var(--cw) * .15 + 30px); width: 3px; background: linear-gradient(90deg, #6d727a, #f3f4f6 50%, #6d727a); }
+.dw-cord::before { top: -4px; width: 15px; height: 15px; border: 3px solid #9aa0a8; box-shadow: inset 0 0 0 1px #e9ebee, 0 1px 2px oklch(0 0 0 / .3); }
+.dw-cord::after { content: ""; position: absolute; left: 50%; top: 24px; width: 12px; height: 11px; translate: -50% 0; border-radius: 4px; background: linear-gradient(90deg, #7c828b, #fff 45%, #7c828b); box-shadow: 0 1px 3px oklch(0 0 0 / .4); }
