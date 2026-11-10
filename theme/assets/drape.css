@@ -748,4 +748,14 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 @media (max-width: 759px) { .dw-coll-about { padding-inline: 0; } }
 
 /* no "magnetic" pull on buttons: the cart button must stay where it is when the mouse passes near */
-.magnet, .cart-btn, .btn { translate: none !important; }
+/* (the magnet class itself is removed by drape.js, so buttons keep their normal hover and press animation) */
+
+/* cart button animation: lifts on hover, the cart icon wiggles, the count pops when something is added */
+.dw-header .cart-btn { transition: translate .45s var(--spring), background-color .2s, box-shadow .3s; }
+@media (hover: hover) {
+  .dw-header .cart-btn:hover { translate: 0 -3px; box-shadow: 0 12px 24px -10px oklch(0.2 0.02 60 / .45); }
+  .dw-header .cart-btn:hover > svg { animation: dwcartwiggle .6s var(--ease); }
+}
+@keyframes dwcartwiggle { 0% { rotate: 0deg; } 25% { rotate: -14deg; } 55% { rotate: 10deg; } 80% { rotate: -5deg; } 100% { rotate: 0deg; } }
+.dw-header .cart-btn [data-cart-count].bump { animation: bump .6s var(--spring); }
+@media (prefers-reduced-motion: reduce) { .dw-header .cart-btn, .dw-header .cart-btn:hover { transition: none; translate: none; } .dw-header .cart-btn:hover > svg { animation: none; } }
