@@ -590,3 +590,16 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .dw-cord { top: -30px; height: calc(var(--cw) * .15 + 30px); width: 3px; background: linear-gradient(90deg, #6d727a, #f3f4f6 50%, #6d727a); }
 .dw-cord::before { top: -4px; width: 15px; height: 15px; border: 3px solid #9aa0a8; box-shadow: inset 0 0 0 1px #e9ebee, 0 1px 2px oklch(0 0 0 / .3); }
 .dw-cord::after { content: ""; position: absolute; left: 50%; top: 24px; width: 12px; height: 11px; translate: -50% 0; border-radius: 4px; background: linear-gradient(90deg, #7c828b, #fff 45%, #7c828b); box-shadow: 0 1px 3px oklch(0 0 0 / .4); }
+
+/* v12: pull-to-unreel. --pull (px) is set by drape.js while a card is dragged down. */
+.dw-reel-stage { height: calc(var(--cw) * 3.5 + 230px); }
+.dw-id { transform: translateY(var(--pull, 0px)); cursor: grab; }
+.dw-reel-item.is-pulled .dw-id { cursor: grabbing; }
+.dw-reel-item.is-pulled { z-index: 5; }
+.dw-belt { height: calc(var(--cw) * .2 + var(--pull, 0px)); }
+.dw-snap { top: calc(var(--hang) - var(--cw) * .06 + var(--pull, 0px)); }
+.dw-reel-item.is-pulled .dw-id { filter: drop-shadow(0 18px 18px oklch(0.2 0.02 60 / .35)); }
+.dw-reel-hint { position: absolute; left: 50%; bottom: 14px; z-index: 6; margin: 0; translate: -50% 0; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: oklch(1 0 0 / .85); border: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text); pointer-events: none; }
+.dw-reel-hint-i { width: 8px; height: 8px; border-radius: 50%; background: var(--neon-a); animation: dwhint 1.6s ease-in-out infinite; }
+@keyframes dwhint { 0%,100% { translate: 0 -3px; } 50% { translate: 0 3px; } }
+@media (prefers-reduced-motion: reduce) { .dw-reel-hint-i { animation: none; } }

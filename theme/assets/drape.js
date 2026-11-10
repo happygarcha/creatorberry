@@ -138,17 +138,65 @@
     var paint = function () { ringEl.style.transform = "rotateY(" + ang.toFixed(2) + "deg)"; };
     var loop = function () {
       rafId = 0;
-      if (!dragging) { vel += (base - vel) * 0.04; ang += vel; paint(); }
+      if (!dragging && !pulling) { vel += (base - vel) * 0.04; ang += vel; paint(); }
       if (!still && onScreen && !document.hidden) rafId = requestAnimationFrame(loop);
     };
     var wake = function () { if (!rafId && !still && onScreen && !document.hidden) rafId = requestAnimationFrame(loop); };
-    stageEl.addEventListener("pointerdown", function (e) { dragging = true; lastX = e.clientX; travelled = 0; vel = 0; });
+    var pullCard = null, pullMode = "", pullY0 = 0, pullRaw = 0, pull = 0, holdT = 0, pulling = false, springRaf = 0, startX = 0, startY = 0, lastY = 0;
+    var maxPull = function () { var w = rItems[0] ? rItems[0].offsetWidth : 150; return w * 0.95; };
+    var applyPull = function (px) { pull = px; if (pullCard) pullCard.style.setProperty("--pull", px.toFixed(1) + "px"); };
+    var springBack = function () {
+      var card = pullCard, v = 0, from = pull;
+      cancelAnimationFrame(springRaf);
+      var step = function () {
+        v += -pull * 0.16; v *= 0.8; pull += v;
+        if (card) card.style.setProperty("--pull", pull.toFixed(1) + "px");
+        if (Math.abs(pull) < 0.4 && Math.abs(v) < 0.4) { pull = 0; if (card) { card.style.setProperty("--pull", "0px"); card.classList.remove("is-pulled"); } return; }
+        springRaf = requestAnimationFrame(step);
+      };
+      if (Math.abs(from) < 0.4) { if (card) card.classList.remove("is-pulled"); return; }
+      springRaf = requestAnimationFrame(step);
+    };
+    var armPull = function () {
+      pullMode = "pull"; pulling = true; dragging = false; vel = 0;
+      pullY0 = lastY; pullRaw = 0;
+      cancelAnimationFrame(springRaf);
+      if (pullCard) pullCard.classList.add("is-pulled");
+      if (navigator.vibrate) { try { navigator.vibrate(8); } catch (err) {} }
+    };
+    stageEl.addEventListener("pointerdown", function (e) {
+      dragging = true; lastX = e.clientX; travelled = 0; vel = 0;
+      startX = e.clientX; startY = lastY = e.clientY; pullMode = ""; pullCard = null;
+      var hit = e.target.closest ? e.target.closest(".dw-reel-item") : null;
+      if (hit && e.target.closest(".dw-id")) {
+        pullCard = hit;
+        if (e.pointerType !== "mouse") holdT = setTimeout(function () { if (!pullMode) armPull(); }, 240);
+      }
+    });
+    stageEl.addEventListener("touchmove", function (e) { if (pullMode === "pull") e.preventDefault(); }, { passive: false });
     window.addEventListener("pointermove", function (e) {
+      lastY = e.clientY;
+      if (pullCard && !pullMode && e.pointerType === "mouse" && dragging) {
+        var mx = e.clientX - startX, my = e.clientY - startY;
+        if (Math.abs(mx) > 6 || Math.abs(my) > 6) { if (my > 0 && my > Math.abs(mx) * 1.1) armPull(); else pullMode = "rotate"; }
+      }
+      if (pullMode === "pull") {
+        pullRaw = Math.max(0, e.clientY - pullY0);
+        var mp = maxPull();
+        applyPull(mp * Math.tanh(pullRaw / mp));
+        travelled = 99;
+        return;
+      }
       if (!dragging) return;
       var dx = e.clientX - lastX; lastX = e.clientX; travelled += Math.abs(dx);
       ang += dx * 0.45; vel = dx * 0.45; paint();
     });
-    var release = function () { if (dragging) { dragging = false; wake(); } };
+    var release = function () {
+      clearTimeout(holdT);
+      if (pullMode === "pull") { pulling = false; pullMode = ""; springBack(); dragging = false; wake(); return; }
+      pullMode = "";
+      if (dragging) { dragging = false; wake(); }
+    };
     window.addEventListener("pointerup", release);
     window.addEventListener("pointercancel", release);
     reel.addEventListener("click", function (e) { if (travelled > 6) { e.preventDefault(); e.stopPropagation(); travelled = 0; } }, true);
