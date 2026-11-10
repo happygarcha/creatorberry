@@ -86,12 +86,12 @@
           <div class="dw-reel-ring" data-reel-ring role="list">
             <span class="dw-reel-rail" aria-hidden="true"></span>
             <span class="dw-reel-rail dw-reel-rail-top" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 60" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 180" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 300" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 0" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 120" aria-hidden="true"></span>
-            <span class="dw-rod" style="--rod: 240" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="60" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="180" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="300" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="0" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="120" aria-hidden="true"></span>
+            <span class="dw-rod" data-at="240" aria-hidden="true"></span>
             {%- assign t = 0 -%}
             {%- for h in picked_list -%}
               {%- assign product = all_products[h] -%}
@@ -238,7 +238,7 @@
     { "type": "text", "id": "reel_heading", "label": "Heading when products are tagged fresh", "default": "Fresh this week" },
     { "type": "text", "id": "reel_fallback_heading", "label": "Heading when it shows the newest products instead", "default": "Just in" },
     { "type": "collection", "id": "reel_collection", "label": "Collection to feature", "info": "Leave empty to use the 'Fresh this week' collection (products tagged fresh). Any collection works." },
-    { "type": "range", "id": "reel_count", "min": 4, "max": 10, "step": 1, "default": 8, "label": "Number of badges" },
+    { "type": "range", "id": "reel_count", "min": 6, "max": 14, "step": 1, "default": 12, "label": "Number of badges", "info": "Phones show the first 8 so the badges stay readable." },
     { "type": "range", "id": "reel_per_type", "min": 1, "max": 4, "step": 1, "default": 2, "label": "Most products from one type when topping up with newest" },
     { "type": "header", "content": "Page" },
     { "type": "checkbox", "id": "show_rows", "label": "Show the Pet supplies and Seasonal rows", "default": true },

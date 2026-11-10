@@ -132,12 +132,55 @@
   /* ---------- "Fresh this week" reel: slow auto-spin, drag to turn, slows on hover, pauses off-screen ---------- */
   var reel = $("[data-reel]");
   if (reel) {
-    var ringEl = $("[data-reel-ring]", reel), stageEl = $(".dw-reel-stage", reel), rItems = $$(".dw-reel-item", reel);
+    var ringEl = $("[data-reel-ring]", reel), stageEl = $(".dw-reel-stage", reel), rItems = $$(".dw-reel-item", reel), rods = $$(".dw-rod", reel);
     var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var count = rItems.length || 1, stepDeg = 360 / count;
-    rItems.forEach(function (el, i) { el.style.setProperty("--ry", (i * stepDeg).toFixed(2) + "deg"); });
     var ang = -20, vel = still ? 0 : 0.1, base = still ? 0 : 0.1, dragging = false, lastX = 0, travelled = 0, onScreen = true, rafId = 0;
-    var paint = function () { ringEl.style.transform = "rotateY(" + ang.toFixed(2) + "deg)"; };
+
+    /* The rail is a fixed oval. The badges slide along it at an even pace (spacing by arc length, not by angle),
+       each one turned to face outward. A wide stage gets a wide oval with every badge; a phone gets a rounder, smaller
+       oval with the first 8 so the badges stay big enough to read. */
+    var A = 300, B = 150, perim = 1, table = [], TAB = 240, live = rItems.slice();
+    var buildTable = function () {
+      table = [0]; var px = 0, pz = B, len = 0;
+      for (var k = 1; k <= TAB; k++) { var th = k / TAB * Math.PI * 2, x = A * Math.sin(th), z = B * Math.cos(th); len += Math.hypot(x - px, z - pz); table.push(len); px = x; pz = z; }
+      perim = len;
+    };
+    var thetaAt = function (s) {
+      s = ((s % perim) + perim) % perim;
+      var lo = 0, hi = TAB;
+      while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (table[mid] <= s) lo = mid; else hi = mid; }
+      var f = (s - table[lo]) / ((table[hi] - table[lo]) || 1);
+      return (lo + f) / TAB * Math.PI * 2;
+    };
+    var paint = function () {
+      var n = live.length; if (!n) return;
+      var s0 = ang / 360 * perim;
+      for (var i = 0; i < n; i++) {
+        var th = thetaAt(s0 + i * perim / n), sn = Math.sin(th), cs = Math.cos(th);
+        var psi = Math.atan2(sn / A, cs / B) * 180 / Math.PI;      /* outward normal of the oval */
+        live[i].style.transform = "translate3d(" + (A * sn).toFixed(1) + "px,0," + (B * cs).toFixed(1) + "px) rotateY(" + psi.toFixed(2) + "deg) translateX(-50%)";
+      }
+    };
+    var layout = function () {
+      var w = stageEl.clientWidth || 600, cw = rItems[0] ? rItems[0].offsetWidth : 150;
+      var phone = w < 600, mid = w < 900;
+      var limit = phone ? 8 : mid ? 10 : rItems.length;
+      live = rItems.filter(function (el, i) { return i < limit; });
+      rItems.forEach(function (el, i) { el.hidden = i >= limit; });
+      if (phone) { A = cw * 1.3; B = cw * 1.05; }
+      else if (mid) { A = w * 0.36; B = cw * 1.1; }
+      else { A = Math.min(w * 0.4, 640); B = cw * 1.15; }
+      reel.style.setProperty("--A", A.toFixed(0) + "px");
+      reel.style.setProperty("--B", B.toFixed(0) + "px");
+      rods.forEach(function (r, i) {
+        var th = (Number(r.dataset.at) || (i * 60)) * Math.PI / 180;
+        r.style.transform = "translate3d(" + (A * Math.sin(th)).toFixed(1) + "px,-130px," + (B * Math.cos(th)).toFixed(1) + "px) translateX(-50%)";
+      });
+      buildTable(); paint();
+    };
+    layout();
+    var resizeT = 0;
+    window.addEventListener("resize", function () { clearTimeout(resizeT); resizeT = setTimeout(layout, 120); });
     var loop = function () {
       rafId = 0;
       if (!dragging && !pulling) { vel += (base - vel) * 0.04; ang += vel; paint(); }

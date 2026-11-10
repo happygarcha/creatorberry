@@ -674,3 +674,14 @@ html { scroll-behavior: smooth; }
 .dw-cord { overflow: visible; }
 /* thicker rail: a darker underside layer gives the tube some body when seen from the side */
 .dw-reel-rail { filter: drop-shadow(0 3px 0 oklch(0.55 0.01 260 / .55)); }
+
+/* ============================================================
+   v15: oval rack. A fixed elliptical rail (--A across, --B deep, set by drape.js); badges slide along it.
+   ============================================================ */
+.dw-reel-ring { transform: none !important; }
+.dw-reel-item[hidden] { display: none; }
+.dw-reel-rail { width: calc(var(--A, 300px) * 2 + 34px); height: calc(var(--B, 150px) * 2 + 34px);
+  -webkit-mask: radial-gradient(ellipse farthest-side at 50% 50%, transparent calc(100% - 15px), #000 calc(100% - 14px));
+          mask: radial-gradient(ellipse farthest-side at 50% 50%, transparent calc(100% - 15px), #000 calc(100% - 14px)); }
+.dw-reel-stage { height: calc(var(--cw) * 3.05 + 180px); }
+@media (max-width: 599px) { .dw-reel-stage { height: calc(var(--cw) * 3.05 + 210px); } }
