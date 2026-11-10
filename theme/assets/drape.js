@@ -10,7 +10,18 @@
     $$("[data-menu-open]").forEach(function (b) { b.addEventListener("click", function () { menu.showModal(); }); });
     $$("[data-menu-close]", menu).forEach(function (b) { b.addEventListener("click", function () { menu.close(); }); });
     menu.addEventListener("click", function (e) { if (e.target === menu) menu.close(); });
-    $$("a", menu).forEach(function (a) { a.addEventListener("click", function () { menu.close(); }); });
+    /* a category that has sub-categories only opens its list; it does not leave the page */
+    $$(".dw-menu-parent", menu).forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var d = a.closest("details");
+        if (d) d.open = !d.open;
+      });
+    });
+    $$("a", menu).forEach(function (a) {
+      if (a.classList.contains("dw-menu-parent")) return;
+      a.addEventListener("click", function () { menu.close(); });
+    });
   }
 
   /* desktop dropdowns: hover/focus work in CSS; the chevron button toggles for touch and keyboard */
@@ -21,15 +32,19 @@
     });
   }
   items.forEach(function (it) {
-    var btn = $(".dw-sub-btn", it);
+    var btn = $(".dw-sub-btn", it), link = $(":scope > a", it);
     if (!btn) return;
-    btn.addEventListener("click", function (e) {
+    var toggle = function (e) {
+      e.preventDefault();
       e.stopPropagation();
       var open = !it.classList.contains("is-open");
       closeAll(it);
       it.classList.toggle("is-open", open);
       btn.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    };
+    btn.addEventListener("click", toggle);
+    /* the category name opens its sub-categories instead of leaving the page */
+    if (link) { link.setAttribute("aria-haspopup", "true"); link.addEventListener("click", toggle); }
   });
   document.addEventListener("click", function () { closeAll(null); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(null); });
