@@ -217,24 +217,55 @@
     var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var norm = function (t) { return String(t || "").toLowerCase().replace(/\s+/g, " ").trim(); };
 
-    /* FLIP: remember where every visible card is, change the page, then slide each card from its old spot to its new one */
-    var reflow = function (change) {
-      var before = new Map();
-      cells.forEach(function (c) { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
-      change();
-      if (calm || !feedEl.animate) return;
-      var k = 0;
-      cells.forEach(function (c) {
-        if (c.hidden) return;
-        var r = c.getBoundingClientRect(), o = before.get(c), delay = Math.min(k++, 14) * 22;
-        if (o) {
-          var dx = o.left - r.left, dy = o.top - r.top;
-          if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
-          c.animate([{ transform: "translate(" + dx + "px," + dy + "px)" }, { transform: "none" }], { duration: 520, delay: delay, easing: "cubic-bezier(.2,.85,.25,1.05)", fill: "backwards" });
-        } else {
-          c.animate([{ opacity: 0, transform: "scale(.88) translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: delay, easing: "cubic-bezier(.2,.85,.25,1)", fill: "backwards" });
-        }
-      });
+    /* The shuffle, in three beats:
+       1. cards that are going away tumble up and out,
+       2. cards that stay swirl across to their new spots, tilting as they travel (FLIP),
+       3. cards that arrive fly in from below with a bounce. */
+    var rnd = function (n) { return (Math.random() - 0.5) * 2 * n; };
+    var token = 0;
+    var reflow = function (change, leaving) {
+      var mine = ++token;
+      cells.forEach(function (c) { if (c.getAnimations) c.getAnimations().forEach(function (a) { a.cancel(); }); });
+      var play = !calm && !!feedEl.animate;
+      var run = function () {
+        if (mine !== token) return;
+        var before = new Map();
+        cells.forEach(function (c) { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
+        change();
+        cells.forEach(function (c) { if (c.getAnimations) c.getAnimations().forEach(function (a) { a.cancel(); }); });
+        if (!play) return;
+        var k = 0;
+        cells.forEach(function (c) {
+          if (c.hidden) return;
+          var r = c.getBoundingClientRect(), o = before.get(c), delay = Math.min(k++, 16) * 28;
+          if (o) {
+            var dx = o.left - r.left, dy = o.top - r.top;
+            if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+            var tilt = rnd(7);
+            c.animate([
+              { transform: "translate(" + dx + "px," + dy + "px) rotate(0deg) scale(1)" },
+              { offset: 0.5, transform: "translate(" + dx * 0.38 + "px," + (dy * 0.38 - 18) + "px) rotate(" + tilt + "deg) scale(1.05)" },
+              { transform: "none" }
+            ], { duration: 780, delay: delay, easing: "cubic-bezier(.3,.8,.3,1)", fill: "backwards" });
+          } else {
+            c.animate([
+              { opacity: 0, transform: "translate(" + rnd(150) + "px," + (90 + Math.random() * 120) + "px) rotate(" + rnd(14) + "deg) scale(.6)" },
+              { opacity: 1, transform: "none" }
+            ], { duration: 700, delay: delay, easing: "cubic-bezier(.2,1.25,.3,1)", fill: "backwards" });
+          }
+        });
+      };
+      if (play && leaving && leaving.length) {
+        leaving.forEach(function (c, i) {
+          c.animate([
+            { opacity: 1, transform: "none" },
+            { opacity: 0, transform: "translate(" + rnd(90) + "px," + (-50 - Math.random() * 90) + "px) rotate(" + rnd(34) + "deg) scale(.5)" }
+          ], { duration: 340, delay: Math.min(i, 8) * 16, easing: "cubic-bezier(.5,0,.9,.45)", fill: "forwards" });
+        });
+        setTimeout(run, 360);
+      } else {
+        run();
+      }
     };
 
     /* search: hide the cards that don't match, the rest slide together */
@@ -244,13 +275,14 @@
     var applyFilter = function () {
       var q = cs ? norm(cs.value) : "", parts = q ? q.split(" ") : [], shown = 0;
       var allowed = subNow && subMap[subNow] ? subMap[subNow] : null;
-      reflow(function () {
-        cells.forEach(function (c) {
-          var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
-          if (ok && allowed) ok = allowed.indexOf(c.dataset.handle) > -1;
-          c.hidden = !ok; if (ok) shown++;
-        });
+      var keep = cells.map(function (c) {
+        var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
+        if (ok && allowed) ok = allowed.indexOf(c.dataset.handle) > -1;
+        if (ok) shown++;
+        return ok;
       });
+      var leaving = cells.filter(function (c, i) { return !c.hidden && !keep[i]; });
+      reflow(function () { cells.forEach(function (c, i) { c.hidden = !keep[i]; }); }, leaving);
       if (none) {
         none.hidden = !((q || allowed) && shown === 0);
         if (term && cs) term.textContent = "“" + cs.value.trim() + "”";
