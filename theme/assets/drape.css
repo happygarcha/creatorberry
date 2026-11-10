@@ -1035,3 +1035,10 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
   .dw-subchips:not(.dw-kwchips) > .dw-subchip:not(.dw-subchip-sm) { min-height: 38px; padding: 0 12px; font-size: 13.5px; }
   .dw-subchips:not(.dw-kwchips) > .dw-subchip-more::after { margin-left: 7px; width: 6px; height: 6px; }
 }
+
+/* v31: tighter still so All, the sub-categories and More fit on one line at 390px */
+@media (max-width: 759px) {
+  .dw-subchips:not(.dw-kwchips) { gap: 8px 5px; }
+  .dw-subchips:not(.dw-kwchips) > .dw-subchip:not(.dw-subchip-sm) { padding: 0 10px; font-size: 12.5px; letter-spacing: -0.01em; }
+  .dw-subchips:not(.dw-kwchips) > .dw-subchip-more::after { margin-left: 5px; width: 5px; height: 5px; }
+}
