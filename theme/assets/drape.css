@@ -799,9 +799,33 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .dw-subchips.is-wide .dw-subchip-sm { min-height: 42px; padding: 0 18px; font-size: 14.5px; background: var(--surface); border: 1px solid var(--line); }
 .dw-subchips.is-wide .dw-subchip-sm.is-on { background: var(--text); color: #fff; border-color: var(--text); }
 
-/* homepage: the animated category chips replace the text menu in the header; every other page keeps the text menu */
-body.template-index .dw-nav { display: none; }
-body.template-index .dw-bar { padding-bottom: 14px; }
+/* ============================================================
+   v20: one menu. The text menu is gone everywhere; the picture menu (snippets/category-chips.liquid) sits under the header on every page.
+   ============================================================ */
+.dw-nav, body.template-index .dw-nav { display: none !important; }
+.dw-bar { padding-bottom: 12px; }
+.back-home { display: none !important; }
+.dw-catmenu { max-width: var(--wrap); margin: 0 auto; padding: var(--s3) var(--gut) 0; }
+.dw-catmenu .dw-chips { padding-top: 22px; margin-top: -10px; }
+.dw-chip-home { background: var(--p3); }
+.dw-chip[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--text); }
+.dw-chips.is-scroll, .dw-catmenu .dw-chips.is-scroll { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding-top: 6px; margin-top: 0; padding-bottom: 8px; }
+.dw-chips.is-scroll::-webkit-scrollbar { display: none; }
+.dw-chips.is-scroll .dw-chip { flex: none; }
+@media (max-width: 759px) {
+  .dw-catmenu .dw-chips { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding-top: 6px; margin-top: 0; padding-bottom: 8px; scroll-snap-type: x proximity; }
+  .dw-catmenu .dw-chips::-webkit-scrollbar { display: none; }
+  .dw-catmenu .dw-chip { flex: none; scroll-snap-align: start; }
+}
+
+/* homepage first screen: header, picture menu and carousel together. The headline block moves below the carousel and gets smaller. */
+body.template-index .dw-main { padding-top: var(--s3); }
+body.template-index .dw-hero { display: flex; flex-direction: column; gap: var(--s6); }
+body.template-index .dw-hero-top { order: 2; padding-top: var(--s6); }
+body.template-index .dw-hero h1 { font-size: clamp(30px, 4.2vw, 60px); max-width: 22ch; }
+body.template-index .dw-reel-wrap { order: 1; margin-top: 0; }
+body.template-index .dw-reel { --cw: clamp(96px, min(22vw, calc((100svh - 460px) / 3.05)), 176px); }
+@media (max-width: 759px) { body.template-index .dw-reel { --cw: clamp(96px, min(37vw, calc((100svh - 460px) / 3.05)), 172px); } }
 /* slightly smaller category chips */
 .dw-chips { gap: 8px; }
 .dw-chip { gap: 10px; padding: 6px 20px 6px 6px; font-size: clamp(16px, 1.55vw, 21px); }

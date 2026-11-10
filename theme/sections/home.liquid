@@ -153,26 +153,10 @@
   {%- endfor -%}
 </ul>
 
-{%- comment -%} ---------- SHOP BY CATEGORY (chip cloud) ---------- {%- endcomment -%}
-{%- assign tiles = 0 -%}
-<section class="dw-section" id="shop" aria-labelledby="rb-h">
-  <header class="dw-head"><h2 id="rb-h">{{ section.settings.rooms_title }}</h2></header>
-  <ul class="dw-chips">
-    {%- for link in linklists['main-menu'].links -%}
-      {%- if link.type == 'collection_link' and link.object != blank and link.object.products_count > 0 and tiles < 14 -%}
-        {%- assign tiles = tiles | plus: 1 -%}
-        {%- assign rp = link.object.products.first -%}
-        <li><a class="dw-chip" href="{{ link.url }}">
-          <span class="dw-chip-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60, 120', sizes: '56px', alt: '' }}{%- endif -%}</span>
-          <span class="dw-chip-t">{{ link.title }}</span>
-        </a></li>
-      {%- endif -%}
-    {%- endfor -%}
-  </ul>
-</section>
+{%- comment -%} The category chips now live in the site-wide menu under the header (snippets/category-chips.liquid). {%- endcomment -%}
 
 {%- comment -%} ---------- NEW ARRIVALS ---------- {%- endcomment -%}
-<section class="dw-section" aria-labelledby="feed-h">
+<section class="dw-section" id="shop" aria-labelledby="feed-h">
   <header class="dw-head">
     <h2 id="feed-h">{{ section.settings.feed_title }}</h2>
     <div class="dw-head-tools">

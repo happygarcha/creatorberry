@@ -509,7 +509,7 @@
 
   /* ---------- dock magnification (like the macOS Dock): chips swell near the pointer, neighbours less, and spring back ---------- */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    var DOCK_BOXES = ".dw-chips, .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 300, PEAK = 0.5, REACH = 70;
+    var DOCK_BOXES = ".dw-chips:not(.is-scroll), .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 300, PEAK = 0.5, REACH = 70;
     var dockBox = null, dockItems = [], dockBase = [], dockRows = [], dockRaf = 0, dockX = 0, dockY = 0, sx = 0, sy = 0, dockIdle = 0;
     var dockReset = function () {
       cancelAnimationFrame(dockRaf); dockRaf = 0;

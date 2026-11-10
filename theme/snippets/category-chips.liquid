@@ -1,0 +1,30 @@
+{%- comment -%}
+  The site-wide picture menu. Sits under the header on every page.
+  - Homepage: the categories only.
+  - Every other page: a Home chip first, then the categories, with the current one marked.
+  - Category pages show the category's own filter chips just below, from the collection section.
+  Phones and non-category pages get a single row that scrolls sideways, so the menu never takes much height.
+{%- endcomment -%}
+{%- assign is_home = false -%}
+{%- if request.page_type == 'index' -%}{%- assign is_home = true -%}{%- endif -%}
+{%- assign one_row = false -%}
+{%- unless is_home or request.page_type == 'collection' -%}{%- assign one_row = true -%}{%- endunless -%}
+<nav class="dw-catmenu" aria-label="{{ 'general.rooms' | t }}">
+  <ul class="dw-chips{% if one_row %} is-scroll{% endif %}">
+    {%- unless is_home -%}
+      <li><a class="dw-chip dw-chip-home" href="{{ routes.root_url }}">
+        <span class="dw-chip-img"><img src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="42" height="42" loading="eager"></span>
+        <span class="dw-chip-t">Home</span>
+      </a></li>
+    {%- endunless -%}
+    {%- for link in linklists['main-menu'].links -%}
+      {%- if link.type == 'collection_link' and link.object != blank and link.object.products_count > 0 -%}
+        {%- assign rp = link.object.products.first -%}
+        <li><a class="dw-chip" href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>
+          <span class="dw-chip-img">{%- if rp.featured_image -%}{{ rp.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60, 120', sizes: '42px', alt: '' }}{%- endif -%}</span>
+          <span class="dw-chip-t">{{ link.title }}</span>
+        </a></li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</nav>
