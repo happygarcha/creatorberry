@@ -841,12 +841,17 @@ body.template-index .dw-main { gap: clamp(28px, 3.5vw, 52px); }
 /* homepage first screen: header, picture menu and carousel together. The headline block moves below the carousel and gets smaller. */
 body.template-index .dw-main { padding-top: var(--s3); }
 body.template-index .dw-hero { display: flex; flex-direction: column; gap: var(--s6); }
-body.template-index .dw-hero-top { order: 2; padding-top: var(--s6); }
-body.template-index .dw-hero h1 { font-size: clamp(30px, 4.2vw, 60px); max-width: 22ch; }
+body.template-index .dw-hero-top { order: 2; }
 body.template-index .dw-reel-wrap { order: 1; margin-top: 0; }
-body.template-index .dw-reel { --cw: clamp(84px, min(22vw, calc((100svh - 485px) / 3.05)), 176px); }
+body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px) / 3.05)), 176px); }
+/* card text keeps a readable minimum size, and title, price and barcode are never hidden */
+.dw-id-title { font-size: max(7cqw, 10.5px); }
+.dw-id-price { font-size: max(10cqw, 14px); }
+.dw-stamp { font-size: max(8.6cqw, 11px); }
+.dw-barcode { height: max(8cqw, 12px); }
+@container (max-width: 100px) { .dw-id-title, .dw-barcode { display: block !important; } }
 @media (max-width: 759px) {
-  body.template-index .dw-reel { --cw: clamp(84px, min(37vw, calc((100svh - 500px) / 3.05)), 172px); }
+  body.template-index .dw-reel { --cw: clamp(136px, min(37vw, calc((100svh - 500px) / 3.05)), 172px); }
   .dw-catmenu { padding-top: var(--s2); }
   .dw-catmenu .dw-chip { padding: 4px 14px 4px 4px; font-size: 15px; gap: 8px; }
   .dw-catmenu .dw-chip-img { width: 34px; height: 34px; }
