@@ -498,39 +498,50 @@
 
   /* ---------- dock magnification (like the macOS Dock): chips swell near the pointer, neighbours less, and spring back ---------- */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    var DOCK_BOXES = ".dw-chips, .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 150, PEAK = 0.55;
-    var dockBox = null, dockItems = [], dockRaf = 0, dockX = 0, dockY = 0;
+    var DOCK_BOXES = ".dw-chips, .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 300, PEAK = 0.5, REACH = 70;
+    var dockBox = null, dockItems = [], dockRaf = 0, dockX = 0, dockY = 0, sx = 0, sy = 0, dockIdle = 0;
     var dockReset = function () {
+      cancelAnimationFrame(dockRaf); dockRaf = 0;
       if (!dockBox) return;
       dockBox.classList.remove("is-live");
       dockItems.forEach(function (el) { el.style.removeProperty("--m"); el.style.removeProperty("z-index"); });
       dockBox = null; dockItems = [];
     };
+    /* every frame the swell point glides toward the real pointer, so the effect flows along the row instead of jumping */
     var dockPaint = function () {
       dockRaf = 0;
       if (!dockBox) return;
+      sx += (dockX - sx) * 0.3; sy += (dockY - sy) * 0.3;
       dockItems.forEach(function (el) {
         var r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        var d = Math.hypot((dockX - cx) * 1, (dockY - cy) * 1.6);     /* rows are tall: weigh the vertical distance more */
+        var d = Math.hypot(sx - cx, (sy - cy) * 1.25);
         var m = 1 + PEAK * Math.exp(-Math.pow(d / RADIUS, 2));
         el.style.setProperty("--m", m.toFixed(3));
         el.style.zIndex = String(Math.round(m * 100));
       });
+      if (Math.abs(dockX - sx) > 0.4 || Math.abs(dockY - sy) > 0.4 || Date.now() - dockIdle < 120) dockRaf = requestAnimationFrame(dockPaint);
     };
     document.addEventListener("pointermove", function (e) {
       if (e.pointerType !== "mouse") return;
+      /* the effect starts a little before the pointer reaches the row and ends a little after it leaves, so it eases in and out */
       var box = e.target.closest ? e.target.closest(DOCK_BOXES) : null;
+      if (!box && dockBox) {
+        var br = dockBox.getBoundingClientRect();
+        if (e.clientX > br.left - REACH && e.clientX < br.right + REACH && e.clientY > br.top - REACH && e.clientY < br.bottom + REACH) box = dockBox;
+      }
       if (!box) { dockReset(); return; }
       if (box !== dockBox) {
         dockReset();
         dockBox = box; dockItems = $$(DOCK_ITEMS, box);
         dockItems.forEach(function (el) { el.classList.add("dw-dock-item"); });
         box.classList.add("is-live");
+        sx = e.clientX; sy = e.clientY;
       }
-      dockX = e.clientX; dockY = e.clientY;
+      dockX = e.clientX; dockY = e.clientY; dockIdle = Date.now();
       if (!dockRaf) dockRaf = requestAnimationFrame(dockPaint);
     }, { passive: true });
     document.addEventListener("pointerleave", dockReset);
+    window.addEventListener("scroll", function () { if (dockBox && !dockRaf) { dockIdle = Date.now(); dockRaf = requestAnimationFrame(dockPaint); } }, { passive: true });
     /* the Dock's hop: a clicked chip jumps once */
     document.addEventListener("click", function (e) {
       var el = e.target.closest ? e.target.closest(DOCK_ITEMS) : null;
