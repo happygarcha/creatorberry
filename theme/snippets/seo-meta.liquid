@@ -22,7 +22,7 @@
 {%- liquid
   assign seo_noindex = false
   if template contains 'collection' and collection != blank
-    if collection.products_count == 0 or collection.handle == 'frontpage'
+    if collection.products_count == 0 or collection.handle == 'frontpage' or collection.handle == 'new-arrivals' or collection.handle == 'fresh-this-week'
       assign seo_noindex = true
     endif
   endif

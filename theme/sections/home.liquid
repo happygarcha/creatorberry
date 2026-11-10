@@ -17,7 +17,7 @@
     <div class="dw-hero-side">
       <p class="dw-hero-sub">{{ 'home.discover_new' | t }}</p>
       <div class="dw-hero-cta">
-        <a class="btn primary dw-btn-lg" href="{% if new_src.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ new_src.url }}{% endif %}">{{ 'home.open' | t }}</a>
+        <a class="btn primary dw-btn-lg" href="#shop">{{ 'home.open' | t }}</a>
         {%- if offer_col != blank and offer_col.products_count > 0 -%}
           <a class="btn dw-btn-lg" href="{{ offer_col.url }}">Buy 2, save 10%</a>
         {%- endif -%}
@@ -78,7 +78,6 @@
   <div class="dw-reel-wrap">
     <header class="dw-head">
       <h2 id="reel-h">{{ reel_title }}</h2>
-      {%- if reel_link != blank and new_src.handle != 'all' -%}<div class="dw-head-tools"><a class="dw-link" href="{{ reel_link }}">See all</a></div>{%- endif -%}
     </header>
     {%- assign stamps = 'NEW!,JUST IN,FRESH!,TOP PICK,LOVE IT,HOT!' | split: ',' -%}
     <div class="dw-reel" data-reel aria-labelledby="reel-h" style="--logo: url('{{ 'drapewell-logo.png' | asset_url }}')">
@@ -158,7 +157,7 @@
 
 {%- comment -%} ---------- SHOP BY CATEGORY (chip cloud) ---------- {%- endcomment -%}
 {%- assign tiles = 0 -%}
-<section class="dw-section" aria-labelledby="rb-h">
+<section class="dw-section" id="shop" aria-labelledby="rb-h">
   <header class="dw-head"><h2 id="rb-h">{{ section.settings.rooms_title }}</h2></header>
   <ul class="dw-chips">
     {%- for link in linklists['main-menu'].links -%}
@@ -179,7 +178,6 @@
   <header class="dw-head">
     <h2 id="feed-h">{{ section.settings.feed_title }}</h2>
     <div class="dw-head-tools">
-      {%- if new_src.handle != 'all' -%}<a class="dw-link" href="{{ new_src.url }}">See all</a>{%- endif -%}
       <div class="sortbar">
         <label class="sr-only" for="home_sort">{{ 'collection.sort' | t }}</label>
         <select id="home_sort" data-home-sort>

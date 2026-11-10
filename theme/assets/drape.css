@@ -636,3 +636,8 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 /* the old theme hid sorting on phones; category pages keep it */
 .dw-coll-tools .sortbar { display: block; }
 .dw-coll-tools .sortbar select { appearance: auto; }
+
+/* "Shop now" scrolls to the categories, clear of the sticky header */
+html { scroll-behavior: smooth; }
+#shop { scroll-margin-top: calc(var(--hdr, 158px) + 16px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
