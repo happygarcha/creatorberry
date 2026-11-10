@@ -793,6 +793,16 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 /* used for an instant while drape.js measures the chips at rest */
 .dw-chips.dw-dock-measure .dw-chip, .dw-subchips.dw-dock-measure .dw-subchip { transition: none !important; scale: none !important; translate: none !important; rotate: none !important; }
 
+/* homepage: the animated category chips replace the text menu in the header; every other page keeps the text menu */
+body.template-index .dw-nav { display: none; }
+body.template-index .dw-bar { padding-bottom: 14px; }
+/* slightly smaller category chips */
+.dw-chips { gap: 8px; }
+.dw-chip { gap: 10px; padding: 6px 20px 6px 6px; font-size: clamp(16px, 1.55vw, 21px); }
+.dw-chip-img { width: 42px; height: 42px; }
+.dw-subchip { min-height: 42px; padding: 0 18px; font-size: 14.5px; }
+.dw-subchip-sm { min-height: 36px; padding: 0 15px; font-size: 13px; }
+
 /* app bubbles (Rewards and Chat) pop every few seconds to catch the eye. Uses scale/rotate, so the apps' own positioning is untouched. */
 @keyframes dwpop {
   0%, 62%, 100% { scale: 1; rotate: 0deg; }
