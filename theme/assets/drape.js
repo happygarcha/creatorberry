@@ -171,6 +171,9 @@
         /* outward normal of the racetrack: the gradient of |x/A|^N + |z/B|^N */
         var nx = sgn(x) * Math.pow(Math.abs(x / A), N - 1) / A, nz = sgn(z) * Math.pow(Math.abs(z / B), N - 1) / B;
         var psi = Math.atan2(nx, nz) * 180 / Math.PI;
+        /* badges on the far side would show their backs to the shopper, so they are mirrored round to face the front too;
+           the mapping meets the near side at the ends of the rail (edge-on), so nothing flips suddenly */
+        if (psi > 90) psi = 180 - psi; else if (psi < -90) psi = -180 - psi;
         live[i].style.transform = "translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + psi.toFixed(2) + "deg) translateX(-50%)";
       }
     };
