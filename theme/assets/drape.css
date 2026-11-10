@@ -740,3 +740,9 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .dw-coll-about .prose { max-width: none; margin-inline: auto; }
 .dw-coll-about .prose ul, .dw-coll-about .prose ol { display: inline-block; text-align: left; }
 @media (max-width: 759px) { .dw-coll-about { padding-inline: var(--s2); } .dw-coll-about .prose { font-size: 15px; } }
+
+/* category description: full page width, left-aligned, so it runs in fewer lines */
+.dw-coll-about { max-width: none; margin-inline: 0; text-align: left; }
+.dw-coll-about .prose { max-width: none; margin-inline: 0; font-size: 16px; line-height: 26px; }
+.dw-coll-about .prose ul, .dw-coll-about .prose ol { display: block; }
+@media (max-width: 759px) { .dw-coll-about { padding-inline: 0; } }
