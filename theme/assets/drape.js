@@ -372,6 +372,32 @@
         if (site && cs) site.href = (cs.form ? cs.form.action : "/search") + "?type=product&q=" + encodeURIComponent(cs.value.trim());
       }
     };
+    if (subBox && subBox.dataset.kwHandle) {
+      /* chips from keyword groups: each product goes under the first chip whose words appear in its name, type or tags */
+      var kwBlock = "", kwOn = false, kwUsed = {}, kwList = [];
+      String(subBox.dataset.kwGroups || "").split(/\r?\n/).forEach(function (line) {
+        var t = line.trim();
+        if (/^\[.+\]$/.test(t)) { kwOn = t.slice(1, -1).trim().toLowerCase() === subBox.dataset.kwHandle; return; }
+        if (kwOn && t) kwBlock += t + "\n";
+      });
+      kwBlock.split("\n").forEach(function (line) {
+        var at = line.indexOf(":"); if (at < 1) return;
+        var label = line.slice(0, at).trim(), words = line.slice(at + 1).split(",").map(function (w) { return norm(w); }).filter(Boolean);
+        var hits = cells.filter(function (c) { if (kwUsed[c.dataset.handle]) return false; var f = c.dataset.find || norm(c.dataset.title); return words.some(function (w) { return f.indexOf(w) > -1; }); });
+        if (hits.length < 2) return;                                   /* a chip for a single product is not worth it: it goes under Other */
+        hits.forEach(function (c) { kwUsed[c.dataset.handle] = true; });
+        kwList.push({ label: label, key: "k-" + label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), handles: hits.map(function (c) { return c.dataset.handle; }) });
+      });
+      var kwLeft = cells.filter(function (c) { return !kwUsed[c.dataset.handle]; });
+      if (kwList.length && kwLeft.length) kwList.push({ label: "Other", key: "k-other", handles: kwLeft.map(function (c) { return c.dataset.handle; }) });
+      kwList.forEach(function (g) {
+        subMap[g.key] = g.handles;
+        var kb = document.createElement("button");
+        kb.type = "button"; kb.className = "dw-subchip"; kb.dataset.sub = g.key; kb.setAttribute("aria-pressed", "false"); kb.textContent = g.label;
+        subBox.appendChild(kb);
+      });
+      if (!kwList.length) subBox.hidden = true;                        /* nothing to filter by: no chip row at all */
+    }
     if (subBox) {
       /* products that are in none of the sub-categories get their own chip, worked out here so new products are included */
       var inAny = {};
