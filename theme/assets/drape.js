@@ -423,6 +423,17 @@
         moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
         moreBtn.classList.toggle("is-open", open);
       };
+      /* wide screens have room: no "More" button, every group chip sits in the same row. Phones keep the More button. */
+      if (moreRow) {
+        var wideMq = matchMedia("(min-width: 760px)");
+        var applyWide = function () {
+          subBox.classList.toggle("is-wide", wideMq.matches);
+          if (wideMq.matches) moreRow.hidden = false;
+          else { moreRow.hidden = !(subNow && /^g-/.test(subNow)); moreBtn.classList.toggle("is-open", !moreRow.hidden); moreBtn.setAttribute("aria-expanded", moreRow.hidden ? "false" : "true"); }
+        };
+        applyWide();
+        if (wideMq.addEventListener) wideMq.addEventListener("change", applyWide);
+      }
       var setSub = function (value, fromUser) {
         subNow = value;
         $$(".dw-subchip", subBox).forEach(function (b) {
