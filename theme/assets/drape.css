@@ -1020,3 +1020,10 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
   .dw-coll-head .dw-coll-tools .sortbar select { width: 100%; min-width: 0; letter-spacing: .04em; font-size: 12px; padding-left: 14px; padding-right: 30px; text-overflow: ellipsis; }
   .dw-subchips { gap: 8px; }
 }
+
+/* v29: phones: the extra (yellow) chips open as ONE row that scrolls sideways, not a block that grows downward */
+@media (max-width: 759px) {
+  .dw-more-row { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; margin-inline: calc(var(--gutter, 16px) * -1); padding: 4px var(--gutter, 16px) 6px; }
+  .dw-more-row::-webkit-scrollbar { display: none; }
+  .dw-more-row .dw-subchip-sm { flex: none; scroll-snap-align: start; }
+}
