@@ -994,3 +994,12 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 .wishlist-card .item__delete a::before, .wishlist-card a[class*="icon-wishlist-bin"]::before, .wishlist-card a[class*="icon-wishlist-remove"]::before { color: #fff !important; font-size: 20px !important; line-height: 1 !important; text-shadow: none !important; -webkit-text-stroke: .6px #fff; }
 .wishlist-card .item__delete { opacity: 1 !important; }
 .wishlist-card .item__delete a:hover { background: #111 !important; }
+
+/* v26: picture menu uses line icons instead of product photos */
+.dw-chip-img.is-icon { display: grid; place-items: center; background: #fff; box-shadow: inset 0 0 0 1px oklch(0.17 0.005 280 / .06); }
+.dw-chip-img.is-icon .dw-ic { width: 58%; height: 58%; color: var(--text); overflow: visible; }
+.dw-chip-img.is-icon .dw-ic .ac { fill: var(--neon-a); stroke: none; }
+.dw-chip-img.is-icon .dw-ic .ac-line { stroke: var(--neon-a); fill: none; }
+@media (hover: hover) { .dw-chip:hover .dw-chip-img.is-icon .dw-ic { animation: dwIcWiggle .6s var(--spring); } }
+@keyframes dwIcWiggle { 0% { rotate: 0deg; scale: 1; } 35% { rotate: -12deg; scale: 1.18; } 70% { rotate: 8deg; scale: 1.1; } 100% { rotate: 0deg; scale: 1; } }
+@media (prefers-reduced-motion: reduce) { .dw-chip:hover .dw-chip-img.is-icon .dw-ic { animation: none; } }

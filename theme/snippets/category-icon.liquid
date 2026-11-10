@@ -1,0 +1,48 @@
+{%- comment -%}
+  Line icons for the picture menu, one per category handle. Dark outline with a small coral accent (class "ac").
+  Usage: {% render 'category-icon', handle: link.object.handle %}
+  Unknown handles get a neutral tag icon, so a new category never shows an empty circle.
+{%- endcomment -%}
+<svg class="dw-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case handle -%}
+    {%- when 'bathroom' -%}
+      <path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>
+      <circle class="ac" cx="14" cy="8" r="1.3"/><circle class="ac" cx="17.5" cy="6" r=".9"/><circle class="ac" cx="17" cy="9.5" r=".7"/>
+    {%- when 'beauty' -%}
+      <circle cx="12" cy="9" r="6"/><path d="M12 15v6M9.5 21h5"/>
+      <path class="ac" d="M10 7l.8 1.7L12.5 9.5l-1.7.8L10 12l-.8-1.7L7.5 9.5l1.7-.8z"/>
+    {%- when 'bedroom' -%}
+      <path d="M3 19V7M3 14h18v5M21 14v-1.5A2.5 2.5 0 0 0 18.5 10H12v4"/><circle cx="7.5" cy="11.5" r="1.8"/>
+      <path class="ac" d="M17.5 3.5a2.6 2.6 0 1 0 2.6 3.7 3 3 0 0 1-2.6-3.7z"/>
+    {%- when 'car-accessories' -%}
+      <path d="M4 15l1.6-5A2 2 0 0 1 7.5 8.5h9a2 2 0 0 1 1.9 1.5L20 15v3.5H4z"/><path d="M5 18.5V21M19 18.5V21"/>
+      <circle class="ac" cx="8" cy="15" r="1.3"/><circle class="ac" cx="16" cy="15" r="1.3"/><path d="M8.5 5l1 2M12 4v2.5M15.5 5l-1 2"/>
+    {%- when 'desk-hobby' -%}
+      <path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-.9 2-2 0-1-.7-1.6-.7-2.4 0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.2-4-8-9-8z"/>
+      <circle class="ac" cx="7.5" cy="11" r="1.3"/><circle class="ac" cx="10.5" cy="7" r="1.3"/><circle class="ac" cx="15" cy="7" r="1.3"/>
+    {%- when 'fashion' -%}
+      <path d="M12 8.5V10l8 5a1.5 1.5 0 0 1-.8 2.8H4.8A1.5 1.5 0 0 1 4 15l8-5"/><path d="M12 8.5a2 2 0 1 0-2-2"/>
+      <circle class="ac" cx="12" cy="14" r="1.1"/>
+    {%- when 'kitchen' -%}
+      <path d="M4 11h16v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M2.5 11h19"/>
+      <path class="ac-line" d="M9 6.8c0-1 1-1.4 1-2.3M14 6.8c0-1 1-1.4 1-2.3"/>
+    {%- when 'living-room' -%}
+      <path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M3 12a2 2 0 0 1 4 0v3h10v-3a2 2 0 0 1 4 0v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M6 18v2M18 18v2"/>
+      <circle class="ac" cx="12" cy="9" r="1.4"/>
+    {%- when 'outdoors' -%}
+      <path d="M3 20l6.5-11 4 6.5L16 12l5 8z"/>
+      <circle class="ac" cx="17" cy="6" r="2.2"/>
+    {%- when 'pet-supplies' -%}
+      <path d="M12 11c-3 0-5 3-5 5.2C7 18 8.5 19 10 19c1 0 1.4-.4 2-.4s1 .4 2 .4c1.5 0 3-1 3-2.8 0-2.2-2-5.2-5-5.2z"/>
+      <circle class="ac" cx="6.5" cy="9.5" r="1.7"/><circle class="ac" cx="10" cy="5.8" r="1.7"/><circle class="ac" cx="14" cy="5.8" r="1.7"/><circle class="ac" cx="17.5" cy="9.5" r="1.7"/>
+    {%- when 'seasonal' -%}
+      <rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v7h14v-7M12 9v11"/>
+      <path class="ac" d="M12 9c-2.5 0-4-1-4-2.4C8 5 9.5 4.2 10.7 5.2 11.8 6.1 12 9 12 9zM12 9c2.5 0 4-1 4-2.4C16 5 14.5 4.2 13.3 5.2 12.2 6.1 12 9 12 9z"/>
+    {%- when 'tech' -%}
+      <path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.6"/><rect x="17" y="14" width="4" height="6" rx="1.6"/>
+      <circle class="ac" cx="12" cy="9" r="1.4"/>
+    {%- else -%}
+      <path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7a1 1 0 0 1 .7.3l7.3 7.3a1 1 0 0 1 0 1.4l-6.6 6.6a1 1 0 0 1-1.4 0L3.8 12.9a1 1 0 0 1-.3-.7z"/>
+      <circle class="ac" cx="8" cy="8" r="1.4"/>
+  {%- endcase -%}
+</svg>
