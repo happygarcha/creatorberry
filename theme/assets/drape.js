@@ -63,13 +63,16 @@
   window.addEventListener("resize", setHdr);
 
   /* ---------- product grid (adapted from Codrops cbpShop, MIT): flip tile, favourites, option pop-overs ---------- */
-  var FAV_KEY = "dw-fav";
-  var readFavs = function () { try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch (e) { return []; } };
-  var writeFavs = function (a) { try { localStorage.setItem(FAV_KEY, JSON.stringify(a)); } catch (e) {} };
+  /* hearts mirror the wishlist app's saved state (it sets data-added on each heart) */
   var syncFavs = function () {
-    var favs = readFavs();
-    $$("[data-fav]").forEach(function (b) { b.setAttribute("aria-pressed", favs.indexOf(b.dataset.fav) > -1 ? "true" : "false"); });
+    $$("[data-fav]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-added") === "true" ? "true" : "false"); });
   };
+  new MutationObserver(function (muts) {
+    for (var i = 0; i < muts.length; i++) {
+      var t = muts[i].target;
+      if (t.nodeType === 1 && t.hasAttribute("data-fav")) t.setAttribute("aria-pressed", t.getAttribute("data-added") === "true" ? "true" : "false");
+    }
+  }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ["data-added"] });
   var closePops = function (except) {
     $$(".pg-optcell.is-open").forEach(function (li) {
       if (li !== except) { li.classList.remove("is-open"); var b = $("[data-pg-opt]", li); if (b) b.setAttribute("aria-expanded", "false"); var ce = li.closest(".pg-cell"); if (ce) ce.classList.remove("pg-pop"); }
@@ -104,12 +107,7 @@
       return;
     }
     var fav = e.target.closest("[data-fav]");
-    if (fav) {
-      var list = readFavs(), h = fav.dataset.fav, at = list.indexOf(h);
-      if (at > -1) list.splice(at, 1); else list.push(h);
-      writeFavs(list); syncFavs();
-      return;
-    }
+    if (fav) { e.preventDefault(); return; } /* the wishlist app handles the save itself */
     var opt = e.target.closest("[data-pg-opt]");
     if (opt) {
       var li = opt.closest(".pg-optcell");
