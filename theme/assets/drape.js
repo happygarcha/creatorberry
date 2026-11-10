@@ -331,7 +331,8 @@
           var at = line.indexOf(":"); if (at < 1) return;
           var label = line.slice(0, at).trim(), words = line.slice(at + 1).split(",").map(function (w) { return norm(w); }).filter(Boolean);
           if (!label || !words.length) return;
-          var hits = restCells.filter(function (c) { var f = c.dataset.find || norm(c.dataset.title); return words.some(function (w) { return f.indexOf(w) > -1; }); });
+          /* each product goes under the first chip that matches it, so no product shows up under two chips */
+          var hits = restCells.filter(function (c) { if (used[c.dataset.handle]) return false; var f = c.dataset.find || norm(c.dataset.title); return words.some(function (w) { return f.indexOf(w) > -1; }); });
           if (hits.length) { hits.forEach(function (c) { used[c.dataset.handle] = true; }); groups.push({ label: label, key: slug(label), handles: hits.map(function (c) { return c.dataset.handle; }) }); }
         });
         var leftover = restCells.filter(function (c) { return !used[c.dataset.handle]; });
