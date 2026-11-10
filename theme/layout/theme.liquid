@@ -91,6 +91,7 @@
         {%- endfor -%}
       </ul>
     </nav>
+    {% render 'category-chips' %}
   </header>
 
   {%- comment -%} Mobile menu {%- endcomment -%}
@@ -130,7 +131,6 @@
   </dialog>
 
   {%- comment -%} ================= PAGE ================= {%- endcomment -%}
-  {% render 'category-chips' %}
   <main id="main" class="main dw-main">
     {{ content_for_layout }}
   </main>

@@ -849,6 +849,17 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .dw-catmenu .dw-chips { gap: 4px; padding-top: 14px; margin-top: -8px; }
 .dw-catmenu .dw-chip { padding: 3px clamp(7px, .6vw, 9px) 3px 3px; gap: 5px; font-size: clamp(11px, .88vw, 13px); white-space: nowrap; }
 .dw-catmenu .dw-chip .dw-chip-t { white-space: nowrap; }
+/* the picture menu lives inside the fixed header, so logo, search, cart and categories stay on screen on every page.
+   Once the page is scrolled, the shipping strip folds away (and on phones the search row too) to keep the fixed bar short. */
+.dw-header .dw-catmenu { padding-bottom: 6px; }
+.dw-header .dw-marquee { max-height: 40px; transition: max-height .3s var(--ease); }
+.dw-header.is-stuck .dw-marquee { max-height: 0; }
+@media (max-width: 759px) {
+  .dw-header.is-stuck .dw-search { display: none; }
+  .dw-header.is-stuck .dw-bar { grid-template-areas: "burger logo actions"; padding-block: 6px; }
+  .dw-header .dw-catmenu { padding-bottom: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .dw-header .dw-marquee { transition: none; } }
 /* the shipping facts strip repeats the top banner: kept for screen readers, hidden to save room */
 body.template-index .dw-trust { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
 body.template-index .dw-hero-top { padding-top: 10px; }
