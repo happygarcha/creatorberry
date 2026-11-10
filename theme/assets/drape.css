@@ -753,7 +753,7 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 /* option pop-over: an invisible bridge covers the gap between the button and the pop-over, and it closes with a short delay,
    so the mouse can travel from the button to a choice (like "+5 more") without the pop-over vanishing */
 .pg-tip::before { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 22px; }
-.pg-tip { transition: opacity .2s, translate .25s var(--ease), visibility 0s .4s; }
+.pg-tip { transition: opacity .2s .45s, translate .25s var(--ease) .45s, visibility 0s .65s; }
 @media (hover: hover) { .pg-optcell:hover .pg-tip { transition-delay: 0s; } }
 .pg-tip:hover { opacity: 1; visibility: visible; pointer-events: auto; translate: 0 0; transition-delay: 0s; }
 
