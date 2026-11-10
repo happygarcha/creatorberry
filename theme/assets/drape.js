@@ -195,15 +195,41 @@
   }
 
   /* ---------- category page: instant search within the products on the page ---------- */
-  var cs = $("[data-coll-search]");
-  if (cs) {
-    var cells = $$(".feed .cell"), none = $("[data-coll-none]"), term = $("[data-coll-term]"), site = $("[data-coll-site]");
+  var cs = $("[data-coll-search]"), sortSel = $("[data-coll-sort]"), feedEl = $(".feed");
+  if ((cs || sortSel) && feedEl) {
+    var cells = $$(".cell", feedEl), none = $("[data-coll-none]"), term = $("[data-coll-term]"), site = $("[data-coll-site]");
+    var paged = !!$(".pager");
+    var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var norm = function (t) { return String(t || "").toLowerCase().replace(/\s+/g, " ").trim(); };
+
+    /* FLIP: remember where every visible card is, change the page, then slide each card from its old spot to its new one */
+    var reflow = function (change) {
+      var before = new Map();
+      cells.forEach(function (c) { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
+      change();
+      if (calm || !feedEl.animate) return;
+      var k = 0;
+      cells.forEach(function (c) {
+        if (c.hidden) return;
+        var r = c.getBoundingClientRect(), o = before.get(c), delay = Math.min(k++, 14) * 22;
+        if (o) {
+          var dx = o.left - r.left, dy = o.top - r.top;
+          if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+          c.animate([{ transform: "translate(" + dx + "px," + dy + "px)" }, { transform: "none" }], { duration: 520, delay: delay, easing: "cubic-bezier(.2,.85,.25,1.05)", fill: "backwards" });
+        } else {
+          c.animate([{ opacity: 0, transform: "scale(.88) translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: delay, easing: "cubic-bezier(.2,.85,.25,1)", fill: "backwards" });
+        }
+      });
+    };
+
+    /* search: hide the cards that don't match, the rest slide together */
     var applyFilter = function () {
       var q = norm(cs.value), parts = q ? q.split(" ") : [], shown = 0;
-      cells.forEach(function (c) {
-        var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
-        c.hidden = !ok; if (ok) shown++;
+      reflow(function () {
+        cells.forEach(function (c) {
+          var hay = norm(c.dataset.title), ok = parts.every(function (w) { return hay.indexOf(w) > -1; });
+          c.hidden = !ok; if (ok) shown++;
+        });
       });
       if (none) {
         none.hidden = !(q && shown === 0);
@@ -211,7 +237,50 @@
         if (site) site.href = (cs.form ? cs.form.action : "/search") + "?type=product&q=" + encodeURIComponent(cs.value.trim());
       }
     };
-    cs.addEventListener("input", applyFilter);
-    cs.form.addEventListener("submit", function (e) { if (cells.length && cs.value.trim()) e.preventDefault(); });
+    if (cs) {
+      cs.addEventListener("input", applyFilter);
+      cs.form.addEventListener("submit", function (e) { if (cells.length && cs.value.trim()) e.preventDefault(); });
+    }
+
+    /* sort: re-order the cards on the page. Price, name and date are worked out here; the store's own orders
+       (Featured, Best selling) are read from the server in the background and applied the same way. */
+    if (sortSel) {
+      var serverOrders = {}, current = sortSel.value;
+      var local = {
+        "price-ascending": function (a, b) { return a.dataset.price - b.dataset.price; },
+        "price-descending": function (a, b) { return b.dataset.price - a.dataset.price; },
+        "title-ascending": function (a, b) { return a.dataset.title.localeCompare(b.dataset.title); },
+        "title-descending": function (a, b) { return b.dataset.title.localeCompare(a.dataset.title); },
+        "created-ascending": function (a, b) { return a.dataset.new - b.dataset.new; },
+        "created-descending": function (a, b) { return b.dataset.new - a.dataset.new; }
+      };
+      var place = function (list) { reflow(function () { list.forEach(function (c) { feedEl.appendChild(c); }); }); };
+      var serverOrder = function (value) {
+        if (serverOrders[value]) return Promise.resolve(serverOrders[value]);
+        var u = new URL(location.href); u.searchParams.set("sort_by", value);
+        return fetch(u.toString(), { credentials: "same-origin" }).then(function (r) { return r.text(); }).then(function (html) {
+          var doc = new DOMParser().parseFromString(html, "text/html");
+          var handles = $$(".feed .cell[data-handle]", doc).map(function (c) { return c.dataset.handle; });
+          if (!handles.length) throw new Error("empty");
+          return (serverOrders[value] = handles);
+        });
+      };
+      var remember = function (value) {
+        try { var u = new URL(location.href); u.searchParams.set("sort_by", value); history.replaceState(null, "", u.toString()); } catch (e) {}
+      };
+      sortSel.addEventListener("change", function () {
+        var value = sortSel.value, myPick = value;
+        if (paged) { sortSel.form.submit(); return; }          /* several pages: the server has to do it */
+        remember(value); current = value;
+        if (local[value]) { place(cells.slice().sort(local[value])); return; }
+        serverOrder(value).then(function (handles) {
+          if (current !== myPick) return;
+          var byHandle = {}; cells.forEach(function (c) { byHandle[c.dataset.handle] = c; });
+          var list = handles.map(function (h) { return byHandle[h]; }).filter(Boolean);
+          cells.forEach(function (c) { if (list.indexOf(c) < 0) list.push(c); });
+          place(list);
+        }).catch(function () { sortSel.form.submit(); });      /* anything unexpected: fall back to a normal reload */
+      });
+    }
   }
 })();
