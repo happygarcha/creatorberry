@@ -853,7 +853,7 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
    Once the page is scrolled, the shipping strip folds away (and on phones the search row too) to keep the fixed bar short. */
 .dw-header .dw-catmenu { padding-bottom: 6px; }
 .dw-header .dw-marquee { max-height: 40px; transition: max-height .3s var(--ease); }
-.dw-header.is-stuck .dw-marquee { max-height: 0; }
+/* the moving line stays visible while scrolling */
 @media (max-width: 759px) {
   .dw-header.is-stuck .dw-search { display: none; }
   .dw-header.is-stuck .dw-bar { grid-template-areas: "burger logo actions"; padding-block: 6px; }
