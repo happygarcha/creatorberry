@@ -139,11 +139,22 @@
     /* The rail is a fixed oval. The badges slide along it at an even pace (spacing by arc length, not by angle),
        each one turned to face outward. A wide stage gets a wide oval with every badge; a phone gets a rounder, smaller
        oval with the first 8 so the badges stay big enough to read. */
-    var A = 300, B = 150, perim = 1, table = [], TAB = 240, live = rItems.slice();
+    var A = 300, B = 150, perim = 1, table = [], TAB = 300, live = rItems.slice();
+    /* the rail's outline is a rounded racetrack (a superellipse): flat-ish long sides, softly rounded ends */
+    var N = 3.4, sgn = function (v) { return v < 0 ? -1 : 1; };
+    var seX = function (th) { var s = Math.sin(th); return A * sgn(s) * Math.pow(Math.abs(s), 2 / N); };
+    var seZ = function (th) { var c = Math.cos(th); return B * sgn(c) * Math.pow(Math.abs(c), 2 / N); };
     var buildTable = function () {
-      table = [0]; var px = 0, pz = B, len = 0;
-      for (var k = 1; k <= TAB; k++) { var th = k / TAB * Math.PI * 2, x = A * Math.sin(th), z = B * Math.cos(th); len += Math.hypot(x - px, z - pz); table.push(len); px = x; pz = z; }
+      table = [0]; var px = seX(0), pz = seZ(0), len = 0;
+      for (var k = 1; k <= TAB; k++) { var th = k / TAB * Math.PI * 2, x = seX(th), z = seZ(th); len += Math.hypot(x - px, z - pz); table.push(len); px = x; pz = z; }
       perim = len;
+    };
+    var railSvg = function () {
+      var pad = 17, w = A * 2 + pad * 2, h = B * 2 + pad * 2, pts = [];
+      for (var k = 0; k <= 120; k++) { var th = k / 120 * Math.PI * 2; pts.push((A + pad + seX(th)).toFixed(1) + "," + (B + pad - seZ(th)).toFixed(1)); }
+      return '<svg viewBox="0 0 ' + w.toFixed(0) + ' ' + h.toFixed(0) + '" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">' +
+        '<defs><linearGradient id="dwchrome" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9aa0a9"/><stop offset=".2" stop-color="#ffffff"/><stop offset=".42" stop-color="#7a808a"/><stop offset=".62" stop-color="#f3f4f6"/><stop offset=".82" stop-color="#9aa0a9"/><stop offset="1" stop-color="#e6e8ec"/></linearGradient></defs>' +
+        '<polygon points="' + pts.join(" ") + '" fill="none" stroke="url(#dwchrome)" stroke-width="10" stroke-linejoin="round"/></svg>';
     };
     var thetaAt = function (s) {
       s = ((s % perim) + perim) % perim;
@@ -156,9 +167,11 @@
       var n = live.length; if (!n) return;
       var s0 = ang / 360 * perim;
       for (var i = 0; i < n; i++) {
-        var th = thetaAt(s0 + i * perim / n), sn = Math.sin(th), cs = Math.cos(th);
-        var psi = Math.atan2(sn / A, cs / B) * 180 / Math.PI;      /* outward normal of the oval */
-        live[i].style.transform = "translate3d(" + (A * sn).toFixed(1) + "px,0," + (B * cs).toFixed(1) + "px) rotateY(" + psi.toFixed(2) + "deg) translateX(-50%)";
+        var th = thetaAt(s0 + i * perim / n), x = seX(th), z = seZ(th);
+        /* outward normal of the racetrack: the gradient of |x/A|^N + |z/B|^N */
+        var nx = sgn(x) * Math.pow(Math.abs(x / A), N - 1) / A, nz = sgn(z) * Math.pow(Math.abs(z / B), N - 1) / B;
+        var psi = Math.atan2(nx, nz) * 180 / Math.PI;
+        live[i].style.transform = "translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + psi.toFixed(2) + "deg) translateX(-50%)";
       }
     };
     var layout = function () {
@@ -169,12 +182,14 @@
       rItems.forEach(function (el, i) { el.hidden = i >= limit; });
       if (phone) { A = cw * 1.3; B = cw * 1.05; }
       else if (mid) { A = w * 0.36; B = cw * 1.1; }
-      else { A = Math.min(w * 0.4, 640); B = cw * 1.15; }
+      else { A = Math.min(w * 0.41, 660); B = cw * 1.3; }
       reel.style.setProperty("--A", A.toFixed(0) + "px");
       reel.style.setProperty("--B", B.toFixed(0) + "px");
+      var svg = railSvg();
+      $$(".dw-reel-rail", reel).forEach(function (r) { r.innerHTML = svg; });
       rods.forEach(function (r, i) {
         var th = (Number(r.dataset.at) || (i * 60)) * Math.PI / 180;
-        r.style.transform = "translate3d(" + (A * Math.sin(th)).toFixed(1) + "px,-130px," + (B * Math.cos(th)).toFixed(1) + "px) translateX(-50%)";
+        r.style.transform = "translate3d(" + seX(th).toFixed(1) + "px,-130px," + seZ(th).toFixed(1) + "px) translateX(-50%)";
       });
       buildTable(); paint();
     };
