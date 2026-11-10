@@ -499,25 +499,52 @@
   /* ---------- dock magnification (like the macOS Dock): chips swell near the pointer, neighbours less, and spring back ---------- */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     var DOCK_BOXES = ".dw-chips, .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 300, PEAK = 0.5, REACH = 70;
-    var dockBox = null, dockItems = [], dockRaf = 0, dockX = 0, dockY = 0, sx = 0, sy = 0, dockIdle = 0;
+    var dockBox = null, dockItems = [], dockBase = [], dockRows = [], dockRaf = 0, dockX = 0, dockY = 0, sx = 0, sy = 0, dockIdle = 0;
     var dockReset = function () {
       cancelAnimationFrame(dockRaf); dockRaf = 0;
       if (!dockBox) return;
       dockBox.classList.remove("is-live");
-      dockItems.forEach(function (el) { el.style.removeProperty("--m"); el.style.removeProperty("z-index"); });
-      dockBox = null; dockItems = [];
+      dockItems.forEach(function (el) { el.style.removeProperty("--m"); el.style.removeProperty("--dx"); el.style.removeProperty("z-index"); });
+      dockBox = null; dockItems = []; dockBase = []; dockRows = [];
     };
-    /* every frame the swell point glides toward the real pointer, so the effect flows along the row instead of jumping */
+    /* measure every chip where it sits at rest (transforms switched off for an instant), in page coordinates, and group the chips into rows */
+    var dockMeasure = function () {
+      dockBox.classList.add("dw-dock-measure");
+      var sxp = window.scrollX, syp = window.scrollY;
+      dockBase = dockItems.map(function (el) { var r = el.getBoundingClientRect(); return { l: r.left + sxp, t: r.top + syp, w: r.width, h: r.height }; });
+      dockBox.classList.remove("dw-dock-measure");
+      dockRows = [];
+      dockBase.forEach(function (b, i) {
+        var row = dockRows.filter(function (r) { return Math.abs(r.t - b.t) < 20; })[0];
+        if (!row) { row = { t: b.t, idx: [] }; dockRows.push(row); }
+        row.idx.push(i);
+      });
+      dockRows.forEach(function (row) { row.idx.sort(function (a, b) { return dockBase[a].l - dockBase[b].l; }); });
+    };
+    /* Dock maths: each chip's size follows a cosine curve of its distance to the pointer (1 + PEAK at the pointer, back to 1 at RADIUS),
+       then each row is laid out again with the grown widths, so neighbours are pushed aside instead of being drawn over. */
     var dockPaint = function () {
       dockRaf = 0;
       if (!dockBox) return;
       sx += (dockX - sx) * 0.3; sy += (dockY - sy) * 0.3;
-      dockItems.forEach(function (el) {
-        var r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        var d = Math.hypot(sx - cx, (sy - cy) * 1.25);
-        var m = 1 + PEAK * Math.exp(-Math.pow(d / RADIUS, 2));
-        el.style.setProperty("--m", m.toFixed(3));
-        el.style.zIndex = String(Math.round(m * 100));
+      var px = sx + window.scrollX, py = sy + window.scrollY, mags = [];
+      dockBase.forEach(function (b, i) {
+        var d = Math.hypot(px - (b.l + b.w / 2), (py - (b.t + b.h / 2)) * 1.25), t = Math.min(d / RADIUS, 1);
+        mags[i] = 1 + PEAK * (1 + Math.cos(Math.PI * t)) / 2;
+      });
+      dockRows.forEach(function (row) {
+        var first = dockBase[row.idx[0]], last = dockBase[row.idx[row.idx.length - 1]], grow = 0;
+        row.idx.forEach(function (i) { grow += dockBase[i].w * (mags[i] - 1); });
+        var frac = Math.max(0, Math.min(1, (px - first.l) / Math.max(1, last.l + last.w - first.l)));
+        var left = first.l - grow * frac;                         /* the chip under the pointer stays roughly under it */
+        row.idx.forEach(function (i, k) {
+          var b = dockBase[i], nl = left;
+          dockItems[i].style.setProperty("--dx", (nl + b.w * mags[i] / 2 - (b.l + b.w / 2)).toFixed(1) + "px");
+          dockItems[i].style.setProperty("--m", mags[i].toFixed(3));
+          dockItems[i].style.zIndex = String(Math.round(mags[i] * 100));
+          var next = dockBase[row.idx[k + 1]];
+          left += b.w * mags[i] + (next ? next.l - (b.l + b.w) : 0);
+        });
       });
       if (Math.abs(dockX - sx) > 0.4 || Math.abs(dockY - sy) > 0.4 || Date.now() - dockIdle < 120) dockRaf = requestAnimationFrame(dockPaint);
     };
@@ -534,6 +561,7 @@
         dockReset();
         dockBox = box; dockItems = $$(DOCK_ITEMS, box);
         dockItems.forEach(function (el) { el.classList.add("dw-dock-item"); });
+        dockMeasure();
         box.classList.add("is-live");
         sx = e.clientX; sy = e.clientY;
       }
