@@ -20,5 +20,12 @@
 - Same handle everywhere (check "drapewell" is free), bio, logo as profile picture, first ten posts with captions.
 - Once live: add follow links in the site footer, then turn on the follow rewards in the rewards app (Follow on Instagram / TikTok, about 10 points each).
 
+## Rewards panel look (in progress)
+- Both programs are Active (see docs/rewards.md). The panel and bubble still have the default red Christmas look.
+- In the rewards app (Settings / Customize / Loyalty panel / Launcher): main colour and button coral #E8472B with white text, plain coral banner with the Drapewell crown logo (make the picture at the size the app asks), title "Welcome to Drapewell Rewards", launcher bubble coral with a white gift icon.
+- Needs screenshots of the app's design screens from the store owner to match the field sizes.
+- Check the bubble does not overlap the chat button on phones.
+- Keep Judge.me for reviews (decided); review reward stays off until the rewards plan allows the Judge.me connection.
+
 ## Next topic
-- Configure the rewards program (Loloyal, "Rewards" bubble).
+- Site wording for points ("Earn 1 point for every CA$1"), with the product page and cart drawer redesign.
