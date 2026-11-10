@@ -171,7 +171,7 @@
 
 {%- comment -%} ---------- ABOUT / SHIPPING ---------- {%- endcomment -%}
 <section class="dw-about" aria-label="{{ shop.name }}">
-  <p>{{ 'home.intro_p1' | t | replace: 'based in Surrey, British Columbia', 'based in British Columbia' }}</p>
+  <p>{{ 'home.intro_p1' | t | replace: 'based in Surrey, British Columbia', 'based in Canada' }}</p>
   <p>{{ 'home.intro_p2' | t }}{% if shop.shipping_policy.url != blank %} <a href="{{ shop.shipping_policy.url }}">{{ 'home.intro_link' | t }}</a>.{% endif %}</p>
 </section>
 
