@@ -496,6 +496,48 @@
     }
   }
 
+  /* ---------- dock magnification (like the macOS Dock): chips swell near the pointer, neighbours less, and spring back ---------- */
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var DOCK_BOXES = ".dw-chips, .dw-subchips", DOCK_ITEMS = ".dw-chip, .dw-subchip", RADIUS = 150, PEAK = 0.55;
+    var dockBox = null, dockItems = [], dockRaf = 0, dockX = 0, dockY = 0;
+    var dockReset = function () {
+      if (!dockBox) return;
+      dockBox.classList.remove("is-live");
+      dockItems.forEach(function (el) { el.style.removeProperty("--m"); el.style.removeProperty("z-index"); });
+      dockBox = null; dockItems = [];
+    };
+    var dockPaint = function () {
+      dockRaf = 0;
+      if (!dockBox) return;
+      dockItems.forEach(function (el) {
+        var r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var d = Math.hypot((dockX - cx) * 1, (dockY - cy) * 1.6);     /* rows are tall: weigh the vertical distance more */
+        var m = 1 + PEAK * Math.exp(-Math.pow(d / RADIUS, 2));
+        el.style.setProperty("--m", m.toFixed(3));
+        el.style.zIndex = String(Math.round(m * 100));
+      });
+    };
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var box = e.target.closest ? e.target.closest(DOCK_BOXES) : null;
+      if (!box) { dockReset(); return; }
+      if (box !== dockBox) {
+        dockReset();
+        dockBox = box; dockItems = $$(DOCK_ITEMS, box);
+        dockItems.forEach(function (el) { el.classList.add("dw-dock-item"); });
+        box.classList.add("is-live");
+      }
+      dockX = e.clientX; dockY = e.clientY;
+      if (!dockRaf) dockRaf = requestAnimationFrame(dockPaint);
+    }, { passive: true });
+    document.addEventListener("pointerleave", dockReset);
+    /* the Dock's hop: a clicked chip jumps once */
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest ? e.target.closest(DOCK_ITEMS) : null;
+      if (el && el.animate) el.animate([{ translate: "0 0" }, { translate: "0 -22px", offset: .4 }, { translate: "0 0", offset: .7 }, { translate: "0 -8px", offset: .85 }, { translate: "0 0" }], { duration: 520, easing: "ease-out" });
+    });
+  }
+
   /* ---------- chat bubble: the chat app keeps its button inside its own sealed container, so the same pop animation is added there ---------- */
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     var chatTries = 0;

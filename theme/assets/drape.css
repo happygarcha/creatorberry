@@ -783,6 +783,14 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
   .dw-chip::after { display: none; }
 }
 
+/* dock magnification: drape.js sets --m (1 to about 1.55) on each chip from its distance to the pointer.
+   Selectors are more specific than the plain hover rules above, so these win while the dock effect is live. */
+.dw-chips .dw-chip.dw-dock-item, .dw-subchips .dw-subchip.dw-dock-item { scale: var(--m, 1); translate: 0 calc((1 - var(--m, 1)) * 34px); rotate: 0deg; transform-origin: 50% 100%;
+  transition: scale .45s cubic-bezier(.34, 1.7, .5, 1), translate .45s cubic-bezier(.34, 1.7, .5, 1), background-color .2s, color .2s, box-shadow .3s; }
+.dw-chips.is-live .dw-chip.dw-dock-item, .dw-subchips.is-live .dw-subchip.dw-dock-item { transition: scale .09s linear, translate .09s linear, background-color .2s, color .2s, box-shadow .3s; }
+.dw-chips .dw-chip.dw-dock-item:hover, .dw-subchips .dw-subchip.dw-dock-item:hover { rotate: 0deg; filter: saturate(1.15); }
+.dw-chips, .dw-subchips { padding-top: 22px; margin-top: -22px; }
+
 /* app bubbles (Rewards and Chat) pop every few seconds to catch the eye. Uses scale/rotate, so the apps' own positioning is untouched. */
 @keyframes dwpop {
   0%, 62%, 100% { scale: 1; rotate: 0deg; }
