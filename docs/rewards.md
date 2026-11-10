@@ -45,3 +45,16 @@ Not yet. The app (Loloyal, the "Rewards" bubble) is configured by the store owne
 - Points expiry is a Pro feature, so leave it off for now.
 - Participants: set Members only.
 - Social follow rewards: later, once the accounts exist (see docs/todo.md).
+
+## Status (both programs activated)
+- Points program and Referral program are Active.
+- Earn: order 1 point per $1, sign up 50, birthday 50, newsletter 25.
+- Redeem: $5 off at 200 points, $10 off at 400, $15 off at 600 (minimum order CA$25 / $50 on the $10 one as saved in the app, all products, no combining).
+- Referral: referrer and referred friend each get $5 off with a CA$30 minimum; email and Facebook sharing on; landing page is the home page.
+- Friend popup picture: marketing/friend-popup-400x512.png (upload in the app's Friends get reward screen).
+
+## Parked
+- Review reward: needs the rewards app's higher plan for the Judge.me connection (Judge.me private API token, plus Judge.me's Awesome plan). Switch the review reward off for now; revisit when reviews are flowing.
+- Points expiry (12 months) and free-shipping reward: locked behind plans (Pro / Essential).
+- Panel and bubble appearance (still the default red Christmas look): change in the rewards app settings to coral #E8472B, plain banner, title "Drapewell Rewards".
+- Site wording ("Earn 1 point for every CA$1") to add with the product page and cart drawer redesign.
