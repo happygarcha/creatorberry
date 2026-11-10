@@ -1003,3 +1003,8 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 @media (hover: hover) { .dw-chip:hover .dw-chip-img.is-icon .dw-ic { animation: dwIcWiggle .6s var(--spring); } }
 @keyframes dwIcWiggle { 0% { rotate: 0deg; scale: 1; } 35% { rotate: -12deg; scale: 1.18; } 70% { rotate: 8deg; scale: 1.1; } 100% { rotate: 0deg; scale: 1; } }
 @media (prefers-reduced-motion: reduce) { .dw-chip:hover .dw-chip-img.is-icon .dw-ic { animation: none; } }
+
+/* v27: bigger icons in the menu discs */
+.dw-catmenu .dw-chip-img.is-icon { width: clamp(27px, 2vw, 30px); height: clamp(27px, 2vw, 30px); }
+.dw-chip-img.is-icon .dw-ic { width: 68%; height: 68%; }
+@media (max-width: 759px) { .dw-catmenu .dw-chip-img.is-icon { width: 36px; height: 36px; } }
