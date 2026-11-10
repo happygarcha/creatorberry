@@ -396,7 +396,8 @@
         kb.type = "button"; kb.className = "dw-subchip"; kb.dataset.sub = g.key; kb.setAttribute("aria-pressed", "false"); kb.textContent = g.label;
         subBox.appendChild(kb);
       });
-      if (!kwList.length) subBox.hidden = true;                        /* nothing to filter by: no chip row at all */
+      var kwMin = parseInt(subBox.dataset.kwMin, 10) || 0;
+      if (!kwList.length || cells.length < kwMin) subBox.hidden = true;   /* too few live products (or no groups): no chip row at all */
     }
     if (subBox) {
       /* products that are in none of the sub-categories get their own chip, worked out here so new products are included */
