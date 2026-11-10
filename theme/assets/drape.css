@@ -755,6 +755,34 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .pg-tip::before { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 22px; }
 .pg-tip { pointer-events: auto; }   /* hidden pop-overs (visibility: hidden) already ignore the mouse; this lets the bridge hold it open while fading out */
 
+/* category chips: livelier hover. The chip springs up and tilts, the photo spins and zooms, the colour deepens and a shine sweeps across. */
+.dw-chip { position: relative; overflow: hidden; transition: translate .45s var(--spring), rotate .45s var(--spring), scale .45s var(--spring), box-shadow .3s, filter .3s; }
+.dw-chip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, oklch(1 0 0 / .65) 50%, transparent 70%); translate: -120% 0; pointer-events: none; }
+.dw-chip-img { transition: rotate .6s var(--spring), scale .45s var(--spring); }
+.dw-chip-img img { transition: scale .6s var(--ease); }
+@media (hover: hover) {
+  .dw-chip:hover, .dw-chip:focus-visible { translate: 0 -6px; rotate: -2deg; scale: 1.05; box-shadow: 0 18px 30px -14px oklch(0.3 0.04 60 / .45); filter: saturate(1.25) brightness(.97); }
+  .dw-chip:hover::after, .dw-chip:focus-visible::after { translate: 120% 0; transition: translate .75s var(--ease); }
+  .dw-chip:hover .dw-chip-img, .dw-chip:focus-visible .dw-chip-img { rotate: 360deg; scale: 1.15; }
+  .dw-chip:hover .dw-chip-img img { scale: 1.12; }
+  .dw-chip:active { scale: .96; translate: 0 -2px; }
+}
+/* filter chips on category pages and the top menu pills */
+.dw-subchip, .dw-subchip-sm { transition: background-color .2s, color .2s, translate .4s var(--spring), scale .4s var(--spring), box-shadow .3s; }
+@media (hover: hover) {
+  .dw-subchip:hover, .dw-subchip:focus-visible { translate: 0 -4px; scale: 1.06; box-shadow: 0 12px 20px -10px oklch(0.3 0.04 60 / .4); }
+  .dw-subchip-sm:hover { rotate: -1.5deg; }
+  .dw-subchip:active { scale: .96; }
+  .dw-nav-item > a { transition: background-color .2s, color .2s, translate .35s var(--spring), scale .35s var(--spring); }
+  .dw-nav-item > a:hover { translate: 0 -2px; scale: 1.06; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dw-chip, .dw-chip-img, .dw-subchip, .dw-subchip-sm, .dw-nav-item > a { transition: none; }
+  .dw-chip:hover, .dw-subchip:hover, .dw-nav-item > a:hover { translate: none; rotate: none; scale: 1; }
+  .dw-chip:hover .dw-chip-img { rotate: none; scale: 1; }
+  .dw-chip::after { display: none; }
+}
+
 /* app bubbles (Rewards and Chat) pop every few seconds to catch the eye. Uses scale/rotate, so the apps' own positioning is untouched. */
 @keyframes dwpop {
   0%, 62%, 100% { scale: 1; rotate: 0deg; }
