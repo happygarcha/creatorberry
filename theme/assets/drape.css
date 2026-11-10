@@ -831,15 +831,29 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 @media (max-width: 599px) { .dw-reel-stage { height: calc(var(--cw) * 2.75 + 160px); } }
 /* a subtle roof band the posts go into */
 .dw-reel-stage::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14px; z-index: 4; background: linear-gradient(#d9dce1, #eceef1); border-bottom: 1px solid oklch(0.2 0 0 / .12); pointer-events: none; }
-/* compact picture menu and no gap above the carousel, so the products sit higher on the first screen */
-.dw-catmenu { padding-top: var(--s2); }
-.dw-catmenu .dw-chips { gap: 6px; padding-top: 12px; margin-top: -6px; }
-.dw-catmenu .dw-chip { padding: 4px 16px 4px 4px; gap: 8px; font-size: clamp(14px, 1.2vw, 17px); }
-.dw-catmenu .dw-chip-img { width: 34px; height: 34px; }
+/* slimmer header: thinner shipping strip, shorter logo/search row, smaller cart button */
+.dw-marquee { font-size: 11px; line-height: 16px; }
+.dw-marquee-track { padding: 5px 0; }
+.dw-bar { padding-top: 8px; padding-bottom: 8px; gap: 8px 12px; }
+.dw-logo-img { width: 34px; height: 34px; }
+.dw-logo-text { font-size: 26px; }
+.dw-search .search input { height: 40px; }
+.dw-search .search-go { width: 32px; height: 32px; top: 4px; }
+.dw-header .cart-btn { min-height: 40px; padding: 0 6px 0 14px; font-size: 14px; }
+.dw-header .cart-btn [data-cart-count] { min-width: 26px; line-height: 26px; }
+.dw-burger, .dw-actions .icon-btn { width: 40px; height: 40px; }
+@media (min-width: 1000px) { .dw-bar { padding-block: 8px 8px; } }
+
+/* picture menu: small chips, all 12 on one line on desktop; no gap above the carousel, so the products sit higher */
+.dw-catmenu { padding-top: 0; }
+.dw-catmenu .dw-chips { gap: 5px; padding-top: 14px; margin-top: -8px; }
+.dw-catmenu .dw-chip { padding: 3px clamp(8px, .8vw, 12px) 3px 3px; gap: 6px; font-size: clamp(11.5px, .92vw, 14px); }
+.dw-catmenu .dw-chip-img { width: clamp(22px, 1.7vw, 26px); height: clamp(22px, 1.7vw, 26px); }
+@media (min-width: 1100px) { .dw-catmenu .dw-chips:not(.is-scroll) { flex-wrap: nowrap; justify-content: space-between; } .dw-catmenu .dw-chip { flex: none; } }
 body.template-index .dw-main { padding-top: 0; }
 body.template-index .dw-hero, body.template-index .dw-reel-wrap { gap: 0; margin-top: 0; }
-body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 405px) / 2.75)), 176px); }
-@media (max-width: 759px) { body.template-index .dw-reel { --cw: clamp(136px, min(37vw, calc((100svh - 415px) / 2.75)), 172px); } }
+body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 305px) / 2.75)), 176px); }
+@media (max-width: 759px) { body.template-index .dw-reel { --cw: clamp(136px, min(37vw, calc((100svh - 360px) / 2.75)), 172px); } }
 
 /* only the chip zooms: the photo inside it stays still (no spin, no extra zoom, no shine sweep) */
 .dw-chip .dw-chip-img, .dw-chip:hover .dw-chip-img, .dw-chip:focus-visible .dw-chip-img,
