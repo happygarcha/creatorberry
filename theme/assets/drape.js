@@ -106,6 +106,9 @@
       rot.setAttribute("aria-pressed", on ? "true" : "false");
       return;
     }
+    /* wishlist page: "Return to shop" goes to the homepage, not the all-products page */
+    var back = e.target.closest(".hulk__wishlist-wrap a, .hulk__wishlist-wrap button");
+    if (back && /return to shop|continue shopping/i.test(back.textContent)) { e.preventDefault(); e.stopPropagation(); window.location.href = "/"; return; }
     var fav = e.target.closest("[data-fav]");
     if (fav) {
       /* the wishlist app saves it; we show the result at once (the app confirms a moment later) and play a small burst */
