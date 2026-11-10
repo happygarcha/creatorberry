@@ -746,3 +746,6 @@ body[class*="template-collection"] .dw-main { padding-top: var(--s5); gap: var(-
 .dw-coll-about .prose { max-width: none; margin-inline: 0; font-size: 16px; line-height: 26px; }
 .dw-coll-about .prose ul, .dw-coll-about .prose ol { display: block; }
 @media (max-width: 759px) { .dw-coll-about { padding-inline: 0; } }
+
+/* no "magnetic" pull on buttons: the cart button must stay where it is when the mouse passes near */
+.magnet, .cart-btn, .btn { translate: none !important; }

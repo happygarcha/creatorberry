@@ -495,4 +495,10 @@
       });
     }
   }
+
+  /* the old theme's magnetic-button script nudges buttons toward the cursor; cancel any leftover nudge */
+  $$(".magnet").forEach(function (b) { b.classList.remove("magnet"); b.style.translate = ""; });
+  document.addEventListener("pointermove", function () {
+    var cb = $(".dw-header .cart-btn"); if (cb && cb.style.translate) cb.style.translate = "";
+  }, { passive: true });
 })();
