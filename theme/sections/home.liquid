@@ -104,7 +104,7 @@
                   <span class="dw-hang" aria-hidden="true">
                     <i class="dw-cord"></i>
                     <span class="dw-reelbody">
-                      <i class="rb-l rb-l1"></i><i class="rb-l rb-l2"></i><i class="rb-l rb-l3"></i>
+                      {%- for z in (0..16) -%}<i class="rb-l" style="--z: {{ z | minus: 8 | times: 0.75 }}"></i>{%- endfor -%}
                       <span class="rb-face rb-front"><span class="rb-disc"></span></span>
                       <span class="rb-face rb-back"><span class="rb-disc"></span></span>
                     </span>

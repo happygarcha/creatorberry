@@ -689,3 +689,10 @@ html { scroll-behavior: smooth; }
 /* v16: the rail outline is drawn as an SVG racetrack by drape.js, so the old circular gradient and mask are not used */
 .dw-reel-rail { background: none; -webkit-mask: none; mask: none; border-radius: 0; filter: drop-shadow(0 3px 0 oklch(0.5 0.01 260 / .5)); }
 .dw-reel-rail svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* v17: solid reel body. 17 closely packed layers (0.75px apart) so the reel looks like a thick disc, not a hollow shell,
+   when it swings edge-on round the ends of the rail. */
+.rb-l { filter: none; background: var(--rc, #3b4cc0); transform: translateZ(calc(var(--z, 0) * 1px)); box-shadow: inset 0 0 0 2px oklch(0 0 0 / .22); }
+.rb-l:nth-child(odd) { background-image: linear-gradient(oklch(0 0 0 / .12), oklch(0 0 0 / .12)); }
+.rb-front { transform: translateZ(6.6px); }
+.rb-back { transform: rotateY(180deg) translateZ(6.6px); }
