@@ -525,3 +525,41 @@ dialog.pg-sheet::backdrop { background: oklch(0.15 0 0 / .5); }
 .dw-id-back-logo { width: 66cqw; height: 66cqw; display: block; mix-blend-mode: multiply; opacity: .92; pointer-events: none; }
 @container (max-width: 130px) { .dw-id-stamp-logo { width: 20cqw; height: 20cqw; } }
 @media (prefers-reduced-motion: reduce) { .dw-logo-img { transition: none; } .dw-logo:hover .dw-logo-img { rotate: none; } }
+
+/* ============================================================
+   v9: real retractable badge reels. Rail -> cord -> round plastic
+   reel with the Drapewell stamp -> ribbed neck -> clear strap with
+   metal snap -> ID card.
+   ============================================================ */
+.dw-reel { --cw: clamp(88px, 22vw, 176px); --rd: calc(var(--cw) * .5); --hang: calc(var(--cw) * .98); --ch: calc(var(--cw) * 1.62); --R: calc(var(--cw) * 1.7); }
+.dw-reel-stage { height: calc(var(--cw) * 3.05 + 96px); }
+.dw-reel-item { height: calc(var(--hang) + var(--ch)); transform: rotateY(var(--ry, 0deg)) translateZ(calc(var(--R) + 7px)) translateX(-50%); }
+.dw-id { top: var(--hang); bottom: 0; }
+.dw-strap, .dw-clip { display: none; }
+.dw-hang { position: absolute; left: 0; right: 0; top: 0; height: var(--hang); transform-style: preserve-3d; pointer-events: none; }
+.dw-hang > i, .dw-hang > span { position: absolute; left: 50%; display: block; transform-style: preserve-3d; }
+.dw-cord { top: 0; width: 2px; height: calc(var(--cw) * .15); translate: -50% 0; background: linear-gradient(90deg, #6d727a, #d9dce1, #6d727a); }
+.dw-cord::before { content: ""; position: absolute; left: 50%; top: -3px; width: 9px; height: 9px; translate: -50% 0; border-radius: 50%; border: 2px solid #8b9099; background: transparent; }
+.dw-reelbody { top: calc(var(--cw) * .15); width: var(--rd); height: var(--rd); translate: -50% 0; }
+.rb-l, .rb-face { position: absolute; inset: 0; border-radius: 50%; display: block; }
+.rb-l { background: var(--rc, #3b4cc0); filter: brightness(.62); }
+.rb-l1 { transform: translateZ(-5px); } .rb-l2 { transform: translateZ(-1px); filter: brightness(.7); } .rb-l3 { transform: translateZ(3px); filter: brightness(.8); }
+.rb-face { background: radial-gradient(circle at 30% 24%, oklch(1 0 0 / .8), transparent 34%), radial-gradient(circle at 70% 78%, oklch(0 0 0 / .28), transparent 52%), var(--rc, #3b4cc0); box-shadow: inset 0 0 0 calc(var(--rd) * .035) oklch(0 0 0 / .16), inset 0 calc(var(--rd) * .02) calc(var(--rd) * .06) oklch(1 0 0 / .6); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: grid; place-items: center; }
+.rb-front { transform: translateZ(6px); }
+.rb-back { transform: rotateY(180deg) translateZ(6px); }
+.rb-disc { display: grid; place-items: center; width: 66%; height: 66%; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff, #eceff3 80%); box-shadow: inset 0 0 0 calc(var(--rd) * .02) oklch(0 0 0 / .18), 0 1px 2px oklch(0 0 0 / .25); }
+.rb-disc img { width: 88%; height: 88%; display: block; pointer-events: none; }
+.dw-neck { top: calc(var(--cw) * .15 + var(--rd) - 2px); width: calc(var(--rd) * .24); height: calc(var(--cw) * .13); translate: -50% 0; border-radius: 3px 3px 40% 40%; background: repeating-linear-gradient(180deg, var(--rc, #3b4cc0) 0 3px, oklch(0 0 0 / .45) 3px 4.5px); box-shadow: inset 2px 0 3px oklch(1 0 0 / .35), inset -2px 0 3px oklch(0 0 0 / .35); }
+.dw-loop { top: calc(var(--cw) * .15 + var(--rd) + var(--cw) * .1); width: calc(var(--rd) * .2); height: calc(var(--rd) * .26); translate: -50% 0; border-radius: 50%; border: 2px solid #9a9fa7; box-shadow: inset 0 0 0 1px #e9ebee; }
+.dw-belt { top: calc(var(--cw) * .15 + var(--rd) + var(--cw) * .2); width: calc(var(--rd) * .34); height: calc(var(--cw) * .2); translate: -50% 0; border-radius: 2px; background: linear-gradient(90deg, oklch(1 0 0 / .55), oklch(1 0 0 / .85) 45%, oklch(1 0 0 / .5)); border: 1px solid oklch(0.3 0 0 / .18); }
+.dw-snap { top: calc(var(--hang) - var(--cw) * .06); width: calc(var(--cw) * .12); aspect-ratio: 1; translate: -50% 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #b3b8bf 60%, #7c818a); box-shadow: 0 1px 3px oklch(0 0 0 / .4), inset 0 0 0 2px oklch(1 0 0 / .4); z-index: 2; }
+.dw-reel-item:nth-child(n) { --rc: var(--rcol, #3b4cc0); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+1) { --rcol: oklch(0.5 0.17 265); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+2) { --rcol: oklch(0.62 0.2 28); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+3) { --rcol: oklch(0.6 0.12 195); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+4) { --rcol: oklch(0.55 0.17 300); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+5) { --rcol: oklch(0.78 0.16 85); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+6) { --rcol: oklch(0.68 0.17 355); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n+7) { --rcol: oklch(0.6 0.15 150); }
+.dw-reel-ring > .dw-reel-item:nth-of-type(8n) { --rcol: oklch(0.32 0.08 265); }
+.dw-reel-scene { top: 44px; }

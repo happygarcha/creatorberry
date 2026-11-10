@@ -49,7 +49,18 @@
                 {%- assign pk = t | modulo: 6 | plus: 1 -%}
                 {%- assign sk = t | modulo: 6 -%}
                 <a class="dw-reel-item" role="listitem" href="{{ product.url }}" draggable="false" style="--i: {{ t }}; --pc: var(--p{{ pk }})">
-                  <span class="dw-strap" aria-hidden="true"></span><span class="dw-clip" aria-hidden="true"></span>
+                  <span class="dw-hang" aria-hidden="true">
+                    <i class="dw-cord"></i>
+                    <span class="dw-reelbody">
+                      <i class="rb-l rb-l1"></i><i class="rb-l rb-l2"></i><i class="rb-l rb-l3"></i>
+                      <span class="rb-face rb-front"><span class="rb-disc"><img src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="360" height="360" loading="lazy" draggable="false"></span></span>
+                      <span class="rb-face rb-back"><span class="rb-disc"><img src="{{ 'drapewell-logo.png' | asset_url }}" alt="" width="360" height="360" loading="lazy" draggable="false"></span></span>
+                    </span>
+                    <i class="dw-neck"></i>
+                    <i class="dw-loop"></i>
+                    <i class="dw-belt"></i>
+                    <i class="dw-snap"></i>
+                  </span>
                   <span class="dw-id">
                     <span class="dw-id-face dw-id-front">
                       <i class="dw-id-slot" aria-hidden="true"></i>
