@@ -1,0 +1,21 @@
+LITTLE WONDER WORLD — EPISODE 1: THE RUNAWAY RAINBOW BALL
+
+Use the accompanying E01_Original_Storyboard.png as the SINGLE authoritative visual reference for Milo, Pip, the ball, and the garden. DO NOT use other images or generate redesigned character references. Create a fixed character sheet extracted from the storyboard first; preserve faces, hair, clothes, proportions, and colors across every scene. If the image does not show a detail clearly, make one choice and keep it consistent. Do not claim that a reference image alone is a rigged 3D model.
+
+DELIVERABLE: An actual 30-second, 1080x1920, 30fps animated MP4 (900 frames), not a slideshow, static images with camera zooms, or an animatic passed off as a final video. Use Blender and Python scripting if installed, FFmpeg for sound and encoding. First check environment and available render capacity. Never use paid services without permission. If actual animation is blocked, explain precisely and deliver project files, not a falsely labeled finished video.
+
+CHARACTER LOCK: Milo is the curly dark-brown-haired toddler in turquoise shirt, yellow overalls and white shoes as pictured. Pip is the mint-green baby dinosaur with pale belly and peach/orange small spikes as pictured. Same meshes/materials/rigs across all shots. No outfit or facial redesign.
+
+STORY AND SHOT TIMELINE (all cuts on exact frame boundaries):
+1. 00:00-00:04, frames 0-119: wide eye-level garden establishing; Milo rolls rainbow ball to Pip, Pip taps it, both laugh. Slow dolly. Ball physics, eye tracking, body motion.
+2. 00:04-00:08, frames 120-239: low-angle tracking, ball escapes down path; both react in background; continuous ball rotation.
+3. 00:08-00:10, frames 240-299: tight reaction two-shot; Milo gasps 'Oops!', Pip blinks, both look downhill.
+4. 00:10-00:15, frames 300-449: side tracking; Milo runs and Pip hops through flowers after ball, feet make contact with path.
+5. 00:15-00:20, frames 450-599: wide three-quarter shot of little wooden bridge; ball crosses and both follow; preserve travel direction.
+6. 00:20-00:25, frames 600-749: medium fixed camera, Pip gently tumbles into soft leaves, leaves scatter, Pip laughs, Milo stops and checks Pip.
+7. 00:25-00:28, frames 750-839: medium shot, Milo catches ball in nearby wicker basket, puts basket down and helps Pip stand.
+8. 00:28-00:30, frames 840-899: front medium shot, Milo and Pip high-five and shout 'Yay!'. End at exactly frame 899.
+
+PRODUCTION: Build one garden scene with pink cottage, winding path, flowers, bridge, stream, leaf pile. Build one rainbow ball and wicker basket. Rig both characters for walk/run/hop, head/eye tracking, blinking, mouth expressions, hands, and secondary motion. Maintain scene geography and ball trajectory. Add original/appropriately licensed cheerful music, footsteps, rolling, leaves, giggles, and short dialogue. Export original .blend project, reusable character rigs, render scripts, 8-shot contact sheet, preview, final MP4, and README. Validate via ffprobe that duration is exactly 30 seconds and video is 1080x1920 at 30fps. Do not stop after writing a plan; execute as much as environment allows and report real outputs.
+
+WORKFLOW: (1) inspect tools (2) extract fixed visual reference from provided image (3) model and rig once (4) animate eight shots (5) preview and inspect (6) fix continuity (7) render and mix audio (8) validate and deliver. No repeated approval questions unless essential. No paid credits.
