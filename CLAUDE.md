@@ -19,3 +19,10 @@ Folder layout (created as needed, all optional):
 - `prompts/` saved prompt packages
 - `renders/` clips from the video tool
 - `final/` accepted masters
+
+## Tips for the best results
+
+- Write the idea as **goal plus obstacle**: "a courier has to reach the ferry before the ramp lifts" beats "a courier rides through the city".
+- Keep **one hero, one vehicle, one location per scene**. The more identities you mix, the faster the model drifts.
+- Generate the asset sheets **before** the video, never let the video model invent the character.
+- Wide and medium shots hold the painted look better than close-ups.

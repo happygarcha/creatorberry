@@ -30,6 +30,11 @@ Output: a prompt package saved to `prompts/<slug>.md`. Never generate images or 
 
 ## Rules
 
+- If the idea lacks a goal plus an obstacle, add one (e.g. "reach X before Y happens") and state it in the logline.
+- One hero, one vehicle, one location per scene; more identities cause drift.
+- Remind the user to generate the asset sheets before the video; the video model must never invent the character.
+- Favor wide and medium shots in the master prompt; use close-ups sparingly, since they lose the painted look.
+
 - Keep prompts self-contained; the image/video tool sees nothing else.
 - Concrete visual language over abstract mood words.
 - No dialogue-dependent plot; film must read silent.
