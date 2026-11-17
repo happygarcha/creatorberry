@@ -38,3 +38,8 @@ crayon_kit/cues4.json
 crayon_kit/final4.wav
 crayon_kit/th4_*.png
 crayon_kit/thumb_finale.html
+crayon-cartoon-series/episodes/*/frames/still_*.png
+crayon-cartoon-series/episodes/*/frames/final/
+crayon-cartoon-series/episodes/*/final/scenes/
+crayon-cartoon-series/episodes/*/audio/script.json
+crayon-cartoon-series/**/__pycache__/

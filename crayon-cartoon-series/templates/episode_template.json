@@ -1,0 +1,66 @@
+{
+  "episode": 0,
+  "title": "TITLE OF THE EPISODE",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "target_seconds": [
+      55,
+      62
+    ]
+  },
+  "gap": [
+    0.28,
+    0.5
+  ],
+  "retention_map": {
+    "0-3s": "INSTANT HOOK",
+    "3-10s": "FIRST SURPRISE",
+    "10-18s": "ESCALATION",
+    "18-27s": "NEW MYSTERY",
+    "27-38s": "BIG REVEAL",
+    "38-50s": "COMEDY PAYOFF",
+    "50-60s": "RESOLUTION + NEXT EPISODE HOOK"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "title": "Hook",
+      "min": 6.0,
+      "background": "red",
+      "music": "tense",
+      "retention_hook": "what the viewer wants answered",
+      "characters": [
+        "GUY"
+      ],
+      "props": [],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "Spoken line. Use the say field if the voice mangles a word or number.",
+          "emph": [
+            "keyword"
+          ],
+          "pre": 0.0
+        }
+      ],
+      "actions": [
+        "what moves, in order"
+      ],
+      "camera": "static | push-in | pan",
+      "headline": {
+        "text": "ON-SCREEN HEADLINE",
+        "at": "word:keyword"
+      },
+      "sfx": [
+        {
+          "name": "pop",
+          "at": "word:keyword",
+          "gain": 0.9
+        }
+      ],
+      "transition": "swipe"
+    }
+  ]
+}

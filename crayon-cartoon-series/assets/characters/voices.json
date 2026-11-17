@@ -1,0 +1,23 @@
+{
+  "_note": "Fixed voice profile per character (Kokoro multi-lang v1.0 int8 speaker ids via sherpa-onnx). Never change between episodes.",
+  "NARRATOR": {
+    "sid": 16,
+    "speed": 1.0,
+    "description": "calm, friendly US male; the witty explainer"
+  },
+  "GUY": {
+    "sid": 17,
+    "speed": 1.05,
+    "description": "curious, slightly dramatic"
+  },
+  "BANKER": {
+    "sid": 11,
+    "speed": 1.0,
+    "description": "confident, self-important"
+  },
+  "FRIEND": {
+    "sid": 18,
+    "speed": 1.05,
+    "description": "cheerful, a bit sarcastic"
+  }
+}
