@@ -54,7 +54,7 @@
                   <span>{{ value }}
                     {%- if product.options.size == 1 -%}
                       {%- assign vv = product.variants | where: 'option1', value | first -%}
-                      {%- if vv and product.price_varies %}<small>{{ vv.price | money }}</small>{% endif -%}
+                      {%- if vv and product.price_varies %}<small data-cents="{{ vv.price }}">{{ vv.price | money }}</small>{% endif -%}
                     {%- endif -%}
                   </span>
                 </label>

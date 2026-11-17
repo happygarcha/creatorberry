@@ -98,6 +98,10 @@
     sheet.showModal();
   };
 
+  /* prices on option cards use the same currency format as the main price (for example CA$12.99) */
+  $$("[data-cents]").forEach(function (el) {
+    try { el.textContent = new Intl.NumberFormat(document.documentElement.lang || undefined, { style: "currency", currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || "CAD" }).format(+el.dataset.cents / 100); } catch (e) {}
+  });
   /* product page: the chosen option shows beside its heading (for example "Size  90 x 180 cm") */
   document.addEventListener("change", function (e) {
     if (!e.target.matches || !e.target.matches("[data-option]")) return;
