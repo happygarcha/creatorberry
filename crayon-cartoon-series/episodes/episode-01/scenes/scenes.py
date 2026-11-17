@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'tools'))
 from episode_tools import *
 import cast, props, bg
 from cast import acting, char
-from cc_kit import money_bag, cash, money_pile, burst, tw, fill_bg
-from animlib import bob, wiggle, flicker, push, pull, pan
+from cc_kit import money_bag, cash, money_pile, burst, tw, fill_bg, text, SCRIPT_B, INK
+from animlib import bob, wiggle, flicker, push, pull, pan, fade
 
 FY = S(FLOOR)
 
@@ -256,4 +256,44 @@ def s7(c):
     return world, cam, (vx, vy - 160), over
 
 
-BUILDERS = {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7}
+# ------------------------------------------------------------------ S8 end card
+def icon_like(x, y, s=1.0):
+    return (f'<g transform="translate({x} {y}) scale({s}) translate(-52 -52)"><path d="M8 46 H30 V94 H8 Z" fill="#FFFFFF" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/>'
+            f'<path d="M34 94 V48 L50 12 Q62 6 64 20 L58 40 H90 Q102 42 99 54 L92 84 Q90 94 78 94 Z" fill="#FFFFFF" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/></g>')
+
+
+def icon_share(x, y, s=1.0):
+    return (f'<g transform="translate({x} {y}) scale({s}) translate(-52 -52)"><path d="M82 22 L26 52 L82 82" fill="none" stroke="{INK}" stroke-width="6"/>'
+            + ''.join(f'<circle cx="{cx}" cy="{cy}" r="15" fill="#FFFFFF" stroke="{INK}" stroke-width="5"/>' for cx, cy in ((82, 22), (26, 52), (82, 82))) + '</g>')
+
+
+def icon_bell(x, y, s=1.0):
+    return (f'<g transform="translate({x} {y}) scale({s})"><path d="M0 -26 C-20 -26 -27 -6 -27 12 L-34 26 H34 L27 12 C27 -6 20 -26 0 -26 Z" fill="#FFD54A" stroke="{INK}" stroke-width="4.5" stroke-linejoin="round"/>'
+            f'<circle cy="34" r="7" fill="#FFD54A" stroke="{INK}" stroke-width="4"/><circle cy="-30" r="5" fill="#FFD54A" stroke="{INK}" stroke-width="3.5"/></g>')
+
+
+def s8(c):
+    d = c.d
+    t_like, t_share, t_sub = c.w('like'), c.w('share'), c.w('subscribe')
+    R1, R2, R3 = S(.255), S(.355), S(.46)
+    gx, gy = 590, S(.745)
+    row = lambda y, icon, label, t: G(icon(105, y, 1.25) + text(200, y + 2, label, 104, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(t - .05, .34, .4), (105, y))
+    like = G(row(R1, icon_like, 'LIKE', t_like), hop(t_like + .15, 24, .3, 2), (105, R1))
+    share = G(row(R2, icon_share, 'SHARE', t_share), wiggle(t_share + .1, t_share + .9, 8, .3), (105, R2))
+    pill = (f'<rect x="60" y="{R3 - 50}" width="430" height="100" rx="50" fill="#E0382C" stroke="{INK}" stroke-width="6"/>'
+            + text(275, R3 + 2, 'SUBSCRIBE', 66, SCRIPT_B, '#FFFFFF'))
+    sub = G(pill, merge(pop(t_sub - .05, .34, .4), [[t_sub + .4, {'s': 1.0}], [t_sub + .6, {'s': 1.06}, 'io'], [t_sub + .8, {'s': 1.0}, 'io'], [t_sub + 1.0, {'s': 1.06}, 'io'], [t_sub + 1.2, {'s': 1.0}, 'io']]), (275, R3))
+    bell = G(G(icon_bell(560, R3, 1.25), wiggle(t_sub + .25, t_sub + 1.6, 18, .26), (560, R3 - 24)), pop(t_sub + .1, .3, .4), (560, R3))
+    title = G(caps(W() / 2, S(.172), 'ENJOYED THIS?', 78, INK, rot=-2), slam(.05), (W() / 2, S(.172)))
+    steps = []
+    t = 0.0; k = 0
+    while t < d:
+        steps.append((round(t, 2), dict(pose='talking' if k % 2 == 0 else 'standing', arms='wave' if k % 2 == 0 else 'down', expr='grin', talk=c.mouth('GUY')))); t += .32; k += 1
+    guy = acting('GUY', gx, gy, 1.1, steps, t_end=d)
+    more = G(caps(60, S(.565), 'FOR MORE MONEY', 46, '#5A1A12', 'start') + caps(60, S(.605), 'EXPLAINED', 46, '#5A1A12', 'start')
+             + caps(60, S(.665), 'NEXT: HOW DO BANKS', 36, INK, 'start') + caps(60, S(.698), 'CREATE MONEY?', 36, INK, 'start'), fade(t_sub + .6, .3))
+    world = bg.flat('mustard', floor=False) + burst(gx, gy - 135, 175, '#F2BE2E', 16) + title + like + share + sub + bell + guy + more
+    return world, [[0, {'s': 1.0}], [d, {'s': 1.03}, 'l']], (W() / 2, S(.4)), ''
+
+
+BUILDERS = {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7, 'S8': s8}

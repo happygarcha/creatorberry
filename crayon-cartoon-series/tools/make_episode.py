@@ -48,7 +48,7 @@ def do_build():
         if hasattr(c, 'freeze'): freeze[sc['id']] = c.freeze
         outro = sc.get('outro'); end = s['end'] - (outro['black_seconds'] if outro else 0)
         scs.append(scene(s['start'], end, frame_svg(world, sc['title']), cam=cam, cam_o=cam_o, z=1))
-        caps_svg = caption_svg(s, sc)
+        caps_svg = caption_svg(s, sc) if sc.get('captions', True) else ''
         scs.append(scene(s['start'], end, frame_svg(over + caps_svg, 'overlay'), bg='transparent', z=5))
         if outro:
             from cc_kit import fill_bg

@@ -5,7 +5,7 @@ keyframes, rendered frame by frame with headless Chromium and encoded with FFmpe
 zooms. Voices are local text-to-speech; music and sound effects are synthesised.
 
 **Episode 1, "Why Can't We Just Print More Money?"** is finished: `episodes/episode-01/final/E01_Why_Can_t_We_Just_Print_More_Money.mp4`
-(56.8 s). See `episodes/episode-01/qc_report.md` and `QC_MANUAL_NOTES.md` for what was checked and what the limits are.
+(59.7 s). See `episodes/episode-01/qc_report.md` and `QC_MANUAL_NOTES.md` for what was checked and what the limits are.
 
 ## Layout
 

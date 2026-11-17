@@ -1,6 +1,6 @@
 # Episode 1: Why Can't We Just Print More Money?
 
-Runtime 56.8 s, 1080x1920, 30 fps. Timestamps are the real timings of the rendered video (voice-locked).
+Runtime 59.7 s, 1080x1920, 30 fps. Timestamps are the real timings of the rendered video (voice-locked).
 
 ## Retention map
 
@@ -186,7 +186,7 @@ Retention hook: Comedy payoff: an even bigger printer; everyone runs
 
 Transition: hard cut
 
-### S7 0:48.3 to 0:56.8: Next-Episode Cliffhanger
+### S7 0:48.3 to 0:56.5: Next-Episode Cliffhanger
 
 Background: blue. Music: mystery. Characters: BANKER, GUY.
 Retention hook: Cliffhanger: banks can create money; the vault door opens; cut to black
@@ -210,4 +210,30 @@ Retention hook: Cliffhanger: banks can create money; the vault door opens; cut t
 - creak at word:work
 - suspense_sting at end-1.9
 
-Transition: cut to black (loops back to the red wallet scene)
+Transition: cut to black, then the end card
+
+### S8 0:56.5 to 0:59.7: End Card: Like, Share, Subscribe
+
+Background: mustard. Music: triumph. Characters: GUY.
+Retention hook: Clear call to action: like, share, subscribe for more, plus the next-episode question
+
+**Dialogue**
+
+- `0:56.5` **GUY**: Like, share and subscribe for more!
+
+**Action**
+
+- Everyday Guy waves at the camera
+- LIKE (thumbs up), SHARE and SUBSCRIBE (with ringing bell) pop in on the spoken words
+- The next-episode question stays on screen
+
+**Camera**: static. **On-screen text**: 
+
+**Sound effects**
+
+- pop at word:like
+- pop at word:share
+- register_ding at word:subscribe
+- cartoon_bell at word:subscribe+0.2
+
+Transition: end (loops back to the red wallet scene)

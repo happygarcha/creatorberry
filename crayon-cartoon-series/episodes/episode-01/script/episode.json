@@ -443,7 +443,7 @@
     {
       "id": "S7",
       "title": "Next-Episode Cliffhanger",
-      "min": 8.5,
+      "min": 8.2,
       "background": "blue",
       "music": "mystery",
       "retention_hook": "Cliffhanger: banks can create money; the vault door opens; cut to black",
@@ -476,7 +476,7 @@
         "at": "word:banks"
       },
       "outro": {
-        "black_seconds": 1.4,
+        "black_seconds": 1.1,
         "small_text": "NEXT EPISODE"
       },
       "sfx": [
@@ -496,7 +496,64 @@
           "gain": 0.9
         }
       ],
-      "transition": "cut to black (loops back to the red wallet scene)"
+      "transition": "cut to black, then the end card"
+    },
+    {
+      "id": "S8",
+      "title": "End Card: Like, Share, Subscribe",
+      "min": 3.2,
+      "background": "mustard",
+      "music": "triumph",
+      "captions": false,
+      "retention_hook": "Clear call to action: like, share, subscribe for more, plus the next-episode question",
+      "characters": [
+        "GUY"
+      ],
+      "props": [
+        "thumbs-up icon",
+        "share icon",
+        "subscribe button + bell"
+      ],
+      "dialogue": [
+        {
+          "who": "GUY",
+          "text": "Like, share and subscribe for more!",
+          "emph": [
+            "like",
+            "share",
+            "subscribe"
+          ]
+        }
+      ],
+      "actions": [
+        "Everyday Guy waves at the camera",
+        "LIKE (thumbs up), SHARE and SUBSCRIBE (with ringing bell) pop in on the spoken words",
+        "The next-episode question stays on screen"
+      ],
+      "camera": "static",
+      "sfx": [
+        {
+          "name": "pop",
+          "at": "word:like",
+          "gain": 0.9
+        },
+        {
+          "name": "pop",
+          "at": "word:share",
+          "gain": 0.9
+        },
+        {
+          "name": "register_ding",
+          "at": "word:subscribe",
+          "gain": 0.8
+        },
+        {
+          "name": "cartoon_bell",
+          "at": "word:subscribe+0.2",
+          "gain": 0.8
+        }
+      ],
+      "transition": "end (loops back to the red wallet scene)"
     }
   ]
 }

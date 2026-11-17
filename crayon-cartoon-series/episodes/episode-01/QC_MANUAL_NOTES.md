@@ -19,6 +19,6 @@ Known limitations (honest list):
 - Arm gestures are pose changes (swapped on cue), not smoothly tweened skeleton motion; legs scissor only while walking/running.
 - Running is the walk cycle plus a faster body bob.
 - Music and sound effects are synthesised (original, no licence issues) and simple.
-- The prompt's scene timecodes are approximate: timing is voice-locked, so the real scene boundaries are 0 / 6 / 14 / 23 / 32 / 40.3 / 48.3 / 56.8 s.
+- The prompt's scene timecodes are approximate: timing is voice-locked, so the real scene boundaries are 0 / 6 / 14 / 23 / 32 / 40.3 / 48.3 / 56.5 / 59.7 s (scene 8 is the like/share/subscribe end card).
 - No uploaded reference image was available in the prompt; the style follows the cartoon cast and kit already established in this project.
 - Economics is deliberately simplified ("prices can rise"); the video says so on screen.
