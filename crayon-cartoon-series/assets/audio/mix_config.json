@@ -4,7 +4,7 @@
   "duck": 0.8,
   "fx_duck": 0.65,
   "min_voice_over_music_db": 18,
-  "min_pause_after_sentence_s": 0.8,
-  "min_pause_within_sentence_s": 0.4,
-  "max_words_per_minute": 150
+  "min_pause_after_sentence_s": 1.0,
+  "min_pause_within_sentence_s": 0.5,
+  "max_words_per_minute": 175
 }

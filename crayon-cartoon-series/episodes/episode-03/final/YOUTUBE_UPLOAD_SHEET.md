@@ -41,4 +41,4 @@ outlook outage, microsoft outage, why did outlook go down, microsoft 365 outage,
 Were you locked out of Outlook on Thursday? Tell me below, and follow for more fun explanations!
 ```
 
-**Settings:** Category Education (or Science & Technology), AI use Yes (synthetic voices; code-drawn animation), audience not made for kids, standard license. Runtime 2:57, close to the 3-minute Shorts limit.
+**Settings:** Category Education (or Science & Technology), AI use Yes (synthetic voices; code-drawn animation), audience not made for kids, standard license. Runtime 2:43.

@@ -1,23 +1,23 @@
 {
-  "_note": "Fixed voice profile per character. SPEED RULE (permanent): slow, clear delivery so viewers can follow the facts. Never speed these up.",
+  "_note": "Fixed voice profile per character. Natural speed 1.0 (slowed-down speech sounded sloppy). Pace is slowed with longer pauses, not by stretching the voice.",
   "NARRATOR": {
     "sid": 16,
-    "speed": 0.86,
+    "speed": 1.0,
     "description": "calm, friendly US male; the witty explainer"
   },
   "GUY": {
     "sid": 17,
-    "speed": 0.9,
+    "speed": 1.0,
     "description": "curious, slightly dramatic"
   },
   "BANKER": {
     "sid": 11,
-    "speed": 0.88,
+    "speed": 1.0,
     "description": "confident, self-important"
   },
   "FRIEND": {
     "sid": 18,
-    "speed": 0.9,
+    "speed": 1.0,
     "description": "cheerful, a bit sarcastic"
   }
 }
