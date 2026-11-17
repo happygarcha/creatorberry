@@ -1,5 +1,6 @@
 ## Video uploads
-- For every finished video, give the user exactly ONE primary thumbnail to upload (not a set of options), plus the paste-ready title, description and tags.
+- For every finished video, deliver the FULL PACKAGE AT ONCE in a single reply, without being asked: the final video file, exactly ONE primary thumbnail (not a set of options),
+  and the paste-ready title, description, hashtags, hidden tags and pinned comment, all written out in the reply so they can be copied. Do not split these across messages.
 
 ## Cartoon series endings (permanent rules, apply automatically; never ask again)
 - Every episode: finish the educational explanation, then a memorable final joke or funny reaction, then the standard animated end card.
