@@ -149,7 +149,19 @@ def giggle():
     parts = [(k * .13, .3 * np.sin(2 * np.pi * (520 + 40 * (k % 2)) * np.arange(int(.09 * SR)) / SR) * np.hanning(int(.09 * SR)), 1) for k in range(6)]
     return _pad(parts, 1.0)
 
+def unplug_zap():                  # plug yanked: crackle + tiny pop
+    d = .45; n = int(d * SR); t = np.arange(n) / SR
+    crackle = filt(noise(d), [2500, 9000], 'band') * (np.sin(2 * np.pi * 90 * t) > .2) * np.exp(-t / .12)
+    return .5 * crackle + .3 * _fit(pop(.5), n)
+
+
+def power_down(d=1.1):             # falling sweep as the machine stops
+    n = int(d * SR); t = np.arange(n) / SR
+    return .3 * np.sin(2 * np.pi * np.cumsum(520 * np.exp(-3.2 * t / d) + 40) / SR) * np.minimum(1, (d - t) / .2) * np.minimum(1, t / .01)
+
+
 REGISTRY = {
+    'unplug_zap': unplug_zap, 'power_down': power_down,
     'squeak': squeak, 'coin_bounce': coin_bounce, 'record_scratch': record_scratch, 'button_click': button_click, 'whirr': whirr,
     'register_ding': register_ding, 'doorbell': doorbell, 'tag_flip': tag_flip, 'sting': sting, 'thud': lambda: thud(60, .7, .15),
     'thud_big': thud_big, 'crowd': lambda: crowd(2.5, .22), 'pop': lambda: pop(.5), 'cartoon_bell': cartoon_bell, 'whistle_up': whistle_up,

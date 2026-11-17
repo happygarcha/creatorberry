@@ -239,61 +239,42 @@ def acting_extra_run(x, y, s, suit, hat, t_scream, t_run, d):
             G(r, [[0, {'o': 0}], [t_run - .001, {'o': 0}], [t_run, {'o': 1}, 'h']]))
 
 
-# ------------------------------------------------------------------ S7
+# ------------------------------------------------------------------ S7 conclusion
 def s7(c):
-    d = c.d; sc = c.sc
-    black = sc['outro']['black_seconds']; d_world = d - black
-    open_t = c.w('how') - .2
-    vx, vy = 360, FY + 40
-    v = props.vault(vx, vy, .92, open_t=open_t, open_d=max(1.2, d_world - open_t - .2))
-    wheel_spin = G('', [])
-    flash = G(burst(vx, vy - 160, 300, '#FFF3B0', 18), [[0, {'o': 0}], [d_world - 1.2, {'o': 0}], [d_world - 1.1, {'o': .9, 's': .2}], [d_world - .05, {'o': 1, 's': 5}, 'i']], (vx, vy - 160))
-    banker = acting('BANKER', 92, FY, 1.5, [(0, dict(pose='talking', expr='smug', arms='present')), (open_t, dict(pose='shocked', expr='surprised'))], t_end=d)
-    guy = acting('GUY', 575, FY, 1.45, [(0, dict(pose='pointing', expr='determined', flip=True)), (open_t, dict(pose='pointing', expr='surprised', flip=True))], t_end=d, flip=True)
-    world = bg.flat('blue') + v + banker + guy + flash
-    cam = [[0, {'s': 1.0}], [d_world, {'s': 1.12}, 'l']]
-    over = headline(sc['headline']['text'], resolve_at(c.sh, sc['headline']['at']), 66, until=d_world)
-    return world, cam, (vx, vy - 160), over
+    d = c.d; sc = c.sh and c.sc
+    t_nope = c.w('nope'); l2 = c.sh['lines'][2]; l0 = c.sh['lines'][0]
+    px, py = 345, FY + 8
+    pr = .95
+    plug_home = (612, FY - 45); hand_up = (462, FY - 160)
+    cord_a = (f'<path d="M{px + 137 * pr:.0f} {FY - 32} C 535 {FY + 20}, 585 {FY + 14}, {plug_home[0]} {plug_home[1]}" fill="none" stroke="{INK}" stroke-width="7" stroke-linecap="round"/>')
+    cord_b = (f'<path d="M{px + 137 * pr:.0f} {FY - 32} C 505 {FY - 60}, 470 {FY - 120}, {hand_up[0]} {hand_up[1] + 14}" fill="none" stroke="{INK}" stroke-width="7" stroke-linecap="round"/>')
+    plug = (f'<rect x="-13" y="-18" width="26" height="36" rx="6" fill="#2B2F36" stroke="{INK}" stroke-width="4"/>'
+            f'<rect x="-6" y="-30" width="4" height="14" fill="#C9D2D8" stroke="{INK}" stroke-width="2"/><rect x="2" y="-30" width="4" height="14" fill="#C9D2D8" stroke="{INK}" stroke-width="2"/>')
+    socket = (f'<rect x="{plug_home[0] - 28}" y="{plug_home[1] - 44}" width="56" height="88" rx="10" fill="#F2EBDD" stroke="{INK}" stroke-width="5"/>'
+              f'<rect x="{plug_home[0] - 12}" y="{plug_home[1] - 28}" width="24" height="10" fill="{INK}"/><rect x="{plug_home[0] - 12}" y="{plug_home[1] + 18}" width="24" height="10" fill="{INK}"/>')
+    printer = G(props.printer(px, py, pr, spin=(0, t_nope)), merge(jitter(0, t_nope, 3, seed=9), [[t_nope + .02, {'r': 0}], [t_nope + .12, {'r': 1.5}, 'o'], [t_nope + .3, {'r': 0}, 'io']]), (px, py))
+    bills = bill_storm(px, py - 85, 30, .15, spread=(-300, 300), up=(-640, -300), g=860, seed=17, floor=FY + 26, dur=2.5, stagger=max(.5, t_nope - .5))
+    # banker: triumphant, then crushed
+    banker = acting('BANKER', 120, FY, 1.5, [(0, dict(pose='talking', expr='grin', arms='up', talk=c.mouth('BANKER'))), (t_nope, dict(pose='shocked', expr='shocked')),
+                                             (l2['t0'] + .2, dict(pose='confused', expr='sad'))], t_end=d)
+    # guy: walks in from the right, grabs the plug on 'nope', holds it up
+    t_arr = max(.9, t_nope - 1.1)
+    reach = ((-44, -80), (60, -70)); up = ((-44, -80), (-70, -150))
+    guy = acting('GUY', 560, FY + 40, 1.35, [(0, dict(pose='walking', expr='determined', walk=(t_arr - 1.0, t_arr))), (t_arr, dict(pose='standing', expr='determined', arms=reach)),
+                                             (t_nope - .05, dict(pose='pointing', expr='angry', arms=up, talk=c.mouth('GUY'))), (c.talk('GUY')[1] + .1, dict(pose='laughing', expr='smug', arms=up))], t_end=d)
+    guy = G(guy, [[0, {'tx': 330}], [t_arr - 1.0, {'tx': 330}], [t_arr, {'tx': 0}, 'o']], (560, FY + 40))
+    t_pull = t_nope
+    plug_a = G(f'<g transform="translate({plug_home[0]} {plug_home[1]})">{plug}</g>', [[0, {'o': 1}], [t_pull - .001, {'o': 1}], [t_pull, {'o': 0}, 'h']])
+    plug_b = G(f'<g transform="translate({hand_up[0]} {hand_up[1]}) rotate(-20)">{plug}</g>', [[0, {'o': 0}], [t_pull - .001, {'o': 0}], [t_pull, {'o': 1}, 'h']])
+    cords = G(cord_a, [[0, {'o': 1}], [t_pull - .001, {'o': 1}], [t_pull, {'o': 0}, 'h']]) + G(cord_b, [[0, {'o': 0}], [t_pull - .001, {'o': 0}], [t_pull, {'o': 1}, 'h']])
+    spark = G(burst(plug_home[0], plug_home[1], 70, '#FFE066', 10), [[0, {'o': 0, 's': .3}], [t_pull - .001, {'o': 0, 's': .3}], [t_pull, {'o': 1, 's': .6}, 'h'], [t_pull + .18, {'o': 1, 's': 1.2}, 'o'], [t_pull + .4, {'o': 0, 's': 1.3}, 'i']], plug_home)
+    # a lonely banknote drifts onto the Banker's hat = the final joke
+    hat = (120, FY - 335)
+    note = G(cash(hat[0], hat[1] - 18, .8, -10), [[0, {'o': 0}], [l2['t1'] - 1.0, {'o': 0}], [l2['t1'] - .99, {'o': 1, 'ty': -260, 'r': 0}], [l2['t1'] + .15, {'ty': 0, 'r': 40}, 'o']], hat)
+    world = bg.flat('blue') + socket + cords + printer + bills + banker + guy + plug_a + plug_b + spark + note
+    cam = [[0, {'s': 1.0}], [d, {'s': 1.05}, 'l']]
+    over = headline(sc['headline']['text'], resolve_at(c.sh, sc['headline']['at']), 62)
+    return world, cam, (W() / 2, FY - 180), over
 
 
-# ------------------------------------------------------------------ S8 end card
-def icon_like(x, y, s=1.0):
-    return (f'<g transform="translate({x} {y}) scale({s}) translate(-52 -52)"><path d="M8 46 H30 V94 H8 Z" fill="#FFFFFF" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/>'
-            f'<path d="M34 94 V48 L50 12 Q62 6 64 20 L58 40 H90 Q102 42 99 54 L92 84 Q90 94 78 94 Z" fill="#FFFFFF" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/></g>')
-
-
-def icon_share(x, y, s=1.0):
-    return (f'<g transform="translate({x} {y}) scale({s}) translate(-52 -52)"><path d="M82 22 L26 52 L82 82" fill="none" stroke="{INK}" stroke-width="6"/>'
-            + ''.join(f'<circle cx="{cx}" cy="{cy}" r="15" fill="#FFFFFF" stroke="{INK}" stroke-width="5"/>' for cx, cy in ((82, 22), (26, 52), (82, 82))) + '</g>')
-
-
-def icon_bell(x, y, s=1.0):
-    return (f'<g transform="translate({x} {y}) scale({s})"><path d="M0 -26 C-20 -26 -27 -6 -27 12 L-34 26 H34 L27 12 C27 -6 20 -26 0 -26 Z" fill="#FFD54A" stroke="{INK}" stroke-width="4.5" stroke-linejoin="round"/>'
-            f'<circle cy="34" r="7" fill="#FFD54A" stroke="{INK}" stroke-width="4"/><circle cy="-30" r="5" fill="#FFD54A" stroke="{INK}" stroke-width="3.5"/></g>')
-
-
-def s8(c):
-    d = c.d
-    t_like, t_share, t_sub = c.w('like'), c.w('share'), c.w('subscribe')
-    R1, R2, R3 = S(.255), S(.355), S(.46)
-    gx, gy = 590, S(.745)
-    row = lambda y, icon, label, t: G(icon(105, y, 1.25) + text(200, y + 2, label, 104, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(t - .05, .34, .4), (105, y))
-    like = G(row(R1, icon_like, 'LIKE', t_like), hop(t_like + .15, 24, .3, 2), (105, R1))
-    share = G(row(R2, icon_share, 'SHARE', t_share), wiggle(t_share + .1, t_share + .9, 8, .3), (105, R2))
-    pill = (f'<rect x="60" y="{R3 - 50}" width="430" height="100" rx="50" fill="#E0382C" stroke="{INK}" stroke-width="6"/>'
-            + text(275, R3 + 2, 'SUBSCRIBE', 66, SCRIPT_B, '#FFFFFF'))
-    sub = G(pill, merge(pop(t_sub - .05, .34, .4), [[t_sub + .4, {'s': 1.0}], [t_sub + .6, {'s': 1.06}, 'io'], [t_sub + .8, {'s': 1.0}, 'io'], [t_sub + 1.0, {'s': 1.06}, 'io'], [t_sub + 1.2, {'s': 1.0}, 'io']]), (275, R3))
-    bell = G(G(icon_bell(560, R3, 1.25), wiggle(t_sub + .25, t_sub + 1.6, 18, .26), (560, R3 - 24)), pop(t_sub + .1, .3, .4), (560, R3))
-    title = G(caps(W() / 2, S(.172), 'ENJOYED THIS?', 78, INK, rot=-2), slam(.05), (W() / 2, S(.172)))
-    steps = []
-    t = 0.0; k = 0
-    while t < d:
-        steps.append((round(t, 2), dict(pose='talking' if k % 2 == 0 else 'standing', arms='wave' if k % 2 == 0 else 'down', expr='grin', talk=c.mouth('GUY')))); t += .32; k += 1
-    guy = acting('GUY', gx, gy, 1.1, steps, t_end=d)
-    more = G(caps(60, S(.565), 'FOR MORE MONEY', 46, '#5A1A12', 'start') + caps(60, S(.605), 'EXPLAINED', 46, '#5A1A12', 'start')
-             + caps(60, S(.665), 'NEXT: HOW DO BANKS', 36, INK, 'start') + caps(60, S(.698), 'CREATE MONEY?', 36, INK, 'start'), fade(t_sub + .6, .3))
-    world = bg.flat('mustard', floor=False) + burst(gx, gy - 135, 175, '#F2BE2E', 16) + title + like + share + sub + bell + guy + more
-    return world, [[0, {'s': 1.0}], [d, {'s': 1.03}, 'l']], (W() / 2, S(.4)), ''
-
-
-BUILDERS = {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7, 'S8': s8}
+BUILDERS = {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4, 'S5': s5, 'S6': s6, 'S7': s7}

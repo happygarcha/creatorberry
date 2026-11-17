@@ -23,7 +23,17 @@ def S(f): return f * H()
 
 
 # ---------------------------------------------------------------- episode / script / timeline
-def load_episode(path): return json.load(open(path))
+END_CARD = json.load(open(os.path.join(ROOT, 'templates', 'end_card.json')))
+
+
+def with_end_card(ep):
+    """PERMANENT RULE: every episode ends with the standard animated Like/Share/Subscribe end card (final 5-7 s). It is appended here
+    automatically, so episode.json only describes the educational content, conclusion and final joke."""
+    if not any(sc['id'] == 'ENDCARD' for sc in ep['scenes']): ep['scenes'] = ep['scenes'] + [json.loads(json.dumps(END_CARD))]
+    return ep
+
+
+def load_episode(path): return with_end_card(json.load(open(path)))
 
 
 def build_script(ep):
@@ -78,6 +88,7 @@ def sfx_events(ep, TL, freeze=None):
             t = s['start'] + resolve_at(s, e['at'])
             until = None
             if e.get('until') == 'freeze' and freeze and sc['id'] in freeze: until = s['start'] + freeze[sc['id']]
+            elif e.get('until') and e['until'] != 'freeze': until = s['start'] + resolve_at(s, e['until'])
             ev.append([e['name'], round(t, 3), e.get('gain', 1.0), until])
     return ev
 

@@ -3,120 +3,128 @@
     "episode": 1,
     "title": "Why Can't We Just Print More Money?",
     "status": "DONE",
-    "next_episode_hook": "How do banks create money?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "How do banks create money?"
   },
   {
     "episode": 2,
     "title": "How Do Banks Create Money?",
     "status": "research_pending: Bank of England 'Money creation in the modern economy' (2014); loans create deposits",
-    "next_episode_hook": "Why do banks collapse?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "Why do banks collapse?"
   },
   {
     "episode": 3,
     "title": "Why Do Banks Collapse?",
     "status": "research_pending: fractional reserves, bank runs, deposit insurance",
-    "next_episode_hook": "What really caused the 2008 crash?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "What really caused the 2008 crash?"
   },
   {
     "episode": 4,
     "title": "What Really Caused the 2008 Crash?",
     "status": "research_pending: reuse the verified facts in crayon_kit/reel_2008.py (subprime lending, Lehman Sept 15 2008)",
-    "next_episode_hook": "Who gets rich during a recession?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "Who gets rich during a recession?"
   },
   {
     "episode": 5,
     "title": "Who Gets Rich During a Recession?",
     "status": "research_pending",
-    "next_episode_hook": "Why is everything so expensive?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "Why is everything so expensive?"
   },
   {
     "episode": 6,
     "title": "Why Is Everything So Expensive?",
     "status": "research_pending: CPI, supply shocks, demand",
-    "next_episode_hook": "Who actually controls the world's money?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "Who actually controls the world's money?"
   },
   {
     "episode": 7,
     "title": "Who Actually Controls the World's Money?",
     "status": "research_pending: central banks, reserve currencies",
-    "next_episode_hook": "What happens if everyone withdraws their money?",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "What happens if everyone withdraws their money?"
   },
   {
     "episode": 8,
     "title": "What Happens If Everyone Withdraws Their Money?",
     "status": "research_pending: bank runs (links back to Episode 3)",
-    "next_episode_hook": "Season 2 teaser",
     "requirements": [
       "complete understandable explanation",
       "multiple curiosity hooks (see retention_map)",
       "3+ visual jokes",
       "1 surprising but accurate fact",
-      "connected next-episode question",
       "same cast and visual identity",
-      "fact-check before the final script"
-    ]
+      "fact-check before the final script",
+      "optional next-episode teaser: never replaces the standard end card (Episode 1 has none)",
+      "standard Like/Share/Subscribe end card is appended automatically (final 6 s)"
+    ],
+    "optional_teaser": "Season 2 teaser"
   }
 ]

@@ -1,0 +1,74 @@
+{
+  "id": "ENDCARD",
+  "title": "End Card: Like, Share, Subscribe",
+  "min": 6.0,
+  "background": "mustard",
+  "music": "triumph",
+  "captions": false,
+  "builder": "end_card",
+  "retention_hook": "Branded call to action: like, share, subscribe for more fun explanations (no next-episode teaser)",
+  "characters": [
+    "GUY",
+    "FRIEND",
+    "BANKER"
+  ],
+  "props": [
+    "like icon",
+    "share icon",
+    "subscribe button + bell"
+  ],
+  "dialogue": [
+    {
+      "who": "NARRATOR",
+      "text": "Like, share, and subscribe for more crazy explanations!",
+      "emph": [
+        "like",
+        "share",
+        "subscribe"
+      ],
+      "pre": 0.3
+    }
+  ],
+  "actions": [
+    "Everyday Guy presses the Like icon",
+    "Friend points toward Share",
+    "Banker presses the red Subscribe button",
+    "The bell rings",
+    "All three react: hop, laugh, flustered Banker",
+    "Hold the full card long enough to read"
+  ],
+  "camera": "static",
+  "sfx": [
+    {
+      "name": "pop",
+      "at": "word:like",
+      "gain": 0.9
+    },
+    {
+      "name": "pop",
+      "at": "word:share",
+      "gain": 0.9
+    },
+    {
+      "name": "button_click",
+      "at": "word:subscribe",
+      "gain": 0.9
+    },
+    {
+      "name": "register_ding",
+      "at": "word:subscribe+0.1",
+      "gain": 0.8
+    },
+    {
+      "name": "cartoon_bell",
+      "at": "word:subscribe+0.35",
+      "gain": 0.9
+    },
+    {
+      "name": "giggle",
+      "at": "word:crazy",
+      "gain": 0.5
+    }
+  ],
+  "transition": "end (loops back to the first scene)"
+}

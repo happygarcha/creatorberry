@@ -19,6 +19,10 @@ Known limitations (honest list):
 - Arm gestures are pose changes (swapped on cue), not smoothly tweened skeleton motion; legs scissor only while walking/running.
 - Running is the walk cycle plus a faster body bob.
 - Music and sound effects are synthesised (original, no licence issues) and simple.
-- The prompt's scene timecodes are approximate: timing is voice-locked, so the real scene boundaries are 0 / 6 / 14 / 23 / 32 / 40.3 / 48.3 / 56.5 / 59.7 s (scene 8 is the like/share/subscribe end card).
+- The prompt's scene timecodes are approximate: timing is voice-locked, so the real boundaries are 0 / 6 / 14 / 23 / 32 / 40.3 / 46.7 / 54.2 / 60.2 s (scene 6 was trimmed by 1.6 s of idle time; the last two scenes are the conclusion and the standard end card).
 - No uploaded reference image was available in the prompt; the style follows the cartoon cast and kit already established in this project.
 - Economics is deliberately simplified ("prices can rise"); the video says so on screen.
+
+Ending revision: the vault/next-episode cliffhanger was removed. The ending is now the conclusion scene (Banker: print more money; Guy unplugs the printer;
+narrator: more money does not automatically mean more wealth) followed by the standard animated Like / Share / Subscribe end card (6 s).
+Scenes 1-5 were not re-rendered.

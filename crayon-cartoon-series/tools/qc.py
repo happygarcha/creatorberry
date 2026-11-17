@@ -9,7 +9,8 @@ import numpy as np
 from PIL import Image
 
 EP = os.path.abspath(sys.argv[1]); P = lambda *a: os.path.join(EP, *a)
-ep = json.load(open(P('script', 'episode.json'))); TL = json.load(open(P('audio', 'vo.json'))); cues = json.load(open(P('audio', 'cues.json')))
+import episode_tools as _et
+ep = _et.load_episode(P('script', 'episode.json')); TL = json.load(open(P('audio', 'vo.json'))); cues = json.load(open(P('audio', 'cues.json')))
 mp4 = glob.glob(P('final', 'E*.mp4'))[0]
 rows = []   # (status, check, detail)
 def add(status, check, detail=''): rows.append((status, check, detail)); print(f'[{status}] {check} {detail}')
@@ -138,6 +139,17 @@ ev = sorted(ev); gaps = [(b - a, a, b) for a, b in zip(ev, ev[1:])]
 mx = max(gaps)
 add('PASS' if mx[0] <= 8 else 'WARN', 'retention cadence (new development <= 8 s)', f'longest gap {mx[0]:.1f}s ({mx[1]:.1f}-{mx[2]:.1f}s); {len(ev)} developments in {TL["total"]:.0f}s')
 add('PASS' if len(ep['scenes']) >= 7 else 'WARN', 'scene count / hooks', f"{len(ep['scenes'])} scenes, each with a declared retention hook")
+
+# ---------------------------------------------------------------- permanent ending rules
+last = ep['scenes'][-1]; ls = sh[last['id']]; ld = ls['end'] - ls['start']
+add('PASS' if last['id'] == 'ENDCARD' else 'FAIL', 'ends with the standard end card', last['id'])
+add('PASS' if 5 <= ld <= 7.2 else 'FAIL', 'end card length (5-7 s)', f'{ld:.1f}s')
+txt = ' '.join(l['text'] for l in ls['lines']).lower()
+add('PASS' if all(w in txt for w in ('like', 'share', 'subscribe')) else 'FAIL', 'spoken invitation to like, share and subscribe', txt)
+src_all = open(P('episode.html')).read().upper()
+add('PASS' if all(w in src_all for w in ('>LIKE<', '>SHARE<', '>SUBSCRIBE<')) else 'FAIL', 'LIKE / SHARE / SUBSCRIBE shown on screen')
+body = ' '.join(l['text'] for s_ in TL['shots'][:-1] for l in s_['lines']).lower() + ' ' + ' '.join(sc.get('headline', {}).get('text', '') for sc in ep['scenes'][:-1]).lower()
+add('PASS' if 'next episode' not in src_all.lower() and 'next:' not in src_all.lower() else 'FAIL', 'no next-episode title shown or promised', 'none found in the video text')
 
 # ---------------------------------------------------------------- character consistency / no stills
 src = open(P('scenes', 'scenes.py')).read()

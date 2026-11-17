@@ -9,13 +9,11 @@ Why Can't We Just Print More Money? (Explained)
 
 **Description**
 ```
-Why doesn't the government just print more money? A banker, a baker and one very confused guy find out the hard way, in under a minute.
+Why doesn't the government just print more money? A banker, a baker and one very confused guy find out the hard way, in one minute.
 
 The simple version: when more money chases the same amount of stuff, prices can rise. That's inflation. (A simplified example: real economies are messier.)
 
-Next episode: How do banks create money?
-
-Facts: inflation as spending outpacing production (St. Louis Fed education resources); banks create money when they make loans (Bank of England, "Money creation in the modern economy", 2014).
+Fact check: inflation as spending outpacing production (St. Louis Fed education resources). More money does not automatically mean more wealth.
 
 #shorts #money #economics
 ```
@@ -28,5 +26,5 @@ Facts: inflation as spending outpacing production (St. Louis Fed education resou
 
 **Pinned comment**
 ```
-Next up: how do banks create money out of thin air (legally)? Follow so you don't miss it. Would you print more money? Tell me below.
+Would YOU print more money? Tell me below, and follow for more fun explanations!
 ```

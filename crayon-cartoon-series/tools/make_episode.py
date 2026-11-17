@@ -43,7 +43,9 @@ def do_build():
     m = load_scenes(); scs = []; freeze = {}; black = []
     for sc in ep['scenes']:
         s = sh[sc['id']]; c = m.C(sc, s, None)
-        res = m.BUILDERS[sc['id']](c)
+        if sc.get('builder') == 'end_card':
+            import end_card; res = end_card.build(c)
+        else: res = m.BUILDERS[sc['id']](c)
         world, cam, cam_o, over = res
         if hasattr(c, 'freeze'): freeze[sc['id']] = c.freeze
         outro = sc.get('outro'); end = s['end'] - (outro['black_seconds'] if outro else 0)

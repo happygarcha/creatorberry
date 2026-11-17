@@ -20,8 +20,8 @@
     "10-18s": "ESCALATION: bread costs fifty thousand dollars; the money bag lands on his foot",
     "18-27s": "NEW MYSTERY: more money, same bread; who wants to pay more?",
     "27-38s": "BIG REVEAL: more money chasing the same stuff means prices can rise, that's inflation",
-    "38-50s": "COMEDY PAYOFF: a bigger printer, everybody runs, someone take away his printer",
-    "50-60s": "NEXT-EPISODE HOOK: banks can create money when they make loans; the vault opens"
+    "38-50s": "COMEDY PAYOFF: a bigger printer, everybody runs, 'somebody take away his printer!'",
+    "50-60s": "CONCLUSION + FINAL JOKE (unplugged) then the animated Like / Share / Subscribe end card (appended automatically)"
   },
   "scenes": [
     {
@@ -362,7 +362,7 @@
     {
       "id": "S6",
       "title": "The Comedy Payoff",
-      "min": 8.0,
+      "min": 6.4,
       "background": "red",
       "music": "tense",
       "retention_hook": "Comedy payoff: an even bigger printer; everyone runs",
@@ -442,118 +442,88 @@
     },
     {
       "id": "S7",
-      "title": "Next-Episode Cliffhanger",
-      "min": 8.2,
+      "title": "Conclusion: Unplugged",
+      "min": 6.8,
       "background": "blue",
-      "music": "mystery",
-      "retention_hook": "Cliffhanger: banks can create money; the vault door opens; cut to black",
+      "music": "warm",
+      "retention_hook": "Memorable final joke: the Banker's brilliant solution is more printing; the Guy pulls the plug; the lesson lands",
       "characters": [
         "BANKER",
         "GUY"
       ],
       "props": [
-        "vault"
+        "printer",
+        "power cord and socket",
+        "plug",
+        "bills"
       ],
       "dialogue": [
         {
-          "who": "NARRATOR",
-          "text": "But here's something stranger. Banks can create money when they make loans. How does that work?",
+          "who": "BANKER",
+          "text": "I've got a solution! Print more money!",
           "emph": [
-            "create",
-            "work"
+            "print",
+            "money"
           ]
-        }
-      ],
-      "actions": [
-        "Banker stands beside a locked vault; Everyday Guy points at it",
-        "The vault wheel spins and the door starts to open",
-        "Bright yellow light spills out",
-        "Hard cut to black before the contents are revealed"
-      ],
-      "camera": "slow push-in towards the vault",
-      "headline": {
-        "text": "HOW DO BANKS CREATE MONEY?",
-        "at": "word:banks"
-      },
-      "outro": {
-        "black_seconds": 1.1,
-        "small_text": "NEXT EPISODE"
-      },
-      "sfx": [
-        {
-          "name": "vault_unlock",
-          "at": "word:how",
-          "gain": 0.8
         },
-        {
-          "name": "creak",
-          "at": "word:work",
-          "gain": 0.8
-        },
-        {
-          "name": "suspense_sting",
-          "at": "end-1.9",
-          "gain": 0.9
-        }
-      ],
-      "transition": "cut to black, then the end card"
-    },
-    {
-      "id": "S8",
-      "title": "End Card: Like, Share, Subscribe",
-      "min": 3.2,
-      "background": "mustard",
-      "music": "triumph",
-      "captions": false,
-      "retention_hook": "Clear call to action: like, share, subscribe for more, plus the next-episode question",
-      "characters": [
-        "GUY"
-      ],
-      "props": [
-        "thumbs-up icon",
-        "share icon",
-        "subscribe button + bell"
-      ],
-      "dialogue": [
         {
           "who": "GUY",
-          "text": "Like, share and subscribe for more!",
+          "text": "Nope! You're unplugged!",
           "emph": [
-            "like",
-            "share",
-            "subscribe"
+            "nope",
+            "unplugged"
+          ]
+        },
+        {
+          "who": "NARRATOR",
+          "text": "More money doesn't automatically mean more wealth!",
+          "emph": [
+            "wealth"
           ]
         }
       ],
       "actions": [
-        "Everyday Guy waves at the camera",
-        "LIKE (thumbs up), SHARE and SUBSCRIBE (with ringing bell) pop in on the spoken words",
-        "The next-episode question stays on screen"
+        "Banker triumphantly announces his solution next to the running printer",
+        "Everyday Guy walks in, yanks the plug out of the wall",
+        "Spark, the printer stops, falling banknotes settle",
+        "Banker slumps; one lonely banknote lands on his hat",
+        "Narrator delivers the lesson"
       ],
-      "camera": "static",
+      "camera": "slow push-in",
+      "headline": {
+        "text": "MORE MONEY ISN'T MORE WEALTH",
+        "at": "line:2:start"
+      },
       "sfx": [
         {
-          "name": "pop",
-          "at": "word:like",
+          "name": "whirr",
+          "at": 0.0,
+          "gain": 0.6,
+          "until": "word:nope"
+        },
+        {
+          "name": "bills_flutter",
+          "at": 0.2,
+          "gain": 0.5,
+          "until": "word:nope"
+        },
+        {
+          "name": "unplug_zap",
+          "at": "word:nope",
           "gain": 0.9
         },
         {
-          "name": "pop",
-          "at": "word:share",
-          "gain": 0.9
-        },
-        {
-          "name": "register_ding",
-          "at": "word:subscribe",
+          "name": "power_down",
+          "at": "word:nope",
           "gain": 0.8
         },
         {
-          "name": "cartoon_bell",
-          "at": "word:subscribe+0.2",
-          "gain": 0.8
+          "name": "boing",
+          "at": "word:unplugged",
+          "gain": 0.6
         }
       ],
-      "transition": "end (loops back to the red wallet scene)"
+      "transition": "swipe into the end card"
     }
   ]
 }

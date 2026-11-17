@@ -21,7 +21,7 @@
     "18-27s": "NEW MYSTERY",
     "27-38s": "BIG REVEAL",
     "38-50s": "COMEDY PAYOFF",
-    "50-60s": "RESOLUTION + NEXT EPISODE HOOK"
+    "50-60s": "CONCLUSION + FINAL JOKE. Do NOT add an end card here: the standard animated Like/Share/Subscribe end card is appended automatically (templates/end_card.json)"
   },
   "scenes": [
     {

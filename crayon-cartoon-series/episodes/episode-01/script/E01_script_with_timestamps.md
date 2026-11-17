@@ -1,6 +1,6 @@
 # Episode 1: Why Can't We Just Print More Money?
 
-Runtime 59.7 s, 1080x1920, 30 fps. Timestamps are the real timings of the rendered video (voice-locked).
+Runtime 60.2 s, 1080x1920, 30 fps. Timestamps are the real timings of the rendered video (voice-locked).
 
 ## Retention map
 
@@ -9,8 +9,8 @@ Runtime 59.7 s, 1080x1920, 30 fps. Timestamps are the real timings of the render
 - **10-18s**: ESCALATION: bread costs fifty thousand dollars; the money bag lands on his foot
 - **18-27s**: NEW MYSTERY: more money, same bread; who wants to pay more?
 - **27-38s**: BIG REVEAL: more money chasing the same stuff means prices can rise, that's inflation
-- **38-50s**: COMEDY PAYOFF: a bigger printer, everybody runs, someone take away his printer
-- **50-60s**: NEXT-EPISODE HOOK: banks can create money when they make loans; the vault opens
+- **38-50s**: COMEDY PAYOFF: a bigger printer, everybody runs, 'somebody take away his printer!'
+- **50-60s**: CONCLUSION + FINAL JOKE (unplugged) then the animated Like / Share / Subscribe end card (appended automatically)
 
 ## Scenes
 
@@ -155,7 +155,7 @@ Retention hook: Big reveal: animated comparison, then the rich-but-poor payoff
 
 Transition: board slides away
 
-### S6 0:40.3 to 0:48.3: The Comedy Payoff
+### S6 0:40.3 to 0:46.7: The Comedy Payoff
 
 Background: red. Music: tense. Characters: BANKER, GUY, FRIEND.
 Retention hook: Comedy payoff: an even bigger printer; everyone runs
@@ -186,46 +186,54 @@ Retention hook: Comedy payoff: an even bigger printer; everyone runs
 
 Transition: hard cut
 
-### S7 0:48.3 to 0:56.5: Next-Episode Cliffhanger
+### S7 0:46.7 to 0:54.2: Conclusion: Unplugged
 
-Background: blue. Music: mystery. Characters: BANKER, GUY.
-Retention hook: Cliffhanger: banks can create money; the vault door opens; cut to black
+Background: blue. Music: warm. Characters: BANKER, GUY.
+Retention hook: Memorable final joke: the Banker's brilliant solution is more printing; the Guy pulls the plug; the lesson lands
 
 **Dialogue**
 
-- `0:48.3` **NARRATOR**: But here's something stranger. Banks can create money when they make loans. How does that work?
+- `0:46.7` **BANKER**: I've got a solution! Print more money!
+- `0:49.4` **GUY**: Nope! You're unplugged!
+- `0:51.2` **NARRATOR**: More money doesn't automatically mean more wealth!
 
 **Action**
 
-- Banker stands beside a locked vault; Everyday Guy points at it
-- The vault wheel spins and the door starts to open
-- Bright yellow light spills out
-- Hard cut to black before the contents are revealed
+- Banker triumphantly announces his solution next to the running printer
+- Everyday Guy walks in, yanks the plug out of the wall
+- Spark, the printer stops, falling banknotes settle
+- Banker slumps; one lonely banknote lands on his hat
+- Narrator delivers the lesson
 
-**Camera**: slow push-in towards the vault. **On-screen text**: HOW DO BANKS CREATE MONEY? / NEXT EPISODE
+**Camera**: slow push-in. **On-screen text**: MORE MONEY ISN'T MORE WEALTH
 
 **Sound effects**
 
-- vault_unlock at word:how
-- creak at word:work
-- suspense_sting at end-1.9
+- whirr at 0.0
+- bills_flutter at 0.2
+- unplug_zap at word:nope
+- power_down at word:nope
+- boing at word:unplugged
 
-Transition: cut to black, then the end card
+Transition: swipe into the end card
 
-### S8 0:56.5 to 0:59.7: End Card: Like, Share, Subscribe
+### ENDCARD 0:54.2 to 1:00.2: End Card: Like, Share, Subscribe
 
-Background: mustard. Music: triumph. Characters: GUY.
-Retention hook: Clear call to action: like, share, subscribe for more, plus the next-episode question
+Background: mustard. Music: triumph. Characters: GUY, FRIEND, BANKER.
+Retention hook: Branded call to action: like, share, subscribe for more fun explanations (no next-episode teaser)
 
 **Dialogue**
 
-- `0:56.5` **GUY**: Like, share and subscribe for more!
+- `0:54.5` **NARRATOR**: Like, share, and subscribe for more crazy explanations!
 
 **Action**
 
-- Everyday Guy waves at the camera
-- LIKE (thumbs up), SHARE and SUBSCRIBE (with ringing bell) pop in on the spoken words
-- The next-episode question stays on screen
+- Everyday Guy presses the Like icon
+- Friend points toward Share
+- Banker presses the red Subscribe button
+- The bell rings
+- All three react: hop, laugh, flustered Banker
+- Hold the full card long enough to read
 
 **Camera**: static. **On-screen text**: 
 
@@ -233,7 +241,9 @@ Retention hook: Clear call to action: like, share, subscribe for more, plus the 
 
 - pop at word:like
 - pop at word:share
-- register_ding at word:subscribe
-- cartoon_bell at word:subscribe+0.2
+- button_click at word:subscribe
+- register_ding at word:subscribe+0.1
+- cartoon_bell at word:subscribe+0.35
+- giggle at word:crazy
 
-Transition: end (loops back to the red wallet scene)
+Transition: end (loops back to the first scene)
