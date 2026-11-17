@@ -21,7 +21,7 @@ zooms. Voices are local text-to-speech; music and sound effects are synthesised.
 
 Voices are slower (narrator 0.88, characters ~0.9) with longer pauses (0.4 s within a sentence, 0.8 s after one), the music bed is mixed lower and ducked hard under speech,
 and effects are ducked under the voice. Settings: `assets/characters/voices.json` and `assets/audio/mix_config.json`. `tools/qc.py` reports the speech pace and the
-voice-over-music margin. Episodes 1 and 2 predate these rules.
+voice-over-music margin. Content is never trimmed to save time: the video runs as long as the researched script needs (Shorts limit 180 s). Episodes 1 and 2 predate these rules.
 
 ## Layout
 

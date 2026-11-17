@@ -24,7 +24,7 @@ add('PASS' if (v['width'], v['height']) == (1080, 1920) else 'FAIL', 'resolution
 add('PASS' if v['r_frame_rate'] == '30/1' else 'FAIL', 'frame rate', v['r_frame_rate'])
 add('PASS' if v['codec_name'] == 'h264' and a['codec_name'] == 'aac' else 'FAIL', 'codecs', f"{v['codec_name']} + {a['codec_name']}")
 lo, hi = ep['format']['target_seconds']
-add('PASS' if lo <= dur <= hi + 5 else 'WARN', 'runtime', f'{dur:.2f}s (target {lo}-{hi}s)')
+add('PASS' if dur <= 180 else 'FAIL', 'runtime within the 3-minute Shorts limit', f'{dur:.2f}s (content is never cut to hit {lo}-{hi}s)')
 add('PASS' if abs(int(v['nb_read_frames']) - round(dur * 30)) <= 2 else 'WARN', 'frame count', f"{v['nb_read_frames']} frames")
 add('PASS' if abs(float(a['duration']) - dur) < .3 else 'WARN', 'audio/video length match', f"audio {float(a['duration']):.2f}s")
 

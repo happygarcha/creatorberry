@@ -12,7 +12,9 @@
 
 ## Cartoon series audio and pacing (permanent rules, apply from the next video onward; never ask again)
 - Speech must be slow and clear so viewers can follow the facts: narrator voice speed 0.88, characters about 0.9 (assets/characters/voices.json), minimum pauses 0.4 s inside a sentence and 0.8 s after a sentence.
-  Never speed the voices up to make a video shorter; trim the script instead (aim for roughly 110-130 narration words per 60 s of video).
+  Never speed the voices up to make a video shorter, and never cut facts or script content to save time: keep ALL the researched information. The video simply runs as long as the content needs
+  (YouTube Shorts allow up to 3 minutes; stay at or under 180 s, and tell the user the runtime in the delivery message).
 - Background music must never mask speech: it is mixed at a lower level and ducked hard under every voice (assets/audio/mix_config.json), sound effects are ducked under the voice too.
 - tools/qc.py checks the speech pace (limit 150 words per minute while speaking) and that the voice is at least 18 dB above the music while speaking; fix and re-mix if it warns.
+- If a script is long, keep it and still keep a new visual development at least every 8 s; split into two parts only if it would exceed 180 s, and ask first in that case.
 - Episodes 1 and 2 were rendered before these rules and keep their original faster pacing unless the user asks for a re-render.
