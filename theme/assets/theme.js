@@ -268,6 +268,7 @@
     var shipEl = $("[data-ship]");
     function shipBand(list, g) { var out = null; String(list || "").split(",").some(function (pair) { var p = pair.split(":"); if (g <= parseFloat(p[0])) { out = p[1]; return true; } return false; }); return out; }
     function shipFor(g) {
+      if (g > 0) document.dispatchEvent(new CustomEvent("dw:weight", { detail: { g: g } }));
       if (!shipEl || !(g > 0)) return;
       var ca = shipBand(shipEl.dataset.shipCa, g), us = shipBand(shipEl.dataset.shipUs, g);
       var strong = shipEl.querySelectorAll("strong");

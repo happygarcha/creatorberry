@@ -77,6 +77,7 @@
     {%- endform -%}
 
     <div class="dcard">
+      {%- unless is_collective -%}{% render 'ship-estimator', weight: current.weight %}{%- endunless -%}
       {% render 'ship-estimate', weight: current.weight, scope: 'item', collective: is_collective, vendor: product.vendor %}
       {% render 'trust-row', collective: is_collective, vendor: product.vendor %}
     </div>

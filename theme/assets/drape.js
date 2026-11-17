@@ -102,6 +102,37 @@
   $$("[data-cents]").forEach(function (el) {
     try { el.textContent = new Intl.NumberFormat(document.documentElement.lang || undefined, { style: "currency", currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || "CAD" }).format(+el.dataset.cents / 100); } catch (e) {}
   });
+  /* product page shipping estimator: pick Canada or the United States, see the cost for the chosen variant and the delivery dates if ordered today */
+  (function () {
+    var box = $("[data-shipper]"), src = $("[data-ship]");
+    if (!box || !src) return;
+    var KEY = "dw-ship-country", weight = parseFloat(box.dataset.weight) || 0;
+    var days = { CA: box.dataset.daysCa.split(",").map(Number), US: box.dataset.daysUs.split(",").map(Number) };
+    var names = { CA: "Canada", US: "the United States" };
+    var country = "CA";
+    try { country = localStorage.getItem(KEY) || ""; } catch (e) {}
+    if (country !== "CA" && country !== "US") country = box.dataset["default"] === "US" ? "US" : "CA";
+    var band = function (list, g) { var out = null; String(list || "").split(",").some(function (p) { var a = p.split(":"); if (g <= parseFloat(a[0])) { out = a[1]; return true; } return false; }); return out; };
+    var fmt = new Intl.DateTimeFormat(document.documentElement.lang || "en", { month: "short", day: "numeric" });
+    var addDays = function (n) { var d = new Date(); d.setDate(d.getDate() + n); return fmt.format(d); };
+    var paint = function () {
+      var price = weight > 0 ? band(country === "US" ? src.dataset.shipUs : src.dataset.shipCa, weight) : null;
+      $("[data-sh-country]", box).textContent = names[country];
+      $("[data-sh-cost]", box).textContent = price ? "CA$" + price + " shipping for this item" : "Shipping cost is shown at checkout";
+      $("[data-sh-date]", box).textContent = "Estimated delivery " + addDays(days[country][0]) + " – " + addDays(days[country][1]);
+      $$("[data-sh-pick]", box).forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.shPick === country ? "true" : "false"); });
+    };
+    box.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-sh-pick]"); if (!b) return;
+      country = b.dataset.shPick; try { localStorage.setItem(KEY, country); } catch (er) {}
+      paint();
+    });
+    document.addEventListener("dw:weight", function (e) { weight = e.detail.g; paint(); });
+    paint();
+    box.hidden = false;
+    box.closest(".dcard").classList.add("has-shipper");
+  })();
+
   /* product page: the chosen option shows beside its heading (for example "Size  90 x 180 cm") */
   document.addEventListener("change", function (e) {
     if (!e.target.matches || !e.target.matches("[data-option]")) return;

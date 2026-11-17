@@ -1090,3 +1090,20 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
   .thumbs button { width: 64px; height: 64px; }
 }
 .buy .chipb span { text-wrap: balance; }
+
+/* v34: shipping estimator inside the delivery card */
+.dcard .shipper[hidden] { display: none; }
+.dcard.has-shipper > .ship-est { display: none; }
+.shipper { border-bottom: 1px solid var(--line); }
+.sh-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; padding: 14px 18px; background: var(--surface-2); border-bottom: 1px solid var(--line); font-size: 15px; }
+.sh-head strong { font-weight: 700; }
+.sh-seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.sh-seg button { min-height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: var(--text); font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: background-color .2s, color .2s; }
+.sh-seg button[aria-pressed="true"] { background: var(--text); color: #fff; }
+.sh-seg button:focus-visible { outline: 2px solid var(--neon-b); outline-offset: 2px; }
+.sh-rows { list-style: none; margin: 0; padding: 0; }
+.sh-rows li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 18px; }
+.sh-rows li + li { border-top: 1px solid var(--line); }
+.sh-rows svg { color: var(--neon-b); margin-top: 2px; }
+.sh-rows strong { display: block; font-size: 15px; }
+.sh-rows span { display: block; margin-top: 2px; font-size: 13px; line-height: 20px; color: var(--text-soft); }
