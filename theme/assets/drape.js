@@ -117,11 +117,19 @@
     /* optional extra delivery days for slower regions, as "NT:5,YT:3" (data-extra-days on the estimator). Empty = every region uses the standard range. */
     var extra = {}; String(box.dataset.extraDays || "").split(",").forEach(function (p) { var a = p.split(":"); if (a[0] && +a[1]) extra[a[0].trim()] = +a[1]; });
     var region = null;
+    /* first three digits of a US ZIP code = state (USPS ranges) */
+    var STATE_NAMES = { AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "Washington, D.C.", FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming", PR: "Puerto Rico", VI: "the U.S. Virgin Islands", GU: "Guam", AE: "an Armed Forces address", AA: "an Armed Forces address", AP: "an Armed Forces address" };
+    var ZIP3 = [[5,5,"NY"],[6,7,"PR"],[8,8,"VI"],[9,9,"PR"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,59,"VT"],[60,69,"CT"],[70,89,"NJ"],[90,99,"AE"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,200,"DC"],[201,201,"VA"],[202,205,"DC"],[206,219,"MD"],[220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,339,"FL"],[340,340,"AA"],[341,349,"FL"],[350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,459,"OH"],[460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[569,569,"DC"],[570,577,"SD"],[580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],[700,714,"LA"],[716,729,"AR"],[730,731,"OK"],[733,733,"TX"],[734,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],[832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],[900,961,"CA"],[962,966,"AP"],[967,968,"HI"],[969,969,"GU"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"]];
+    var stateOf = function (zip) {
+      var n = parseInt(zip.slice(0, 3), 10), c = null;
+      ZIP3.some(function (r) { if (n >= r[0] && n <= r[1]) { c = r[2]; return true; } return false; });
+      return c ? [c, STATE_NAMES[c]] : null;
+    };
     var RE_CA = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i, RE_US = /^\d{5}(-\d{4})?$/;
     var read = function (raw) {
       var v = String(raw || "").trim().toUpperCase();
       if (RE_CA.test(v)) { v = v.replace(/[ -]/g, ""); return { country: "CA", code: v.slice(0, 3) + " " + v.slice(3), region: PROV[v.charAt(0)] }; }
-      if (RE_US.test(v)) return { country: "US", code: v };
+      if (RE_US.test(v)) return { country: "US", code: v, region: stateOf(v) };
       return null;
     };
     var band = function (list, g) { var out = null; String(list || "").split(",").some(function (p) { var a = p.split(":"); if (g <= parseFloat(a[0])) { out = a[1]; return true; } return false; }); return out; };
@@ -135,7 +143,7 @@
       $("[data-sh-date]", box).textContent = "Estimated delivery " + addDays(days[country][0] + add) + " – " + addDays(days[country][1] + add);
     };
     var showSet = function (r) {
-      country = r.country; region = r.region || null; $("[data-sh-code]", box).textContent = r.code + (r.region ? " · " + r.region[1].replace(/^the /, "").replace(" or ", " / ") : "");
+      country = r.country; region = r.region || null; $("[data-sh-code]", box).textContent = r.code + (r.region ? " · " + r.region[1].replace(/^(the|an) /, "").replace(" or ", " / ") : "");
       form.hidden = true; set.hidden = false; err.hidden = true; paint();
     };
     var saved = null; try { saved = read(localStorage.getItem(KEY)); } catch (e) {}
