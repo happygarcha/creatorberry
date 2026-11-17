@@ -2,3 +2,10 @@ LittleWonderWorld_E01/renders/
 __pycache__/
 *.pyc
 *.blend1
+crayon_kit/*.mp4
+crayon_kit/*.wav
+crayon_kit/vo.json
+crayon_kit/script.json
+crayon_kit/cues.json
+crayon_kit/example.html
+crayon_kit/sheet.jpg
