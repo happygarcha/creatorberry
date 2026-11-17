@@ -177,6 +177,7 @@ def stamp(): return _sum(thud(70, .8, .1), .4 * click(1))
 
 
 REGISTRY = {
+    'phone': lambda: phone(.2, 1.6),
     'jet_flyby': jet_flyby, 'error_beep': error_beep, 'stamp': stamp,
     'unplug_zap': unplug_zap, 'power_down': power_down,
     'squeak': squeak, 'coin_bounce': coin_bounce, 'record_scratch': record_scratch, 'button_click': button_click, 'whirr': whirr,

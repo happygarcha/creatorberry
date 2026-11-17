@@ -142,7 +142,7 @@ def caption_svg(shot, ep_scene, size=64):
         if sum(len(w) + 1 for w, _ in words) > 15 and len(words) >= 2:
             half = max(1, len(words) // 2); lines = [words[:half], words[half:]]
         longest = max(sum(len(w) + 1 for w, _ in ln) for ln in lines)
-        sz = min(size, 560 / (longest * .5))   # shrink long chunks so they stay inside the safe width
+        sz = min(size, 560 / (longest * .6))   # shrink long chunks so they stay inside the safe width
         y0 = S(CAP_Y) - (len(lines) - 1) * sz * .55
         tsp = ''
         for li, ln in enumerate(lines):

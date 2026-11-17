@@ -15,8 +15,10 @@ cx = W() / 2
 o = BG.flat(bgname, floor=False) + cc_kit.burst(cx, H() * .66, W() * .6, '#F7D35C', 16)
 import random; r = random.Random(7)
 decor = sys.argv[6] if len(sys.argv) > 6 else 'cash'
-for i in range(16 if decor == 'cash' else 5):
+for i in range(16 if decor == 'cash' else (7 if decor == 'envelopes' else 5)):
+    if decor == 'envelopes': o += props.envelope(r.uniform(60, W() - 60), r.uniform(H() * .40, H() * .64), r.uniform(.9, 1.5)) if False else ''
     if decor == 'planes': o += props.plane(r.uniform(80, W() - 80), r.uniform(H() * .42, H() * .62), r.uniform(.45, .7), flip=bool(i % 2))
+    elif decor == 'envelopes': o += props.envelope(r.uniform(60, W() - 60), r.uniform(H() * .42, H() * .66), r.uniform(.9, 1.5)) + props.spinner(0, 0, 1) * 0
     else: o += cash(r.uniform(40, W() - 40), r.uniform(H() * .08, H() * .6), r.uniform(.7, 1.1), r.uniform(-60, 60))
 sizes = [118, 150, 118]
 for i, ln in enumerate(lines):

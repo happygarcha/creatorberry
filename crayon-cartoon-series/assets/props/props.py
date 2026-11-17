@@ -217,3 +217,47 @@ def stop_sign(x, y, s=1.0, text_='STOP'):
 
 def cloud_shape(x, y, s=1.0):
     return g(x, y, s, f'<path d="M-60 0 C-80 0 -80 -30 -54 -30 C-52 -56 -10 -60 0 -38 C20 -58 62 -44 56 -20 C84 -22 86 4 60 4 Z" fill="#F7F7F5" stroke="{INK}" stroke-width="3.4" stroke-linejoin="round"/>')
+
+
+# ---------------------------------------------------------------- IT / outage props (Episode 3)
+def envelope(x, y, s=1.0, col='#F7F7F5'):
+    return g(x, y, s, f'<rect x="-34" y="-24" width="68" height="48" rx="6" fill="{col}" stroke="{INK}" stroke-width="3.6"/><path d="M-34 -20 L0 6 L34 -20" fill="none" stroke="{INK}" stroke-width="3.6" stroke-linejoin="round"/>')
+
+
+def server_unit(x, y, w=120, h=46, state='ok', label=None):
+    """One rack server (anchor = top-left). state ok=green LEDs, down=dark with red X."""
+    led = '#6FE06F' if state == 'ok' else '#E0382C'
+    body = '#5C6B78' if state == 'ok' else '#3A3F45'
+    o = (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="{body}" stroke="{INK}" stroke-width="4"/>'
+         + ''.join(f'<circle cx="{x + 16 + k * 14}" cy="{y + h / 2}" r="4.5" fill="{led}" stroke="{INK}" stroke-width="1.6"/>' for k in range(3))
+         + f'<rect x="{x + w - 54}" y="{y + 12}" width="40" height="{h - 24}" rx="3" fill="#2B2F36"/>')
+    if state != 'ok': o += f'<path d="M{x + w - 44} {y + 14} L{x + w - 24} {y + h - 14} M{x + w - 24} {y + 14} L{x + w - 44} {y + h - 14}" stroke="#E0382C" stroke-width="4" stroke-linecap="round"/>'
+    if label: o += caps(x + w / 2, y + h + 22, label, 22, INK)
+    return o
+
+
+def bug(x, y, s=1.0, asleep=True):
+    """Cute software bug (anchor = base centre)."""
+    eyes = (f'<path d="M-14 -34 Q-8 -28 -2 -34 M6 -34 Q12 -28 18 -34" fill="none" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>' if asleep
+            else f'<circle cx="-8" cy="-34" r="5" fill="{INK}"/><circle cx="12" cy="-34" r="5" fill="{INK}"/>')
+    return g(x, y, s, f'<path d="M-30 0 C-34 -40 -16 -58 2 -58 C20 -58 38 -40 34 0 Z" fill="#7BC96F" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+                      f'<path d="M-8 -64 L-16 -82 M14 -64 L22 -82" stroke="{INK}" stroke-width="3.6" stroke-linecap="round"/>'
+                      f'<path d="M-30 -14 L-48 -8 M-30 -28 L-50 -26 M34 -14 L52 -8 M34 -28 L54 -26" stroke="{INK}" stroke-width="3.6" stroke-linecap="round"/>'
+                      f'<circle cx="-12" cy="-12" r="5" fill="#2F6A2A"/><circle cx="16" cy="-14" r="5" fill="#2F6A2A"/>' + eyes
+                      + (f'<path d="M-12 -22 Q2 -16 16 -22" fill="none" stroke="{INK}" stroke-width="3"/>'))
+
+
+def gateway_door(x, y, w=170, h=230, label='FRONT DOOR'):
+    """Big double door that all traffic goes through (anchor = bottom-centre)."""
+    return (f'<rect x="{x - w / 2}" y="{y - h}" width="{w}" height="{h}" rx="12" fill="#6B452E" stroke="{INK}" stroke-width="{LW}"/>'
+            f'<path d="M{x} {y - h} V{y}" stroke="{INK}" stroke-width="4"/>'
+            f'<rect x="{x - w / 2 + 14}" y="{y - h + 18}" width="{w / 2 - 22}" height="{h * .38}" rx="6" fill="#8A5A3A" stroke="{INK}" stroke-width="3"/>'
+            f'<rect x="{x + 8}" y="{y - h + 18}" width="{w / 2 - 22}" height="{h * .38}" rx="6" fill="#8A5A3A" stroke="{INK}" stroke-width="3"/>'
+            f'<circle cx="{x - 12}" cy="{y - h * .38}" r="6" fill="{GOLD}" stroke="{INK}" stroke-width="2.6"/><circle cx="{x + 12}" cy="{y - h * .38}" r="6" fill="{GOLD}" stroke="{INK}" stroke-width="2.6"/>'
+            + f'<rect x="{x - w / 2 - 10}" y="{y - h - 56}" width="{w + 20}" height="46" rx="8" fill="#E8D8A8" stroke="{INK}" stroke-width="3.6"/>' + caps(x, y - h - 32, label, 28, '#8A1F1A'))
+
+
+def spinner(x, y, r=40, col='#4DA3FF'):
+    """Loading spinner (rotates continuously)."""
+    return G(f'<circle cx="{x}" cy="{y}" r="{r}" fill="none" stroke="#C9D2D8" stroke-width="10"/><path d="M{x} {y - r} A{r} {r} 0 0 1 {x + r} {y}" fill="none" stroke="{col}" stroke-width="10" stroke-linecap="round"/>',
+             [[0, {'r': 0}], [3, {'r': 1080}, 'l']], (x, y))
