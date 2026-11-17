@@ -279,7 +279,7 @@
       var v = complete ? find(vals) : null;
       if (!need) v = data.variants[0];
       if (v) { shipFor(v.weight); }
-      if (v) { idInput.value = v.id; priceEl.innerHTML = money(v.price) + (v.compare_at_price > v.price ? '<s class="was">' + money(v.compare_at_price) + '</s><span class="off">-' + Math.floor((v.compare_at_price - v.price) * 100 / v.compare_at_price) + "%</span>" : ""); addBtn.disabled = !v.available; addBtn.textContent = v.available ? addLabel : "Sold out"; msg.textContent = v.available ? "" : "Sold out."; }
+      if (v) { idInput.value = v.id; priceEl.innerHTML = money(v.price) + (v.compare_at_price > v.price ? '<s class="was">' + money(v.compare_at_price) + '</s><span class="off">Save ' + money(v.compare_at_price - v.price) + ' (' + Math.floor((v.compare_at_price - v.price) * 100 / v.compare_at_price) + "% off)</span>" : ""); addBtn.disabled = !v.available; addBtn.textContent = v.available ? addLabel : "Sold out"; msg.textContent = v.available ? "" : "Sold out."; }
       else { addBtn.disabled = !complete ? false : true; msg.textContent = complete ? "That combination is not available." : ""; if (complete) addBtn.disabled = true; }
       /* dim values that no variant offers given the other choices */
       $$(".opt-group", form).forEach(function (g, gi) {

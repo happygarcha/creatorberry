@@ -31,24 +31,32 @@
     <p class="eyebrow">{{ product.type | default: product.vendor }}</p>
     <h1>{{ product.title }}</h1>
     {% render 'rating-stars', product: product, link: '#reviews', show_empty: true %}
-    <p class="p-price" data-price>{{ current.price | money }}{% if current.compare_at_price > current.price %}<s class="was">{{ current.compare_at_price | money }}</s><span class="off">-{{ current.compare_at_price | minus: current.price | times: 100 | divided_by: current.compare_at_price }}%</span>{% endif %}</p>
+    <p class="p-price" data-price>{{ current.price | money }}{% if current.compare_at_price > current.price %}<s class="was">{{ current.compare_at_price | money }}</s><span class="off">Save {{ current.compare_at_price | minus: current.price | money }} ({{ current.compare_at_price | minus: current.price | times: 100 | divided_by: current.compare_at_price }}% off)</span>{% endif %}</p>
     {%- if product.price_varies -%}<p class="fine price-note">{{ 'product.price_varies' | t }}</p>{%- endif -%}
+    <p class="p-points">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v7h14v-7M12 9v11"/><path d="M12 9c-2.5 0-4-1-4-2.4C8 5 9.5 4.2 10.7 5.2 11.8 6.1 12 9 12 9zM12 9c2.5 0 4-1 4-2.4C16 5 14.5 4.2 13.3 5.2 12.2 6.1 12 9 12 9z"/></svg>
+      {%- if customer -%}Earn 1 point for every CA$1 you spend.{%- else -%}<a href="{{ routes.account_login_url }}">Log in</a> to earn 1 point for every CA$1 you spend.{%- endif -%}
+    </p>
     {%- assign is_collective = false -%}
     {%- if product.tags contains 'Shopify Collective' -%}{%- assign is_collective = true -%}{%- endif -%}
     {% render 'offer-flag', product: product, mode: 'panel' %}
-    {% render 'ship-estimate', weight: current.weight, scope: 'item', collective: is_collective, vendor: product.vendor %}
 
     {%- form 'product', product, id: 'product-form' -%}
       <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           <fieldset class="opt-group">
-            <legend>{{ option.name }}</legend>
+            <legend><span class="opt-name">{{ option.name }}</span><span class="opt-sel" data-opt-sel>{{ option.selected_value }}</span></legend>
             <div class="chips">
               {%- for value in option.values -%}
                 <label class="chipb">
                   <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}" data-option="{{ option.position }}"{% if option.selected_value == value %} checked{% endif %}>
-                  <span>{{ value }}</span>
+                  <span>{{ value }}
+                    {%- if product.options.size == 1 -%}
+                      {%- assign vv = product.variants | where: 'option1', value | first -%}
+                      {%- if vv and product.price_varies %}<small>{{ vv.price | money }}</small>{% endif -%}
+                    {%- endif -%}
+                  </span>
                 </label>
               {%- endfor -%}
             </div>
@@ -68,7 +76,10 @@
       <p class="msg" data-msg role="status" aria-live="polite"></p>
     {%- endform -%}
 
-    {% render 'trust-row', collective: is_collective, vendor: product.vendor %}
+    <div class="dcard">
+      {% render 'ship-estimate', weight: current.weight, scope: 'item', collective: is_collective, vendor: product.vendor %}
+      {% render 'trust-row', collective: is_collective, vendor: product.vendor %}
+    </div>
     {%- if product.type == 'Shower Curtain' -%}
       <p class="fine mat-note">Not sure which material suits you? <a href="/pages/shower-curtain-materials">Compare PEVA, polyester and PVC-free shower curtains</a>. The material of this curtain is named in the description above.</p>
     {%- endif -%}

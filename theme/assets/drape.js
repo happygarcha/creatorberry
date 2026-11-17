@@ -98,6 +98,13 @@
     sheet.showModal();
   };
 
+  /* product page: the chosen option shows beside its heading (for example "Size  90 x 180 cm") */
+  document.addEventListener("change", function (e) {
+    if (!e.target.matches || !e.target.matches("[data-option]")) return;
+    var g = e.target.closest(".opt-group"), s = g && g.querySelector("[data-opt-sel]");
+    if (s) s.textContent = e.target.value;
+  });
+
   document.addEventListener("click", function (e) {
     var rot = e.target.closest("[data-pg-rotate]");
     if (rot) {

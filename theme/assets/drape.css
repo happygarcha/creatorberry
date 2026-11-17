@@ -1049,3 +1049,43 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
   .dw-subchips.is-wide:not(.dw-kwchips)::-webkit-scrollbar { display: none; }
   .dw-subchips.is-wide:not(.dw-kwchips) .dw-subchip, .dw-subchips.is-wide .dw-subchip-sm { flex: none; scroll-snap-align: start; min-height: 42px; padding: 0 18px; font-size: 14.5px; letter-spacing: normal; }
 }
+
+/* v33: product page: calm title, price row with a Save pill, option cards, one delivery card */
+.buy .eyebrow { margin-bottom: 6px; font-size: 13px; letter-spacing: .02em; text-transform: none; font-weight: 500; color: var(--text-soft); }
+.buy h1 { font-size: clamp(26px, 2.6vw, 36px); line-height: 1.15; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+.buy .p-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin: 14px 0 6px; font-size: clamp(30px, 3vw, 38px); line-height: 1.1; letter-spacing: -0.035em; }
+.buy .p-price .was { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: 0; color: var(--text-soft); }
+.buy .p-price .off { margin: 0; align-self: center; padding: 6px 12px; border-radius: 999px; background: oklch(0.94 0.06 160); color: oklch(0.38 0.1 160); font-size: 13.5px; font-weight: 600; letter-spacing: 0; }
+.buy .price-note { margin: 0 0 4px; }
+.p-points { display: flex; align-items: center; gap: 8px; margin: 0 0 20px; font-size: 13.5px; color: var(--text-soft); }
+.p-points svg { flex: none; color: var(--neon-a); }
+.p-points a { color: var(--text); font-weight: 600; text-underline-offset: 3px; }
+
+.buy .opt-group { margin: 0 0 22px; }
+.buy .opt-group legend { display: flex; width: 100%; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; padding: 0; text-transform: none; letter-spacing: 0; font-size: 16px; font-weight: 700; color: var(--text); }
+.buy .opt-sel { font-size: 14px; font-weight: 500; color: var(--text-soft); text-align: right; }
+.buy .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+.buy .chipb span { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 58px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: none; font-size: 14.5px; font-weight: 600; line-height: 1.25; color: var(--text); scale: 1; }
+.buy .chipb span small { font-size: 13px; font-weight: 500; color: var(--text-soft); }
+@media (hover: hover) { .buy .chipb:hover span { border-color: oklch(0.17 0.005 280 / .45); } }
+.buy .chipb input:checked + span { background: var(--surface); color: var(--text); border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); scale: 1; }
+.buy .chipb input:checked + span small { color: var(--text); }
+.buy .chipb input:disabled + span { opacity: .4; }
+
+.dcard { margin: 22px 0 0; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); overflow: hidden; }
+.dcard .ship-est { margin: 0; padding: 14px 18px; border: 0; border-radius: 0; background: transparent; border-bottom: 1px solid var(--line); font-size: 13.5px; line-height: 21px; }
+.dcard .trust { margin: 0; gap: 0; }
+.dcard .trust-list { gap: 0; }
+.dcard .trust-list li { padding: 14px 18px; border: 0; border-radius: 0; background: transparent; border-bottom: 1px solid var(--line); }
+.dcard .trust-list li:last-child { border-bottom: 0; }
+.dcard .trust-list strong { font-size: 15px; }
+.dcard .trust-note { padding: 12px 18px 14px; border-top: 1px solid var(--line); background: var(--surface-2); }
+
+@media (max-width: 899px) {
+  .pdp { gap: 20px; }
+  .gallery .ph.tall { border-radius: 28px; }
+  .thumbs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; }
+  .thumbs::-webkit-scrollbar { display: none; }
+  .thumbs li { flex: none; }
+  .thumbs button { width: 64px; height: 64px; }
+}
