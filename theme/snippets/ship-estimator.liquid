@@ -1,6 +1,7 @@
 {%- comment -%}
-  Product page shipping estimator: pick Canada or the United States and see the shipping cost for the chosen variant
-  and the delivery dates if the customer orders today. Prices come from the same weight bands as the shipping line below it
+  Product page shipping estimator: the customer enters a Canadian postal code or a US ZIP code and sees the shipping cost for the chosen variant
+  and the delivery dates if they order today. Rates and times depend on the country (not the exact address), so the code is used to tell Canada from the United States.
+  The code stays in the browser only (localStorage); nothing is sent anywhere. Before a code is entered, estimates show for the visitor's country. Prices come from the same weight bands as the shipping line below it
   (read from [data-ship] by drape.js), so there is one place to change them: snippets/ship-estimate.liquid.
   The day ranges below must match the delivery times in locales/en.default.json (trust_ship_b): 13-25 days to Canada, 10-20 days to the U.S.
   Hidden until the script runs, so without JavaScript the plain shipping line is shown instead.
@@ -8,11 +9,18 @@
 {%- endcomment -%}
 <div class="shipper" data-shipper hidden data-weight="{{ weight }}" data-default="{{ localization.country.iso_code }}" data-days-ca="13,25" data-days-us="10,20">
   <div class="sh-head">
-    <span class="sh-to">Shipping to <strong data-sh-country>Canada</strong></span>
-    <span class="sh-seg" role="group" aria-label="Choose where to ship">
-      <button type="button" data-sh-pick="CA" aria-pressed="true">Canada</button>
-      <button type="button" data-sh-pick="US" aria-pressed="false">United States</button>
-    </span>
+    <form class="sh-form" data-sh-form novalidate>
+      <label class="sh-label" for="sh-code">Check delivery to your door</label>
+      <div class="sh-field">
+        <input id="sh-code" name="code" type="text" autocomplete="postal-code" autocapitalize="characters" spellcheck="false" maxlength="10" placeholder="Postal or ZIP code" data-sh-input>
+        <button type="submit">Check</button>
+      </div>
+      <p class="sh-err" data-sh-err role="alert" hidden></p>
+    </form>
+    <div class="sh-set" data-sh-set hidden>
+      <span>Delivering to <strong data-sh-code></strong></span>
+      <button type="button" data-sh-change>Change</button>
+    </div>
   </div>
   <ul class="sh-rows">
     <li>

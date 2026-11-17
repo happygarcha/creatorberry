@@ -102,33 +102,48 @@
   $$("[data-cents]").forEach(function (el) {
     try { el.textContent = new Intl.NumberFormat(document.documentElement.lang || undefined, { style: "currency", currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || "CAD" }).format(+el.dataset.cents / 100); } catch (e) {}
   });
-  /* product page shipping estimator: pick Canada or the United States, see the cost for the chosen variant and the delivery dates if ordered today */
+  /* product page shipping estimator: the customer enters a postal or ZIP code. Rates and times depend on the country,
+     so the code tells Canada from the United States; cost and dates are then worked out for that country. Stays in the browser only. */
   (function () {
     var box = $("[data-shipper]"), src = $("[data-ship]");
     if (!box || !src) return;
-    var KEY = "dw-ship-country", weight = parseFloat(box.dataset.weight) || 0;
+    var KEY = "dw-ship-code", weight = parseFloat(box.dataset.weight) || 0;
     var days = { CA: box.dataset.daysCa.split(",").map(Number), US: box.dataset.daysUs.split(",").map(Number) };
     var names = { CA: "Canada", US: "the United States" };
-    var country = "CA";
-    try { country = localStorage.getItem(KEY) || ""; } catch (e) {}
-    if (country !== "CA" && country !== "US") country = box.dataset["default"] === "US" ? "US" : "CA";
+    var form = $("[data-sh-form]", box), input = $("[data-sh-input]", box), err = $("[data-sh-err]", box), set = $("[data-sh-set]", box);
+    var country = box.dataset["default"] === "US" ? "US" : "CA";
+    var RE_CA = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i, RE_US = /^\d{5}(-\d{4})?$/;
+    var read = function (raw) {
+      var v = String(raw || "").trim().toUpperCase();
+      if (RE_CA.test(v)) { v = v.replace(/[ -]/g, ""); return { country: "CA", code: v.slice(0, 3) + " " + v.slice(3) }; }
+      if (RE_US.test(v)) return { country: "US", code: v };
+      return null;
+    };
     var band = function (list, g) { var out = null; String(list || "").split(",").some(function (p) { var a = p.split(":"); if (g <= parseFloat(a[0])) { out = a[1]; return true; } return false; }); return out; };
     var fmt = new Intl.DateTimeFormat(document.documentElement.lang || "en", { month: "short", day: "numeric" });
     var addDays = function (n) { var d = new Date(); d.setDate(d.getDate() + n); return fmt.format(d); };
     var paint = function () {
       var price = weight > 0 ? band(country === "US" ? src.dataset.shipUs : src.dataset.shipCa, weight) : null;
-      $("[data-sh-country]", box).textContent = names[country];
-      $("[data-sh-cost]", box).textContent = price ? "CA$" + price + " shipping for this item" : "Shipping cost is shown at checkout";
+      $("[data-sh-cost]", box).textContent = price ? "CA$" + price + " shipping to " + names[country] : "Shipping cost is shown at checkout";
       $("[data-sh-date]", box).textContent = "Estimated delivery " + addDays(days[country][0]) + " – " + addDays(days[country][1]);
-      $$("[data-sh-pick]", box).forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.shPick === country ? "true" : "false"); });
     };
-    box.addEventListener("click", function (e) {
-      var b = e.target.closest("[data-sh-pick]"); if (!b) return;
-      country = b.dataset.shPick; try { localStorage.setItem(KEY, country); } catch (er) {}
-      paint();
+    var showSet = function (r) {
+      country = r.country; $("[data-sh-code]", box).textContent = r.code;
+      form.hidden = true; set.hidden = false; err.hidden = true; paint();
+    };
+    var saved = null; try { saved = read(localStorage.getItem(KEY)); } catch (e) {}
+    if (saved) showSet(saved); else paint();
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var r = read(input.value);
+      if (!r) { err.textContent = "Please enter a Canadian postal code (like V3T 5X1) or a US ZIP code (like 90210)."; err.hidden = false; input.setAttribute("aria-invalid", "true"); input.focus(); return; }
+      input.removeAttribute("aria-invalid"); try { localStorage.setItem(KEY, r.code); } catch (er) {}
+      showSet(r);
+    });
+    $("[data-sh-change]", box).addEventListener("click", function () {
+      set.hidden = true; form.hidden = false; input.value = ""; input.focus();
     });
     document.addEventListener("dw:weight", function (e) { weight = e.detail.g; paint(); });
-    paint();
     box.hidden = false;
     box.closest(".dcard").classList.add("has-shipper");
   })();

@@ -1110,3 +1110,18 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 .shipper .sh-seg button { background: transparent; color: var(--text); box-shadow: none; border: 0; -webkit-tap-highlight-color: transparent; }
 .shipper .sh-seg button[aria-pressed="true"] { background: var(--text); color: #fff; }
 .dcard.has-shipper .trust-list li:first-child { display: none; }
+
+/* v35: postal / ZIP code field in the shipping estimator */
+.sh-form[hidden], .sh-set[hidden], .sh-err[hidden] { display: none; }
+.sh-form { width: 100%; }
+.sh-label { display: block; margin: 0 0 8px; font-size: 15px; font-weight: 700; }
+.sh-field { display: flex; gap: 8px; }
+.sh-field input { flex: 1 1 auto; min-width: 0; height: 46px; padding: 0 16px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text); font: inherit; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; }
+.sh-field input::placeholder { text-transform: none; letter-spacing: 0; color: var(--text-soft); }
+.sh-field input:focus-visible { outline: 2px solid var(--neon-b); outline-offset: 2px; border-color: var(--text); }
+.sh-field input[aria-invalid="true"] { border-color: oklch(0.55 0.2 27); }
+.sh-field button { flex: none; height: 46px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--text); color: #fff; font: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.sh-err { margin: 8px 2px 0; font-size: 13px; line-height: 19px; color: oklch(0.5 0.2 27); }
+.sh-set { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; }
+.sh-set strong { font-weight: 700; letter-spacing: .02em; }
+.sh-set button { padding: 4px 0; border: 0; background: none; color: var(--text); font: inherit; font-size: 14.5px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
