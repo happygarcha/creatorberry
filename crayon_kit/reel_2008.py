@@ -14,7 +14,7 @@ set_format('9:16')
 from cc_kit import *
 from cc_shots import *
 
-SCRIPT = {"voices": {"N": 16, "banker": 11, "home": 18}, "gap": [0.3, 0.6], "shots": [
+SCRIPT = {"voices": {"N": 16, "banker": 11, "home": 18, "host": 17}, "gap": [0.3, 0.6], "shots": [
     {"id": "hook", "vo": [{"text": "In 2008, a giant bank collapsed."}]},
     {"id": "stat", "vo": [{"text": "It owed over $600 billion."}]},
     {"id": "spot", "vo": [{"text": "So how did ordinary home loans bring down the world?"}]},
@@ -22,12 +22,13 @@ SCRIPT = {"voices": {"N": 16, "banker": 11, "home": 18}, "gap": [0.3, 0.6], "sho
     {"id": "lend", "vo": [{"text": "Banks gave mortgages to almost anyone."}]},
     {"id": "bank", "vo": [{"text": "No job? No savings? No problem.", "who": "banker"}]},
     {"id": "home", "vo": [{"text": "Great! I'll take the big house.", "who": "home"}]},
+    {"id": "aside", "vo": [{"text": "Yes. This really happened.", "who": "host"}]},
     {"id": "bundle", "vo": [{"text": "Then the banks bundled those loans, and sold them as safe investments."}]},
     {"id": "fall", "vo": [{"text": "But house prices fell, and people stopped paying."}]},
     {"id": "panic", "vo": [{"text": "Nobody knew who held the bad loans, so nobody would lend to anybody."}], "tail": .3},
     {"id": "lehman", "vo": [{"text": "On September 15, Lehman Brothers went bankrupt. The largest bankruptcy in American history.", "say": "On September fifteenth, Lee man Brothers went bankrupt. The largest bankruptcy in American history."}]},
     {"id": "card", "vo": [{"text": "It was a very big problem."}]},
-    {"id": "cta", "vo": [{"text": "Follow for part two: the bailout."}], "tail": .6},
+    {"id": "cta", "vo": [{"text": "Follow for part two: the bailout.", "who": "host"}], "tail": .6},
 ]}
 if cmd == 'script':
     json.dump(SCRIPT, open(os.path.join(HERE, 'script.json'), 'w'), indent=1); sys.exit(print('wrote script.json'))
@@ -47,6 +48,10 @@ sh = {s['id']: s for s in TL['shots']}
 BANKER = dict(skin='white', suit='grey', hat='top', hat_col='#1D1E21', moustache='black')
 HOME = dict(skin='tan', suit='blue', hair='curly', hair_col='dark', tie=None, lapels=False)
 
+# Host mascot: cartoon of the creator (swept-back dark hair, trimmed moustache + short beard, brown leather jacket, white tee)
+MASCOT = dict(skin='tan', suit=('#8B5A3C', '#6F452C'), shirt='#F7F7F5', tie=None, lapels=False, hair='side', hair_col='black',
+              moustache='black')
+
 S = []
 S.append(t_news(sh['hook'], 'GIANT BANK COLLAPSES', 'September 15, 2008', word='collapsed'))
 S.append(t_stat(sh['stat'], '$600 BILLION', 'OWED', word='600', col=RED))
@@ -58,13 +63,14 @@ S.append(t_place(sh['place'], street('#B9AE9B', '#E9C79A', seed=3) + walkers, 'A
 S.append(t_two(sh['lend'], dict(BANKER, expr='grin', arms='present'), dict(HOME, expr='happy'), 'a', 'Sign here!', voiced=False))
 S.append(t_ots(sh['bank'], dict(BANKER, expr='smug'), dict(HOME), 'No job? No savings?\nNo problem.'))
 S.append(t_close(sh['home'], dict(HOME, expr='happy'), "Great! I'll take\nthe big house."))
+S.append(t_close(sh['aside'], dict(MASCOT, expr='smug'), 'Yes. This really\nhappened.', bg=info_bg()))
 S.append(t_compare(sh['bundle'], ('RISKY LOANS', '#5E6B78', 'loans'), ('"SAFE" BONDS', GREEN, 'safe'), 'RATED AAA'))
 S.append(t_close(sh['fall'], dict(HOME, expr='worried'), "I can't pay.", voiced=False))
 S.append(t_panels(sh['panic'], [('BANK A', dict(suit='navy', expr='worried')), ('BANK B', dict(suit='brown', hat='fedora', expr='shocked')),
                                 ('BANK C', dict(suit='black', hat='top', expr='worried')), ('BANK D', dict(suit='grey', expr='shocked'))]))
 S.append(t_news(sh['lehman'], 'LEHMAN BROTHERS FILES FOR BANKRUPTCY', 'largest in American history', word='largest'))
 S.append(t_card(sh['card'], 'It was a very\nbig problem.'))
-S.append(t_stat(sh['cta'], 'PART 2', 'THE BAILOUT', word='part', col=GREEN))
+S.append(t_close(sh['cta'], dict(MASCOT, expr='grin'), 'Follow for part 2:\nthe bailout.', bg=info_bg()))
 
 out = os.path.join(HERE, 'reel.html')
 open(out, 'w').write(page(S, fonts_head(os.path.expanduser('~/fonts'))))
