@@ -4,10 +4,11 @@
   The code stays in the browser only (localStorage); nothing is sent anywhere. Before a code is entered, estimates show for the visitor's country. Prices come from the same weight bands as the shipping line below it
   (read from [data-ship] by drape.js), so there is one place to change them: snippets/ship-estimate.liquid.
   The day ranges below must match the delivery times in locales/en.default.json (trust_ship_b): 13-25 days to Canada, 10-20 days to the U.S.
+  data-extra-days adds days for slower regions, written as province code:days, for example "NT:5,YT:3" (empty = none).
   Hidden until the script runs, so without JavaScript the plain shipping line is shown instead.
   Usage: render 'ship-estimator', weight: variant.weight
 {%- endcomment -%}
-<div class="shipper" data-shipper hidden data-weight="{{ weight }}" data-default="{{ localization.country.iso_code }}" data-days-ca="13,25" data-days-us="10,20">
+<div class="shipper" data-shipper hidden data-weight="{{ weight }}" data-default="{{ localization.country.iso_code }}" data-days-ca="13,25" data-days-us="10,20" data-extra-days="">
   <div class="sh-head">
     <form class="sh-form" data-sh-form novalidate>
       <label class="sh-label" for="sh-code">Check delivery to your door</label>
@@ -25,7 +26,7 @@
   <ul class="sh-rows">
     <li>
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
-      <div><strong data-sh-cost>Shipping for this item</strong><span>Shipping is by weight, so adding items changes the total. Taxes extra.</span></div>
+      <div><strong data-sh-cost>Shipping for this item</strong><span data-sh-flat>Shipping is by weight, so adding items changes the total. Taxes extra.</span></div>
     </li>
     <li>
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>

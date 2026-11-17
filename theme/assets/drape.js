@@ -112,10 +112,15 @@
     var names = { CA: "Canada", US: "the United States" };
     var form = $("[data-sh-form]", box), input = $("[data-sh-input]", box), err = $("[data-sh-err]", box), set = $("[data-sh-set]", box);
     var country = box.dataset["default"] === "US" ? "US" : "CA";
+    /* first letter of a Canadian postal code = province or territory */
+    var PROV = { A: ["NL", "Newfoundland and Labrador"], B: ["NS", "Nova Scotia"], C: ["PE", "Prince Edward Island"], E: ["NB", "New Brunswick"], G: ["QC", "Quebec"], H: ["QC", "Quebec"], J: ["QC", "Quebec"], K: ["ON", "Ontario"], L: ["ON", "Ontario"], M: ["ON", "Ontario"], N: ["ON", "Ontario"], P: ["ON", "Ontario"], R: ["MB", "Manitoba"], S: ["SK", "Saskatchewan"], T: ["AB", "Alberta"], V: ["BC", "British Columbia"], X: ["NT", "the Northwest Territories or Nunavut"], Y: ["YT", "Yukon"] };
+    /* optional extra delivery days for slower regions, as "NT:5,YT:3" (data-extra-days on the estimator). Empty = every region uses the standard range. */
+    var extra = {}; String(box.dataset.extraDays || "").split(",").forEach(function (p) { var a = p.split(":"); if (a[0] && +a[1]) extra[a[0].trim()] = +a[1]; });
+    var region = null;
     var RE_CA = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i, RE_US = /^\d{5}(-\d{4})?$/;
     var read = function (raw) {
       var v = String(raw || "").trim().toUpperCase();
-      if (RE_CA.test(v)) { v = v.replace(/[ -]/g, ""); return { country: "CA", code: v.slice(0, 3) + " " + v.slice(3) }; }
+      if (RE_CA.test(v)) { v = v.replace(/[ -]/g, ""); return { country: "CA", code: v.slice(0, 3) + " " + v.slice(3), region: PROV[v.charAt(0)] }; }
       if (RE_US.test(v)) return { country: "US", code: v };
       return null;
     };
@@ -124,11 +129,13 @@
     var addDays = function (n) { var d = new Date(); d.setDate(d.getDate() + n); return fmt.format(d); };
     var paint = function () {
       var price = weight > 0 ? band(country === "US" ? src.dataset.shipUs : src.dataset.shipCa, weight) : null;
-      $("[data-sh-cost]", box).textContent = price ? "CA$" + price + " shipping to " + names[country] : "Shipping cost is shown at checkout";
-      $("[data-sh-date]", box).textContent = "Estimated delivery " + addDays(days[country][0]) + " – " + addDays(days[country][1]);
+      var where = region ? region[1] : names[country], add = region && extra[region[0]] || 0;
+      $("[data-sh-cost]", box).textContent = price ? "CA$" + price + " shipping to " + where : "Shipping cost is shown at checkout";
+      $("[data-sh-flat]", box).textContent = price ? "Same rate anywhere in " + names[country] + ", set by the item's weight. Taxes extra." : "Shipping is by weight, so adding items changes the total. Taxes extra.";
+      $("[data-sh-date]", box).textContent = "Estimated delivery " + addDays(days[country][0] + add) + " – " + addDays(days[country][1] + add);
     };
     var showSet = function (r) {
-      country = r.country; $("[data-sh-code]", box).textContent = r.code;
+      country = r.country; region = r.region || null; $("[data-sh-code]", box).textContent = r.code + (r.region ? " · " + r.region[1].replace(/^the /, "").replace(" or ", " / ") : "");
       form.hidden = true; set.hidden = false; err.hidden = true; paint();
     };
     var saved = null; try { saved = read(localStorage.getItem(KEY)); } catch (e) {}
