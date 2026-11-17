@@ -1107,3 +1107,6 @@ body.template-index .dw-reel { --cw: clamp(150px, min(22vw, calc((100svh - 485px
 .sh-rows svg { color: var(--neon-b); margin-top: 2px; }
 .sh-rows strong { display: block; font-size: 15px; }
 .sh-rows span { display: block; margin-top: 2px; font-size: 13px; line-height: 20px; color: var(--text-soft); }
+.shipper .sh-seg button { background: transparent; color: var(--text); box-shadow: none; border: 0; -webkit-tap-highlight-color: transparent; }
+.shipper .sh-seg button[aria-pressed="true"] { background: var(--text); color: #fff; }
+.dcard.has-shipper .trust-list li:first-child { display: none; }
