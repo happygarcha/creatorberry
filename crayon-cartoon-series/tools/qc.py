@@ -120,6 +120,18 @@ try:
 except Exception as e:
     add('WARN', 'speech intelligibility', f'ASR check unavailable: {e}')
 
+# ---------------------------------------------------------------- pace and music-vs-speech (permanent rules)
+cfgq = json.load(open(os.path.join(ROOT, 'assets', 'audio', 'mix_config.json')))
+nw = sum(len(l['words']) for s_ in TL['shots'] for l in s_['lines']); ns = sum(l['t1'] - l['t0'] for s_ in TL['shots'] for l in s_['lines'])
+wpm = nw / ns * 60 if ns else 0
+add('PASS' if wpm <= cfgq['max_words_per_minute'] else 'WARN', 'speech pace (slow enough to follow facts)', f'{wpm:.0f} words per minute while speaking (limit {cfgq["max_words_per_minute"]})')
+mr = P('audio', 'mix_report.json')
+if os.path.exists(mr):
+    st = json.load(open(mr))
+    add('PASS' if st['voice_over_music_db'] >= cfgq['min_voice_over_music_db'] else 'WARN', 'music sits under the voice', f"voice is {st['voice_over_music_db']:.1f} dB above the music while speaking (min {cfgq['min_voice_over_music_db']})")
+    add('PASS' if st['voice_over_fx_db'] >= 8 else 'WARN', 'effects do not mask the voice', f"voice is {st['voice_over_fx_db']:.1f} dB above effects while speaking")
+else: add('WARN', 'music-vs-voice check', 'no mix_report.json (older render)')
+
 # ---------------------------------------------------------------- captions vs speech
 srt = open(glob.glob(P('subtitles', '*.srt'))[0]).read()
 words_spoken = sum(len(re.findall(r"[A-Za-z0-9']+", w)) for s in TL['shots'] for l in s['lines'] for w, *_ in l['words'])

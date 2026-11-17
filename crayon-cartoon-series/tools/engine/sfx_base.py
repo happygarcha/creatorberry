@@ -30,13 +30,19 @@ def place(buf, x, t, gain=1.0, pan=0.0):
         x = x[:len(buf) - s]
         buf[s:s + len(x), 0] += x * gain * np.cos((pan + 1) * np.pi / 4) * 1.414
         buf[s:s + len(x), 1] += x * gain * np.sin((pan + 1) * np.pi / 4) * 1.414
-def mix(vo_wav, fx, bed, out_wav, duck=.45):
+def mix(vo_wav, fx, bed, out_wav, duck=.45, fx_duck=0.0, stats=None):
     """fx/bed: (n,2) float arrays at 48 kHz. Bed is ducked under the voice; final file loudness-normalised to -14 LUFS (YouTube)."""
     n = len(fx)
     vo, vsr = sf.read(vo_wav, dtype='float32')
     vo = resample_poly(vo, SR, vsr)[:n]
     vo = np.pad(vo, (0, n - len(vo))) / (np.sqrt(np.mean(vo[np.abs(vo) > .01] ** 2)) + 1e-9) * .16
     d = 1 - duck * np.clip(filt(np.abs(vo), 8, 'low') / .05, 0, 1)
-    o = np.tanh((vo[:, None] + fx * .55 + bed * d[:, None]) * 1.1) / 1.1
+    dfx = 1 - fx_duck * np.clip(filt(np.abs(vo), 8, 'low') / .05, 0, 1)
+    if stats is not None:   # how far the music/effects sit under the voice while someone is speaking
+        sp = filt(np.abs(vo), 8, 'low') > .03
+        rms = lambda a: float(np.sqrt(np.mean(a[sp] ** 2)) + 1e-12)
+        stats['voice_over_music_db'] = 20 * np.log10(rms(vo) / rms((bed * d[:, None]).mean(1)))
+        stats['voice_over_fx_db'] = 20 * np.log10(rms(vo) / rms((fx * .55 * dfx[:, None]).mean(1)))
+    o = np.tanh((vo[:, None] + fx * .55 * dfx[:, None] + bed * d[:, None]) * 1.1) / 1.1
     sf.write(out_wav + '.tmp.wav', (o * .89 / np.max(np.abs(o))).astype(np.float32), SR)
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', out_wav + '.tmp.wav', '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-ar', str(SR), out_wav], check=True)

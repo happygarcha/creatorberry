@@ -17,6 +17,12 @@ zooms. Voices are local text-to-speech; music and sound effects are synthesised.
 4. Text stays inside the Shorts safe areas; QC fails an episode that does not end with the end card, whose end card is not 5-7 s, whose narration lacks
    like/share/subscribe, or that shows a next-episode title.
 
+## Audio and pacing rules (from Episode 3 onward)
+
+Voices are slower (narrator 0.88, characters ~0.9) with longer pauses (0.4 s within a sentence, 0.8 s after one), the music bed is mixed lower and ducked hard under speech,
+and effects are ducked under the voice. Settings: `assets/characters/voices.json` and `assets/audio/mix_config.json`. `tools/qc.py` reports the speech pace and the
+voice-over-music margin. Episodes 1 and 2 predate these rules.
+
 ## Layout
 
 ```

@@ -9,3 +9,10 @@
 - Same layout, colours, characters and animation style in every episode. Never a generic YouTube end-screen template or a static image.
 - Do not show or promise a next-episode title in the video or its upload text. An optional teaser is allowed only in the episode body and must never replace the end card.
 - Keep all text inside the YouTube Shorts safe areas. Do not rebuild approved scenes unnecessarily; re-render only what changed.
+
+## Cartoon series audio and pacing (permanent rules, apply from the next video onward; never ask again)
+- Speech must be slow and clear so viewers can follow the facts: narrator voice speed 0.88, characters about 0.9 (assets/characters/voices.json), minimum pauses 0.4 s inside a sentence and 0.8 s after a sentence.
+  Never speed the voices up to make a video shorter; trim the script instead (aim for roughly 110-130 narration words per 60 s of video).
+- Background music must never mask speech: it is mixed at a lower level and ducked hard under every voice (assets/audio/mix_config.json), sound effects are ducked under the voice too.
+- tools/qc.py checks the speech pace (limit 150 words per minute while speaking) and that the voice is at least 18 dB above the music while speaking; fix and re-mix if it warns.
+- Episodes 1 and 2 were rendered before these rules and keep their original faster pacing unless the user asks for a re-render.

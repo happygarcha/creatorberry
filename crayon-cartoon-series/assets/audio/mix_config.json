@@ -1,0 +1,10 @@
+{
+  "_note": "PERMANENT audio rules: music must sit well under speech; effects must never mask words.",
+  "bed_gain": 0.55,
+  "duck": 0.8,
+  "fx_duck": 0.65,
+  "min_voice_over_music_db": 18,
+  "min_pause_after_sentence_s": 0.8,
+  "min_pause_within_sentence_s": 0.4,
+  "max_words_per_minute": 150
+}

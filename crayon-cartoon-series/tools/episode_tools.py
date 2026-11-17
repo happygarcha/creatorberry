@@ -47,7 +47,9 @@ def build_script(ep):
             if 'pre' in ln: d['pre'] = ln['pre']
             vo.append(d)
         shots.append({'id': sc['id'], 'vo': vo, 'min': sc['min'], 'tail': sc.get('tail', .3)})
-    return {'voices': voices, 'gap': ep.get('gap', [.3, .6]), 'shots': shots}
+    cfg = json.load(open(os.path.join(ROOT, 'assets', 'audio', 'mix_config.json')))
+    g = ep.get('gap', [.3, .6])
+    return {'voices': voices, 'gap': [max(g[0], cfg['min_pause_within_sentence_s']), max(g[1], cfg['min_pause_after_sentence_s'])], 'shots': shots}
 
 
 def word_time(shot, word, which='start'):

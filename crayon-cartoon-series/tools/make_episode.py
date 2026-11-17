@@ -111,8 +111,11 @@ def do_audio():
         try: x = make(name, **kw)
         except TypeError: x = make(name)
         place(f, x, t, gain)
-    mix(P('audio', 'vo.wav'), f, bed(c['total'] + 1, c['music'], c['dips'])[:n], P('audio', 'final.wav'))
-    print('wrote audio/final.wav')
+    cfg = json.load(open(os.path.join(ROOT, 'assets', 'audio', 'mix_config.json')))
+    stats = {}
+    mix(P('audio', 'vo.wav'), f, bed(c['total'] + 1, c['music'], c['dips'])[:n] * cfg['bed_gain'], P('audio', 'final.wav'), duck=cfg['duck'], fx_duck=cfg['fx_duck'], stats=stats)
+    json.dump(stats, open(P('audio', 'mix_report.json'), 'w'), indent=2)
+    print('wrote audio/final.wav', {k: round(v, 1) for k, v in stats.items()})
 
 
 def do_mux():
