@@ -107,7 +107,7 @@ def do_audio():
     n = int(c['total'] * SR) + SR
     f = np.zeros((n, 2))
     for name, t, gain, until in c['sfx']:
-        kw = {'d': max(.3, until - t)} if (until and name in ('whirr', 'bills_flutter')) else {}
+        kw = {'d': max(.3, until - t)} if (until and name in ('whirr', 'bills_flutter', 'alarm')) else {}
         try: x = make(name, **kw)
         except TypeError: x = make(name)
         place(f, x, t, gain)

@@ -160,7 +160,24 @@ def power_down(d=1.1):             # falling sweep as the machine stops
     return .3 * np.sin(2 * np.pi * np.cumsum(520 * np.exp(-3.2 * t / d) + 40) / SR) * np.minimum(1, (d - t) / .2) * np.minimum(1, t / .01)
 
 
+def jet_flyby(d=2.6):
+    n = int(d * SR); t = np.arange(n) / SR
+    env_ = np.sin(np.pi * t / d) ** 2
+    return .35 * filt(noise(d), [200, 2400], 'band') * env_ * (1 + .2 * np.sin(2 * np.pi * 45 * t))
+
+
+def error_beep(d=.9):
+    out = np.zeros(int(d * SR))
+    for k in range(3):
+        x = .25 * np.sin(2 * np.pi * 880 * np.arange(int(.18 * SR)) / SR) * np.hanning(int(.18 * SR)); s0 = int(k * .27 * SR); out[s0:s0 + len(x)] += x
+    return out
+
+
+def stamp(): return _sum(thud(70, .8, .1), .4 * click(1))
+
+
 REGISTRY = {
+    'jet_flyby': jet_flyby, 'error_beep': error_beep, 'stamp': stamp,
     'unplug_zap': unplug_zap, 'power_down': power_down,
     'squeak': squeak, 'coin_bounce': coin_bounce, 'record_scratch': record_scratch, 'button_click': button_click, 'whirr': whirr,
     'register_ding': register_ding, 'doorbell': doorbell, 'tag_flip': tag_flip, 'sting': sting, 'thud': lambda: thud(60, .7, .15),

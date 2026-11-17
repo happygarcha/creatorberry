@@ -87,7 +87,7 @@ async def safe_check():
                 out.push([el.textContent.trim().slice(0, 28), r.left, r.top, r.right, r.bottom]) });
               return out }''', t)
             for txt, l, tp, r, bt in res:
-                if not txt or txt == '$': continue
+                if not txt or txt == '$' or re.fullmatch(r'[01]{4}', txt): continue   # prop glyphs (banknote $, data packets)
                 if (l + r) / 2 < 0 or (l + r) / 2 > 720: continue   # off-screen (e.g. a board that has slid away)
                 if l < 720 * .04 or r > 720 * .94 or tp < 1280 * .10 or bt > 1280 * .80:
                     probs.setdefault(txt, []).append(round(t, 2))
@@ -109,7 +109,7 @@ try:
     x = resample_poly(x, 16000, sr).astype('float32')
     def norm(t):
         t = t.lower().replace('$50,000', 'fifty thousand dollars').replace('50,000', 'fifty thousand').replace('10 ', 'ten ').replace('fifty thousand dollars is', 'fifty thousand is')
-        t = t.replace('that will be fifty thousand dollars', 'that will be fifty thousand')
+        t = t.replace('that will be fifty thousand dollars', 'that will be fifty thousand').replace('$12.5 billion', 'twelve and a half billion').replace('$50 billion', 'fifty billion').replace('12.5 billion', 'twelve and a half billion')
         return re.findall(r"[a-z0-9']+", t.replace('dollars', ''))
     for s_ in TL['shots']:
         seg = x[int(s_['start'] * 16000):int(s_['end'] * 16000)]
@@ -122,8 +122,8 @@ except Exception as e:
 
 # ---------------------------------------------------------------- captions vs speech
 srt = open(glob.glob(P('subtitles', '*.srt'))[0]).read()
-words_spoken = sum(len(l['words']) for s in TL['shots'] for l in s['lines'])
-words_cap = len(re.findall(r"[A-Za-z0-9'$]+", ' '.join(l for l in srt.splitlines() if l and not l.isdigit() and '-->' not in l)))
+words_spoken = sum(len(re.findall(r"[A-Za-z0-9']+", w)) for s in TL['shots'] for l in s['lines'] for w, *_ in l['words'])
+words_cap = len(re.findall(r"[A-Za-z0-9']+", ' '.join(l for l in srt.splitlines() if l and not l.isdigit() and '-->' not in l)))
 add('PASS' if words_spoken == words_cap else 'WARN', 'captions cover all spoken words', f'{words_cap}/{words_spoken} words')
 
 # ---------------------------------------------------------------- retention cadence

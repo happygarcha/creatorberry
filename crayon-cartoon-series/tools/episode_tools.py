@@ -139,15 +139,17 @@ def caption_svg(shot, ep_scene, size=64):
         lines = [words]
         if sum(len(w) + 1 for w, _ in words) > 15 and len(words) >= 2:
             half = max(1, len(words) // 2); lines = [words[:half], words[half:]]
-        y0 = S(CAP_Y) - (len(lines) - 1) * size * .55
+        longest = max(sum(len(w) + 1 for w, _ in ln) for ln in lines)
+        sz = min(size, 560 / (longest * .5))   # shrink long chunks so they stay inside the safe width
+        y0 = S(CAP_Y) - (len(lines) - 1) * sz * .55
         tsp = ''
         for li, ln in enumerate(lines):
             for wi, (w, e) in enumerate(ln):
                 sp = '' if wi == 0 else ' '
                 fill = YELLOW if e else '#FFFFFF'
-                tsp += (f'<tspan x="{W() / 2}" y="{y0 + li * size * 1.08:.1f}" fill="{fill}">{sp}{esc(w.upper())}</tspan>' if wi == 0
+                tsp += (f'<tspan x="{W() / 2}" y="{y0 + li * sz * 1.08:.1f}" fill="{fill}">{sp}{esc(w.upper())}</tspan>' if wi == 0
                         else f'<tspan fill="{fill}">{sp}{esc(w.upper())}</tspan>')
-        el = (f'<text text-anchor="middle" dominant-baseline="middle" style="{SCRIPT_B};font-size:{size}px;stroke:#111;stroke-width:{size * .16}px;'
+        el = (f'<text text-anchor="middle" dominant-baseline="middle" style="{SCRIPT_B};font-size:{sz}px;stroke:#111;stroke-width:{sz * .16}px;'
               f'paint-order:stroke;stroke-linejoin:round">{tsp}</text>')
         parts.append(G(el, [[0, {'o': 0}], [t0 - .001, {'o': 0}], [t0, {'o': 1, 's': 1}, 'h'], [t1, {'o': 1}], [t1 + .001, {'o': 0}, 'h']], (W() / 2, S(CAP_Y))))
     return ''.join(parts)

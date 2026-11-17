@@ -141,3 +141,79 @@ def money_stack(x, y, n=5, w=110, kf=None):
 
 def thought_dollar(x, y, s=1.0):
     return g(x, y, s, text(0, 0, '$$$', 40, CAPS, GREEN))
+
+
+# ---------------------------------------------------------------- travel / tech props (Episode 2)
+def plane(x, y, s=1.0, flip=False, body='#F7F7F5', accent='#C0392F'):
+    """Side-view cartoon airliner (anchor = centre of fuselage, ~260 wide)."""
+    inner = (f'<path d="M-130 -6 C-130 -26 -90 -34 -40 -34 L90 -34 C130 -34 150 -14 150 0 C150 14 130 22 90 22 L-60 22 C-110 22 -130 12 -130 -6 Z" fill="{body}" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+             f'<path d="M-130 -6 L-150 -62 L-112 -58 L-86 -30 Z" fill="{accent}" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+             f'<path d="M-20 -2 L36 -2 L-30 56 L-62 56 Z" fill="#C9D2D8" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+             + ''.join(f'<circle cx="{cx}" cy="-12" r="7" fill="#9FD3F0" stroke="{INK}" stroke-width="2.6"/>' for cx in range(-70, 100, 28))
+             + f'<path d="M110 -26 C130 -26 142 -14 148 -4 L106 -4 Z" fill="#9FD3F0" stroke="{INK}" stroke-width="3"/>'
+             + f'<path d="M-124 6 H146" stroke="{accent}" stroke-width="6"/>')
+    return g(x, y, s, inner, flip=flip)
+
+
+def router(x, y, s=1.0, face='worried', lights=True, sweat=False):
+    """A boxy network router with antennas and a face (anchor = base centre, ~150 wide)."""
+    eyes = {'worried': ('M-30 -78 L-14 -84 M14 -84 L30 -78', 'M-14 -34 Q0 -46 14 -34'), 'shocked': ('M-30 -86 L-14 -82 M14 -82 L30 -86', ''), 'smug': ('', 'M-14 -40 Q0 -28 14 -40')}[face]
+    inner = (f'<path d="M-50 -110 L-60 -170 M50 -110 L60 -170" stroke="{INK}" stroke-width="6" stroke-linecap="round"/><circle cx="-60" cy="-172" r="8" fill="{RED}" stroke="{INK}" stroke-width="3"/><circle cx="60" cy="-172" r="8" fill="{RED}" stroke="{INK}" stroke-width="3"/>'
+             f'<rect x="-84" y="-112" width="168" height="112" rx="14" fill="#5C6B78" stroke="{INK}" stroke-width="{LW}"/>'
+             f'<rect x="-84" y="-112" width="168" height="26" rx="14" fill="#47535E" stroke="{INK}" stroke-width="{LW}"/>'
+             f'<circle cx="-24" cy="-62" r="12" fill="#F7F7F5" stroke="{INK}" stroke-width="3"/><circle cx="24" cy="-62" r="12" fill="#F7F7F5" stroke="{INK}" stroke-width="3"/>'
+             f'<circle cx="-24" cy="-62" r="5" fill="{INK}"/><circle cx="24" cy="-62" r="5" fill="{INK}"/>'
+             f'<path d="{eyes[0]}" stroke="{INK}" stroke-width="3.4" fill="none" stroke-linecap="round"/>'
+             + (f'<path d="{eyes[1]}" stroke="{INK}" stroke-width="3.4" fill="none" stroke-linecap="round"/>' if eyes[1] else f'<ellipse cx="0" cy="-30" rx="12" ry="14" fill="{INK}"/>')
+             + (''.join(f'<circle cx="{-60 + k * 16}" cy="-14" r="4" fill="{c}" stroke="{INK}" stroke-width="2"/>' for k, c in enumerate(('#6FE06F', '#F7D35C', '#6FE06F', '#E0382C', '#6FE06F', '#F7D35C', '#E0382C', '#6FE06F'))) if lights else '')
+             + (f'<path d="M70 -96 q-6 12 0 18 q6 -6 0 -18 Z" fill="#9FD3F0" stroke="{INK}" stroke-width="2.4"/>' if sweat else ''))
+    return g(x, y, s, inner)
+
+
+def radar_screen(x, y, w=300, h=230, glitch=None):
+    """CRT-style radar screen (anchor = top-left). glitch=t makes it break up (static bars + red ERROR) from local time t."""
+    cx, cy = x + w / 2, y + h / 2; r = min(w, h) / 2 - 18
+    base = (f'<rect x="{x - 12}" y="{y - 12}" width="{w + 24}" height="{h + 24}" rx="20" fill="#2D3036" stroke="{INK}" stroke-width="{LW}"/>'
+            f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="#0E2A1A" stroke="{INK}" stroke-width="3"/>'
+            + ''.join(f'<circle cx="{cx}" cy="{cy}" r="{r * k}" fill="none" stroke="#2F8A55" stroke-width="2"/>' for k in (.33, .66, 1))
+            + f'<path d="M{cx - r} {cy} H{cx + r} M{cx} {cy - r} V{cy + r}" stroke="#2F8A55" stroke-width="2"/>')
+    sweep = G(f'<path d="M{cx} {cy} L{cx + r} {cy} A{r} {r} 0 0 0 {cx + r * .87:.0f} {cy - r * .5:.0f} Z" fill="#6FE06F" opacity=".55"/>', [[0, {'r': 0}], [8, {'r': 2880}, 'l']], (cx, cy))
+    blips = ''.join(f'<circle cx="{cx + dx}" cy="{cy + dy}" r="5" fill="#C8FFD8"/>' for dx, dy in ((-40, -30), (50, 20), (20, -55), (-60, 40)))
+    out = base + sweep + blips
+    if glitch is not None:
+        bars = ''.join(f'<rect x="{x}" y="{y + 18 + k * 34}" width="{w}" height="{10 + (k % 3) * 6}" fill="#C8FFD8" opacity=".75"/>' for k in range(6))
+        out += G(bars, [[0, {'o': 0}], [glitch - .001, {'o': 0}], [glitch, {'o': 1}, 'h'], [glitch + .12, {'o': 0}, 'h'], [glitch + .2, {'o': 1}, 'h'], [glitch + .32, {'o': .4}, 'h'], [glitch + .4, {'o': 1}, 'h']], (cx, cy))
+        out += G(f'<rect x="{x + 40}" y="{cy - 28}" width="{w - 80}" height="56" rx="8" fill="{RED}" stroke="{INK}" stroke-width="4"/>' + caps(cx, cy + 2, 'SIGNAL LOST', 34, '#FFFFFF'),
+                 [[0, {'o': 0}], [glitch + .35, {'o': 0}], [glitch + .36, {'o': 1}, 'h']], (cx, cy))
+    return out
+
+
+def flight_board(x, y, w, rows, flip_ts, label_from='ON TIME', label_to='GROUNDED', to_col=RED):
+    """Departures board (anchor = top-left). rows = [city names]; each row flips from label_from to label_to at flip_ts[i] (local s)."""
+    h = 70 + 62 * len(rows)
+    o = (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="14" fill="#1F2A35" stroke="{INK}" stroke-width="{LW}"/>'
+         + caps(x + w / 2, y + 34, 'DEPARTURES', 34, '#F7D35C'))
+    for i, c in enumerate(rows):
+        ry = y + 62 + i * 62
+        o += f'<rect x="{x + 14}" y="{ry}" width="{w - 28}" height="50" rx="6" fill="#2E3C4A"/>' + caps(x + 28, ry + 27, c, 30, '#FFFFFF', 'start')
+        a = G(f'<rect x="{x + w - 188}" y="{ry + 6}" width="168" height="38" rx="5" fill="#2F8A55"/>' + caps(x + w - 104, ry + 26, label_from, 24, '#FFFFFF'),
+              [[0, {'sy': 1}], [flip_ts[i] - .1, {'sy': 1}], [flip_ts[i], {'sy': 0}, 'i'], [flip_ts[i] + .01, {'o': 0}]], (x + w - 104, ry + 25))
+        b = G(f'<rect x="{x + w - 188}" y="{ry + 6}" width="168" height="38" rx="5" fill="{to_col}"/>' + caps(x + w - 104, ry + 26, label_to, 24, '#FFFFFF'),
+              [[0, {'o': 0}], [flip_ts[i], {'o': 0, 'sy': 0}], [flip_ts[i] + .01, {'o': 1, 'sy': 0}], [flip_ts[i] + .16, {'sy': 1}, 'b']], (x + w - 104, ry + 25))
+        o += a + b
+    return o
+
+
+def suitcase(x, y, s=1.0, col='#C0392F'):
+    return g(x, y, s, f'<rect x="-34" y="-62" width="68" height="62" rx="8" fill="{col}" stroke="{INK}" stroke-width="{LW}"/>'
+                      f'<path d="M-14 -62 V-76 H14 V-62" fill="none" stroke="{INK}" stroke-width="5"/><path d="M-34 -30 H34" stroke="{INK}" stroke-width="3" opacity=".5"/>'
+                      f'<circle cx="-22" cy="4" r="5" fill="{INK}"/><circle cx="22" cy="4" r="5" fill="{INK}"/>')
+
+
+def stop_sign(x, y, s=1.0, text_='STOP'):
+    pts = ' '.join(f'{40 * math.cos(math.radians(22.5 + 45 * k)):.1f},{40 * math.sin(math.radians(22.5 + 45 * k)):.1f}' for k in range(8))
+    return g(x, y, s, f'<rect x="-4" y="30" width="8" height="70" fill="#8A5A3A" stroke="{INK}" stroke-width="3"/><polygon points="{pts}" fill="{RED}" stroke="{INK}" stroke-width="4"/>' + caps(0, 2, text_, 22, '#FFFFFF'))
+
+
+def cloud_shape(x, y, s=1.0):
+    return g(x, y, s, f'<path d="M-60 0 C-80 0 -80 -30 -54 -30 C-52 -56 -10 -60 0 -38 C20 -58 62 -44 56 -20 C84 -22 86 4 60 4 Z" fill="#F7F7F5" stroke="{INK}" stroke-width="3.4" stroke-linejoin="round"/>')

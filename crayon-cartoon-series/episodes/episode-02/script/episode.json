@@ -1,0 +1,460 @@
+{
+  "episode": 2,
+  "title": "Why Were US Flights Suddenly Grounded?",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "target_seconds": [
+      55,
+      66
+    ]
+  },
+  "gap": [
+    0.28,
+    0.5
+  ],
+  "retention_map": {
+    "0-3s": "INSTANT HOOK: every US departure told to stop, the board flips to GROUNDED",
+    "3-10s": "FIRST SURPRISE: radar and radio glitch at 3:36 PM, the big red GROUND STOP button 18 minutes later",
+    "10-18s": "ESCALATION: why stopping is the safe move; planes already flying keep going",
+    "18-27s": "NEW MYSTERY: the suspect is a router in Arkansas flooding the network with data",
+    "27-38s": "BIG REVEAL: more than four hours, more than 7,000 cancellations in one day",
+    "38-50s": "COMEDY PAYOFF + MONEY ANGLE: 12.5 billion approved vs 50 billion requested",
+    "50-60s": "CONCLUSION + FINAL JOKE (refund, not credit; keep the pretzels), then the standard end card (automatic)"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "title": "Everything Stops",
+      "min": 5.5,
+      "background": "blue",
+      "music": "tense",
+      "retention_hook": "Instant hook: the departures board flips to GROUNDED, one row at a time",
+      "characters": [
+        "GUY"
+      ],
+      "props": [
+        "flight_board",
+        "suitcase"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "On November thirteenth, the FAA told US airlines: nobody takes off.",
+          "emph": [
+            "nobody"
+          ]
+        },
+        {
+          "who": "GUY",
+          "text": "Wait, what?!",
+          "emph": [
+            "what"
+          ]
+        }
+      ],
+      "actions": [
+        "Departures board rows flip from ON TIME to GROUNDED one by one",
+        "Everyday Guy with a suitcase looks up at the board",
+        "He drops the suitcase"
+      ],
+      "camera": "slow push-in",
+      "headline": {
+        "text": "NOBODY TAKES OFF!",
+        "at": "word:nobody"
+      },
+      "sfx": [
+        {
+          "name": "tag_flip",
+          "at": "word:FAA",
+          "gain": 0.7
+        },
+        {
+          "name": "tag_flip",
+          "at": "word:told",
+          "gain": 0.7
+        },
+        {
+          "name": "tag_flip",
+          "at": "word:US",
+          "gain": 0.7
+        },
+        {
+          "name": "tag_flip",
+          "at": "word:airlines",
+          "gain": 0.7
+        },
+        {
+          "name": "sting",
+          "at": "word:nobody",
+          "gain": 0.8
+        },
+        {
+          "name": "thud",
+          "at": "line:1:end",
+          "gain": 0.8
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S2",
+      "title": "The Big Red Button",
+      "min": 6.5,
+      "background": "mustard",
+      "music": "tense",
+      "retention_hook": "First surprise: glitching radar at 3:36 PM, then the FAA hits the red button 18 minutes later",
+      "characters": [
+        "FRIEND",
+        "BANKER"
+      ],
+      "props": [
+        "radar_screen",
+        "big red button"
+      ],
+      "dialogue": [
+        {
+          "who": "FRIEND",
+          "text": "My radar is weird!",
+          "emph": [
+            "weird"
+          ]
+        },
+        {
+          "who": "NARRATOR",
+          "text": "At three thirty-six PM, radar and radio glitched. Eighteen minutes later: ground stop.",
+          "emph": [
+            "ground",
+            "stop"
+          ]
+        }
+      ],
+      "actions": [
+        "Radar screen glitches: SIGNAL LOST",
+        "Friend (air traffic controller) panics",
+        "FAA Banker slams the red GROUND STOP button",
+        "GROUND STOP stamp"
+      ],
+      "camera": "slow push-in",
+      "headline": {
+        "text": "3:36 PM: GLITCH",
+        "at": "start+0.4"
+      },
+      "sfx": [
+        {
+          "name": "error_beep",
+          "at": "word:weird",
+          "gain": 0.8
+        },
+        {
+          "name": "button_click",
+          "at": "word:ground",
+          "gain": 0.9
+        },
+        {
+          "name": "stamp",
+          "at": "word:ground+0.2",
+          "gain": 0.9
+        },
+        {
+          "name": "alarm",
+          "at": "word:ground",
+          "gain": 0.3
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S3",
+      "title": "Why Stop Everything?",
+      "min": 7.0,
+      "background": "blue",
+      "music": "warm",
+      "retention_hook": "Escalation: stopping is the safe move; planes already flying keep going",
+      "characters": [],
+      "props": [
+        "plane",
+        "stop_sign",
+        "clouds"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "Why stop? If radar and radio get fuzzy, the safest move is: nobody new takes off. Planes already flying keep going.",
+          "emph": [
+            "nobody",
+            "flying"
+          ]
+        }
+      ],
+      "actions": [
+        "Two planes wait on the runway under STOP signs",
+        "A third plane keeps flying across the sky"
+      ],
+      "camera": "static",
+      "headline": {
+        "text": "SAFETY FIRST",
+        "at": "word:safest"
+      },
+      "sfx": [
+        {
+          "name": "pop",
+          "at": "word:nobody",
+          "gain": 0.9
+        },
+        {
+          "name": "jet_flyby",
+          "at": "word:already-0.4",
+          "gain": 0.7
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S4",
+      "title": "The Suspect: A Router",
+      "min": 8.5,
+      "background": "red",
+      "music": "mystery",
+      "retention_hook": "New mystery: a router in Arkansas flooded the network with data; no cyberattack found",
+      "characters": [
+        "FRIEND"
+      ],
+      "props": [
+        "router",
+        "data packets",
+        "radar_screen"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "The suspect: a router in Arkansas flooding the network with data. No sign of a cyberattack, and investigators are still checking why.",
+          "emph": [
+            "router",
+            "data"
+          ]
+        },
+        {
+          "who": "FRIEND",
+          "text": "Too much data!",
+          "emph": [
+            "much"
+          ]
+        }
+      ],
+      "actions": [
+        "A worried router box spews data packets",
+        "Screens fill with errors",
+        "Friend panics: too much data",
+        "Green check: no evidence of a cyberattack"
+      ],
+      "camera": "slow push-in",
+      "headline": {
+        "text": "ROUTER OVERLOAD",
+        "at": "word:router"
+      },
+      "sfx": [
+        {
+          "name": "alarm",
+          "at": "word:flooding",
+          "gain": 0.35,
+          "until": "word:cyberattack"
+        },
+        {
+          "name": "error_beep",
+          "at": "word:flooding",
+          "gain": 0.6
+        },
+        {
+          "name": "pop",
+          "at": "word:cyberattack",
+          "gain": 0.9
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S5",
+      "title": "The Domino Effect",
+      "min": 8.0,
+      "background": "cream",
+      "music": "tense",
+      "retention_hook": "Big reveal: over four hours, then more than 7,000 cancellations in one day",
+      "characters": [
+        "GUY"
+      ],
+      "props": [
+        "counter",
+        "suitcase"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "It lasted over four hours, and more than seven thousand flights were cancelled that Friday.",
+          "emph": [
+            "four",
+            "seven",
+            "thousand"
+          ]
+        },
+        {
+          "who": "GUY",
+          "text": "I live here now.",
+          "emph": [
+            "live"
+          ]
+        }
+      ],
+      "actions": [
+        "Clock shows 4+ HOURS",
+        "Counter climbs to 7,000+ cancelled flights",
+        "Guy naps on his suitcase: 'I live here now'"
+      ],
+      "camera": "static",
+      "headline": {
+        "text": "7,000+ FLIGHTS CANCELLED",
+        "at": "word:seven"
+      },
+      "note": "Source: NBC News / FlightAware",
+      "sfx": [
+        {
+          "name": "whistle_up",
+          "at": "word:seven",
+          "gain": 0.6
+        },
+        {
+          "name": "sad_trombone",
+          "at": "line:1:end",
+          "gain": 0.7
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S6",
+      "title": "The Money Angle",
+      "min": 8.5,
+      "background": "mustard",
+      "music": "warm",
+      "retention_hook": "Comedy payoff + money angle: 12.5 billion approved vs 50 billion requested",
+      "characters": [
+        "BANKER"
+      ],
+      "props": [
+        "bars",
+        "wallet"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "Congress approved twelve and a half billion dollars for upgrades. The Transportation Secretary wants fifty billion.",
+          "emph": [
+            "twelve",
+            "fifty"
+          ]
+        },
+        {
+          "who": "BANKER",
+          "text": "Let me check my wallet.",
+          "emph": [
+            "wallet"
+          ]
+        }
+      ],
+      "actions": [
+        "Two bars: 12.5B approved vs 50B requested",
+        "Banker opens his wallet: one coin falls out"
+      ],
+      "camera": "static",
+      "headline": {
+        "text": "THE PRICE OF UPGRADES",
+        "at": "word:upgrades"
+      },
+      "note": "Source: Reuters via NBC News",
+      "sfx": [
+        {
+          "name": "register_ding",
+          "at": "word:twelve",
+          "gain": 0.7
+        },
+        {
+          "name": "whistle_up",
+          "at": "word:fifty-0.3",
+          "gain": 0.6
+        },
+        {
+          "name": "coin_bounce",
+          "at": "line:1:start+0.6",
+          "gain": 0.8
+        }
+      ],
+      "transition": "swipe"
+    },
+    {
+      "id": "S7",
+      "title": "Conclusion: Know Your Refund",
+      "min": 8.5,
+      "background": "cream",
+      "music": "warm",
+      "retention_hook": "Conclusion + final joke: refund, not credit; keep the pretzels",
+      "characters": [
+        "GUY",
+        "FRIEND"
+      ],
+      "props": [
+        "counter",
+        "voucher",
+        "refund sign",
+        "pretzels"
+      ],
+      "dialogue": [
+        {
+          "who": "NARRATOR",
+          "text": "Officials say equipment, not an attack. And if your flight is cancelled, you are owed a refund, not just a credit.",
+          "emph": [
+            "refund",
+            "credit"
+          ]
+        },
+        {
+          "who": "GUY",
+          "text": "Can I keep the pretzels?",
+          "emph": [
+            "pretzels"
+          ]
+        }
+      ],
+      "actions": [
+        "Agent offers a travel credit voucher",
+        "Guy holds up a REFUND sign",
+        "Agent swaps the voucher for money",
+        "Final joke: Guy asks to keep the pretzels"
+      ],
+      "camera": "slow push-in",
+      "headline": {
+        "text": "CANCELLED? ASK FOR A REFUND",
+        "at": "word:refund"
+      },
+      "note": "Sources: NBC News, ABC News, CNN, KATV",
+      "sfx": [
+        {
+          "name": "pop",
+          "at": "word:refund",
+          "gain": 0.9
+        },
+        {
+          "name": "register_ding",
+          "at": "word:credit",
+          "gain": 0.7
+        },
+        {
+          "name": "boing",
+          "at": "line:1:end",
+          "gain": 0.7
+        }
+      ],
+      "transition": "swipe into the end card"
+    }
+  ]
+}
