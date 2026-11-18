@@ -1,0 +1,7 @@
+{
+ "voice_dbfs_while_speaking": -23.1,
+ "music_dbfs_while_speaking": -42.4,
+ "sfx_dbfs_while_speaking": -39.9,
+ "voice_over_music_db": 19.3,
+ "voice_over_music_and_sfx_db": 14.9
+}

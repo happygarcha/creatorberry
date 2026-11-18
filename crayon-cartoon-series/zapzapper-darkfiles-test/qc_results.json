@@ -1,0 +1,167 @@
+[
+ {
+  "status": "PASS",
+  "check": "file exists",
+  "detail": "final/Zapzapper_DarkFiles_60sec_Test.mp4 (16.9 MB)"
+ },
+ {
+  "status": "PASS",
+  "check": "duration",
+  "detail": "container 60.000 s, video 60.000 s, audio 60.000 s"
+ },
+ {
+  "status": "PASS",
+  "check": "resolution",
+  "detail": "1920x1080, SAR 1:1, DAR 16:9"
+ },
+ {
+  "status": "PASS",
+  "check": "frame rate / frames",
+  "detail": "30/1 fps, 1800 frames"
+ },
+ {
+  "status": "PASS",
+  "check": "codecs",
+  "detail": "h264 + aac 48000 Hz 2 ch"
+ },
+ {
+  "status": "PASS",
+  "check": "blank / broken frames",
+  "detail": "black segments [(0.0, 0.1), (59.9, 59.9667)] (only the 0.3 s fade-in and the final cut to black are expected)"
+ },
+ {
+  "status": "PASS",
+  "check": "hard cut to black at the end",
+  "detail": "mean luma at 59.5 s = 30.7, at 59.95 s = 1.0"
+ },
+ {
+  "status": "PASS",
+  "check": "S1 (0-7s) motion",
+  "detail": "mean frame-to-frame change 4.02, 10th percentile 2.63 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S2 (7-15s) motion",
+  "detail": "mean frame-to-frame change 5.31, 10th percentile 3.21 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S3 (15-23s) motion",
+  "detail": "mean frame-to-frame change 4.53, 10th percentile 0.97 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S4 (23-32s) motion",
+  "detail": "mean frame-to-frame change 4.50, 10th percentile 1.46 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S5 (32-41s) motion",
+  "detail": "mean frame-to-frame change 4.24, 10th percentile 1.76 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S6 (41-51s) motion",
+  "detail": "mean frame-to-frame change 4.99, 10th percentile 3.30 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "S7 (51-60s) motion",
+  "detail": "mean frame-to-frame change 5.26, 10th percentile 1.01 (0 = frozen)"
+ },
+ {
+  "status": "PASS",
+  "check": "n1a NARRATOR intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"The abandoned Miller House had stood empty for years.\""
+ },
+ {
+  "status": "PASS",
+  "check": "n1b NARRATOR intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"But something in its basement didn't belong.\""
+ },
+ {
+  "status": "PASS",
+  "check": "r1 REED intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"Why would someone bolt an empty shelf to the floor?\""
+ },
+ {
+  "status": "PASS",
+  "check": "m1 MORGAN intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"Daniel look at this.\""
+ },
+ {
+  "status": "PASS",
+  "check": "n2 NARRATOR intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"Behind the shelving unit was a door that appeared on none of the surviving floor plans.\""
+ },
+ {
+  "status": "PASS",
+  "check": "m2 MORGAN intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"There's another room.\""
+ },
+ {
+  "status": "PASS",
+  "check": "r2 REED intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"Someone's been using this place.\""
+ },
+ {
+  "status": "PASS",
+  "check": "n3 NARRATOR intelligibility (ASR of the MP4's audio)",
+  "detail": "100% word match; heard: \"And on the desk, they found something unexpected.\""
+ },
+ {
+  "status": "WARN",
+  "check": "g1 LILY intelligibility (ASR of the MP4's audio)",
+  "detail": "67% word match; heard: \"Mom is me.\""
+ },
+ {
+  "status": "WARN",
+  "check": "speech pace",
+  "detail": "187 words per minute while speaking (limit 175); voices at natural speed 1.0, nothing accelerated"
+ },
+ {
+  "status": "PASS",
+  "check": "dialogue over music",
+  "detail": "voice is 19.3 dB above the music while speaking; 14.9 dB above music+SFX together"
+ },
+ {
+  "status": "PASS",
+  "check": "captions",
+  "detail": "9 caption cues, none overlapping, each shown from its sentence start (aligned to the measured clip durations)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Reed -> bolt wrench",
+  "detail": "max residual 0.0 px over 33 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Morgan -> bolt wrench",
+  "detail": "max residual 0.0 px over 33 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Reed -> shelf (push)",
+  "detail": "max residual 0.0 px over 69 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Morgan -> shelf (push)",
+  "detail": "max residual 0.0 px over 66 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Reed -> door handle / door",
+  "detail": "max residual 0.0 px over 145 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Reed -> recorder",
+  "detail": "max residual 0.0 px over 109 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ },
+ {
+  "status": "PASS",
+  "check": "hand contact: Reed -> bolt tap",
+  "detail": "max residual 0.0 px over 82 frames (target = shelf face / bolt / handle / recorder; 6 px = hand radius)"
+ }
+]
