@@ -20,6 +20,11 @@
 - Same handle everywhere (check "drapewell" is free), bio, logo as profile picture, first ten posts with captions.
 - Once live: add follow links in the site footer, then turn on the follow rewards in the rewards app (Follow on Instagram / TikTok, about 10 points each).
 
+## Search (Bing and Google)
+- Bing Webmaster Tools: site verified, sitemap https://drapewell.myshopify.com/sitemap.xml submitted (Success). Verification tag is in the new theme head (layout/theme.liquid) and was pasted into the live theme by the owner.
+- Bing notice "site lacks inbound links": normal for a new store. Build links over time: Pinterest and Instagram profiles, Google Business Profile and directories, gift or home guides, then a custom domain (for example drapewell.ca). Avoid paid backlink offers.
+- To do: submit the same sitemap in Google Search Console; after the new theme is published use Bing URL Submission for the key pages.
+
 ## Rewards panel look (in progress)
 - Both programs are Active (see docs/rewards.md). The panel and bubble still have the default red Christmas look.
 - In the rewards app (Settings / Customize / Loyalty panel / Launcher): main colour and button coral #E8472B with white text, plain coral banner with the Drapewell crown logo (make the picture at the size the app asks), title "Welcome to Drapewell Rewards", launcher bubble coral with a white gift icon.
