@@ -4,7 +4,7 @@ ENGINE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 't
 if ENGINE not in sys.path: sys.path.insert(0, ENGINE)
 from cc_kit import W, H, INK, fill_bg
 
-PALETTE = {'red': ('#B8524A', '#9A4039'), 'mustard': ('#E0B24A', '#C4962F'), 'blue': ('#7C9AB5', '#627F9B'), 'cream': ('#F3E3BC', '#D9C48F')}
+PALETTE = {'red': ('#B8524A', '#9A4039'), 'mustard': ('#E0B24A', '#C4962F'), 'blue': ('#7C9AB5', '#627F9B'), 'cream': ('#F3E3BC', '#D9C48F'), 'ocean': ('#8FB6CC', '#3F7899'), 'navy': ('#3C5F7D', '#2B4660')}
 FLOOR_Y = .62   # fraction of the frame height where characters stand (inside the Shorts safe area)
 
 

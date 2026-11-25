@@ -1,0 +1,703 @@
+{
+ "episode": 4,
+ "title": "Floating AI Data Centers? Panthalassa Explained",
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "target_seconds": [
+   90,
+   180
+  ]
+ },
+ "gap": [
+  0.4,
+  0.8
+ ],
+ "retention_map": {
+  "hook": "AI data center floating alone in the Pacific",
+  "spike": "power, water, land, permits crunch; $140M raised",
+  "scope": "who and what a node is",
+  "cause": "waves to turbines to chips cooled by the sea",
+  "recovery": "prototypes, factory, Ocean-3",
+  "conclusion": "the catch (honest risks), verdict, final joke; standard end card (automatic)"
+ },
+ "scenes": [
+  {
+   "id": "S1",
+   "title": "Hook: a data center at sea",
+   "min": 9.0,
+   "background": "ocean",
+   "music": "mystery",
+   "retention_hook": "Instant hook: a giant AI data center floating alone in the Pacific",
+   "characters": [
+    "GUY",
+    "FRIEND"
+   ],
+   "props": [
+    "node",
+    "waves",
+    "pier"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "What if the next giant AI data center is not on land at all, but floating alone in the middle of the Pacific Ocean?",
+     "emph": [
+      "floating",
+      "ocean"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "Wait. A data center? In the sea?",
+     "emph": [
+      "sea"
+     ]
+    }
+   ],
+   "actions": [
+    "Node bobs on the waves",
+    "Guy and Friend stare from a pier"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "AI DATA CENTERS AT SEA?",
+    "at": "word:floating"
+   },
+   "sfx": [
+    {
+     "name": "sting",
+     "at": "word:What",
+     "gain": 0.7
+    },
+    {
+     "name": "whoosh",
+     "at": "word:floating",
+     "gain": 0.6
+    },
+    {
+     "name": "gasp",
+     "at": "word:Wait",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Source: Panthalassa (panthalassa.com)"
+  },
+  {
+   "id": "S2",
+   "title": "The problem",
+   "min": 14.0,
+   "background": "mustard",
+   "music": "tense",
+   "retention_hook": "Problem: AI is hungry for power, water, land and permits",
+   "characters": [
+    "BANKER",
+    "FRIEND"
+   ],
+   "props": [
+    "chip",
+    "stat boxes"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Here is the problem. AI chips are hungry. Data centers on land need huge amounts of electricity, cooling water, and land, plus slow permits. So a startup asked a simple question: why not go where the energy is?",
+     "emph": [
+      "hungry",
+      "electricity",
+      "energy"
+     ]
+    },
+    {
+     "who": "BANKER",
+     "text": "And where is that?",
+     "emph": [
+      "where"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "The ocean!",
+     "emph": [
+      "ocean"
+     ]
+    }
+   ],
+   "actions": [
+    "AI chip gobbles power, water, land, permits",
+    "Banker asks, Friend points to the sea"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "GO WHERE THE ENERGY IS",
+    "at": "word:energy"
+   },
+   "sfx": [
+    {
+     "name": "whistle_up",
+     "at": "word:hungry",
+     "gain": 0.6
+    },
+    {
+     "name": "pop",
+     "at": "word:electricity",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:cooling",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:permits",
+     "gain": 0.7
+    },
+    {
+     "name": "register_ding",
+     "at": "word:energy",
+     "gain": 0.7
+    }
+   ],
+   "transition": "swipe",
+   "note": "Source: Panthalassa press release via GeekWire, Interesting Engineering"
+  },
+  {
+   "id": "S3",
+   "title": "Who is Panthalassa",
+   "min": 13.0,
+   "background": "cream",
+   "music": "warm",
+   "retention_hook": "Mini-reveal: an ancient ocean name for a modern company",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "pangaea map",
+    "sign"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "That startup is Panthalassa. It is a public benefit company from Portland, Oregon, founded in twenty sixteen. The name comes from the giant ocean that once surrounded the supercontinent Pangaea.",
+     "emph": [
+      "Panthalassa",
+      "Pangaea"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "An ancient ocean for a modern problem!",
+     "emph": [
+      "ancient"
+     ]
+    }
+   ],
+   "actions": [
+    "Pangaea blob inside a giant blue ocean ring",
+    "Fact tags: Portland, 2016, public benefit"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "PANTHALASSA",
+    "at": "word:Panthalassa"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:Portland",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:founded",
+     "gain": 0.7
+    },
+    {
+     "name": "register_ding",
+     "at": "word:Pangaea",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: GeekWire, Wikipedia"
+  },
+  {
+   "id": "S4",
+   "title": "The node",
+   "min": 15.0,
+   "background": "ocean",
+   "music": "warm",
+   "retention_hook": "Visual reveal: the node, a giant steel float",
+   "characters": [
+    "GUY"
+   ],
+   "props": [
+    "node"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "The machine is called a node. It is a giant steel float, reported to be about eighty five meters long. A big ball of air on top keeps it afloat, and a long tube hangs down underneath.",
+     "emph": [
+      "node",
+      "eighty"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "It looks like a gigantic pogo stick!",
+     "emph": [
+      "pogo"
+     ]
+    }
+   ],
+   "actions": [
+    "Big node with labels: air ball, long tube, about 85 m (reported)"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "THE NODE",
+    "at": "word:node"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:giant",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:ball",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:tube",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:pogo",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: TechRadar, Wikipedia, Interesting Engineering"
+  },
+  {
+   "id": "S5",
+   "title": "How waves make power",
+   "min": 14.0,
+   "background": "ocean",
+   "music": "warm",
+   "retention_hook": "Mechanism: waves push water through turbines",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "node",
+    "turbine",
+    "water arrows"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Here is the trick. Waves lift and drop the node. That pushes water up the tube, and it falls back down through turbines. The turbines spin, and electricity is made, with very few moving parts.",
+     "emph": [
+      "trick",
+      "turbines",
+      "few"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "Electricity from waves!",
+     "emph": [
+      "waves"
+     ]
+    }
+   ],
+   "actions": [
+    "Node bobs; water dots rise and fall in the tube; turbine spins; lightning bolt"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "WAVES TO ELECTRICITY",
+    "at": "word:Waves"
+   },
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": "word:lift",
+     "gain": 0.5
+    },
+    {
+     "name": "whirr",
+     "at": "word:spin",
+     "gain": 0.6
+    },
+    {
+     "name": "register_ding",
+     "at": "word:electricity",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: Wikipedia, Interesting Engineering"
+  },
+  {
+   "id": "S6",
+   "title": "Chips, cooling, satellite",
+   "min": 20.0,
+   "background": "navy",
+   "music": "mystery",
+   "retention_hook": "Surprise: the chips sit underwater, cooled by the sea",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "node",
+    "chip",
+    "satellite",
+    "roomba"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "The power never goes to shore. It runs AI chips sealed in containers under the surface, and the cold ocean cools them, so no fresh water is needed. Answers fly back to land by satellite. And the nodes are not anchored. They steer themselves, like an enormous Roomba.",
+     "emph": [
+      "never",
+      "cold",
+      "satellite",
+      "Roomba"
+     ],
+     "say": "The power never goes to shore. It runs AI chips sealed in containers under the surface, and the cold ocean cools them, so no fresh water is needed. Answers fly back to land by satellite. And the nodes are not anchored. They steer themselves, like an enormous Rumba."
+    },
+    {
+     "who": "FRIEND",
+     "text": "A Roomba the size of a tower?!",
+     "emph": [
+      "Roomba"
+     ],
+     "say": "A Rumba the size of a tower?!"
+    }
+   ],
+   "actions": [
+    "Chips sealed under the sea, cold ocean cooling",
+    "Satellite beams answers to land",
+    "Roomba icon"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "AI CHIPS COOLED BY THE SEA",
+    "at": "word:cold"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:chips",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:cold",
+     "gain": 0.7
+    },
+    {
+     "name": "whoosh",
+     "at": "word:satellite",
+     "gain": 0.6
+    },
+    {
+     "name": "boing",
+     "at": "word:Roomba",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: Wikipedia, GeekWire, Interesting Engineering"
+  },
+  {
+   "id": "S7",
+   "title": "The money",
+   "min": 15.0,
+   "background": "mustard",
+   "music": "warm",
+   "retention_hook": "Number spike: $140 million, about $210 million total",
+   "characters": [
+    "BANKER"
+   ],
+   "props": [
+    "counter",
+    "money bag"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "In May twenty twenty six, Panthalassa raised one hundred forty million dollars, led by Peter Thiel. That brings its total to about two hundred ten million. Reports say it is valued near one billion dollars.",
+     "emph": [
+      "hundred",
+      "total",
+      "billion"
+     ],
+     "say": "In May twenty twenty six, Panthalassa raised one hundred forty million dollars, led by Peter Teal. That brings its total to about two hundred ten million. Reports say it is valued near one billion dollars."
+    },
+    {
+     "who": "BANKER",
+     "text": "Where do I sign?",
+     "emph": [
+      "sign"
+     ]
+    }
+   ],
+   "actions": [
+    "Counter climbs to $140M; total $210M; valuation near $1B reported"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "$140 MILLION RAISED",
+    "at": "word:hundred"
+   },
+   "sfx": [
+    {
+     "name": "register_ding",
+     "at": "word:hundred",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:total",
+     "gain": 0.7
+    },
+    {
+     "name": "whistle_up",
+     "at": "word:billion",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: GeekWire, Fortune/FT via TechRadar"
+  },
+  {
+   "id": "S8",
+   "title": "Where it is now",
+   "min": 18.0,
+   "background": "cream",
+   "music": "warm",
+   "retention_hook": "Proof beat: prototypes, a factory, then the Ocean-3 pilots",
+   "characters": [
+    "GUY"
+   ],
+   "props": [
+    "timeline",
+    "factory"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "So far it has tested prototypes at sea, starting with Ocean One in twenty twenty one. One report says Ocean Two made up to fifty kilowatts. In November twenty twenty six, a factory opened in Vancouver, Washington, to build nodes on an assembly line. Next are Ocean Three pilots in the northern Pacific, with commercial nodes planned for twenty twenty seven.",
+     "emph": [
+      "Ocean",
+      "factory",
+      "planned"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "Prototypes are already floating!",
+     "emph": [
+      "floating"
+     ]
+    }
+   ],
+   "actions": [
+    "Timeline pins: 2021 Ocean-1, Ocean-2 (50 kW reported), Nov 2026 factory, Ocean-3 pilots, 2027 commercial"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "FACTORY OPENED NOV 2026",
+    "at": "word:factory"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:Ocean",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:fifty",
+     "gain": 0.7
+    },
+    {
+     "name": "register_ding",
+     "at": "word:factory",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:Next",
+     "gain": 0.7
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: GeekWire, Wikipedia, OPB (Nov 6, 2026)"
+  },
+  {
+   "id": "S9",
+   "title": "The catch",
+   "min": 20.0,
+   "background": "red",
+   "music": "tense",
+   "retention_hook": "Payoff of the open question: the catch (honest risks)",
+   "characters": [
+    "GUY",
+    "FRIEND"
+   ],
+   "props": [
+    "stamp",
+    "red flags"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Now, the catch. Wave energy has a long history of projects that broke in rough seas. There is no independently audited data yet on output or uptime. Repairs are hard far from shore. And satellite links are slower than cables, so the nodes may suit long jobs better than quick chats.",
+     "emph": [
+      "catch",
+      "broke",
+      "audited",
+      "slower"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "What about storms?",
+     "emph": [
+      "storms"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "Public storm data is still missing!",
+     "emph": [
+      "missing"
+     ]
+    }
+   ],
+   "actions": [
+    "Four red flags pop in: history of failures, no audited data, repairs far from shore, satellite delay"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "THE CATCH",
+    "at": "word:catch"
+   },
+   "sfx": [
+    {
+     "name": "stamp",
+     "at": "word:catch",
+     "gain": 0.9
+    },
+    {
+     "name": "pop",
+     "at": "word:history",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:audited",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:Repairs",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:satellite",
+     "gain": 0.7
+    },
+    {
+     "name": "sad_trombone",
+     "at": "word:missing",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: CleanTechnica, Latitude Media, New Scientist"
+  },
+  {
+   "id": "S10",
+   "title": "Conclusion and final joke",
+   "min": 16.0,
+   "background": "ocean",
+   "music": "warm",
+   "retention_hook": "Conclusion + final joke",
+   "characters": [
+    "GUY",
+    "FRIEND"
+   ],
+   "props": [
+    "node",
+    "balance"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "So, genius or soggy gamble? We will know when Ocean Three proves it can work for months and years, not just days. When the land runs low on power, someone will look at the sea.",
+     "emph": [
+      "genius",
+      "proves",
+      "sea"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "Does my chatbot get seasick?",
+     "emph": [
+      "seasick"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "Only on stormy Mondays!",
+     "emph": [
+      "Mondays"
+     ]
+    }
+   ],
+   "actions": [
+    "Verdict scale: genius vs soggy gamble",
+    "Guy asks if the chatbot gets seasick; Friend jokes"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "GENIUS OR SOGGY GAMBLE?",
+    "at": "word:genius"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:genius",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:gamble",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:Mondays",
+     "gain": 0.7
+    }
+   ],
+   "transition": "swipe",
+   "note": "Reporting through Nov 2026; Ocean-3 unconfirmed"
+  }
+ ]
+}

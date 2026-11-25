@@ -261,3 +261,68 @@ def spinner(x, y, r=40, col='#4DA3FF'):
     """Loading spinner (rotates continuously)."""
     return G(f'<circle cx="{x}" cy="{y}" r="{r}" fill="none" stroke="#C9D2D8" stroke-width="10"/><path d="M{x} {y - r} A{r} {r} 0 0 1 {x + r} {y}" fill="none" stroke="{col}" stroke-width="10" stroke-linecap="round"/>',
              [[0, {'r': 0}], [3, {'r': 1080}, 'l']], (x, y))
+
+
+# ---------------------------------------------------------------- Ocean compute props (Episode 4)
+SEA_TOP, SEA_DEEP = '#8FB6CC', '#3F7899'
+
+
+def ocean_node(x, y, s=1.0, tube=300, label=None, water_y=0):
+    """Panthalassa-style wave node (anchor = waterline centre): air-filled sphere above the water, long steel tube below.
+    The tube is drawn translucent-looking (lighter steel) so it reads as underwater. water_y shifts nothing; wrap in G() to bob."""
+    o = (f'<path d="M-22 18 V{tube} Q0 {tube + 22} 22 {tube} V18 Z" fill="#A9B4BC" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+         f'<path d="M-22 {tube * .35} H22 M-22 {tube * .68} H22" stroke="{INK}" stroke-width="3"/>'
+         f'<circle cx="0" cy="-58" r="64" fill="#EDEAE2" stroke="{INK}" stroke-width="{LW}"/>'
+         f'<path d="M-52 -92 A64 64 0 0 1 8 -118" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity=".8"/>'
+         f'<rect x="-34" y="-8" width="68" height="26" rx="6" fill="#7F8B94" stroke="{INK}" stroke-width="{LW}"/>'
+         f'<circle cx="0" cy="-58" r="12" fill="#E0382C" stroke="{INK}" stroke-width="3"/>')
+    if label: o += caps(0, -58 + 4, label, 18, '#FFFFFF')
+    return g(x, y, s, o)
+
+
+def satellite(x, y, s=1.0, rot=0):
+    return g(x, y, s, f'<g transform="rotate({rot})"><rect x="-86" y="-14" width="62" height="28" fill="#4DA3FF" stroke="{INK}" stroke-width="{LW}"/><rect x="24" y="-14" width="62" height="28" fill="#4DA3FF" stroke="{INK}" stroke-width="{LW}"/>'
+                      f'<path d="M-62 -14 V14 M-42 -14 V14 M44 -14 V14 M64 -14 V14" stroke="{INK}" stroke-width="2.4"/>'
+                      f'<rect x="-24" y="-22" width="48" height="44" rx="8" fill="#D9D9D4" stroke="{INK}" stroke-width="{LW}"/><circle cx="0" cy="0" r="9" fill="#E0B24A" stroke="{INK}" stroke-width="3"/></g>')
+
+
+def ai_chip(x, y, s=1.0, col='#2F6A5E', label='AI'):
+    pins = ''.join(f'<path d="M{-30 + k * 20} -44 V-56 M{-30 + k * 20} 44 V56 M-44 {-30 + k * 20} H-56 M44 {-30 + k * 20} H56" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>' for k in range(4))
+    return g(x, y, s, pins + f'<rect x="-44" y="-44" width="88" height="88" rx="10" fill="{col}" stroke="{INK}" stroke-width="{LW}"/>' + caps(0, 4, label, 38, '#FFFFFF'))
+
+
+def turbine(x, y, s=1.0, spin=None):
+    """Little water turbine (3 blades), spin=(t0,t1) rotates."""
+    blades = ''.join(f'<path d="M0 0 Q14 -10 8 -46 Q-12 -30 0 0 Z" fill="#E0B24A" stroke="{INK}" stroke-width="3" transform="rotate({a})"/>' for a in (0, 120, 240))
+    inner = blades + f'<circle r="9" fill="#7F8B94" stroke="{INK}" stroke-width="3"/>'
+    if spin: inner = G(inner, [[spin[0], {'r': 0}], [spin[1], {'r': 360 * 2 * (spin[1] - spin[0])}, 'l']], (0, 0))
+    return g(x, y, s, inner)
+
+
+def factory(x, y, w=300, s=1.0):
+    """Shipyard-style factory with saw-tooth roof, crane and chimney (anchor = bottom-centre)."""
+    hw = w / 2
+    roof = ''.join(f'<path d="M{-hw + k * w / 4} -130 L{-hw + k * w / 4} -168 L{-hw + (k + 1) * w / 4} -130 Z" fill="#8A8F96" stroke="{INK}" stroke-width="3.4" stroke-linejoin="round"/>' for k in range(4))
+    wins = ''.join(f'<rect x="{-hw + 22 + k * (w - 44) / 4}" y="-96" width="{(w - 44) / 4 - 14}" height="34" fill="#F7D35C" stroke="{INK}" stroke-width="3"/>' for k in range(4))
+    return g(x, y, s, f'<rect x="{-hw}" y="-130" width="{w}" height="130" fill="#B8524A" stroke="{INK}" stroke-width="{LW}"/>' + roof + wins
+            + f'<rect x="{-hw + 20}" y="-40" width="64" height="40" fill="#5C6B78" stroke="{INK}" stroke-width="3.4"/>'
+            + f'<rect x="{hw - 56}" y="-210" width="30" height="82" fill="#8A8F96" stroke="{INK}" stroke-width="3.4"/>'
+            + f'<path d="M{hw + 20} 0 V-190 H{hw - 60} M{hw + 20} -190 L{hw - 8} -150" fill="none" stroke="{INK}" stroke-width="6" stroke-linecap="round"/>')
+
+
+def roomba(x, y, s=1.0):
+    return g(x, y, s, f'<ellipse cx="0" cy="-12" rx="62" ry="20" fill="#7F8B94" stroke="{INK}" stroke-width="{LW}"/><ellipse cx="0" cy="-22" rx="52" ry="14" fill="#A9B4BC" stroke="{INK}" stroke-width="3.4"/>'
+                      f'<circle cx="-18" cy="-24" r="5" fill="#6FE06F" stroke="{INK}" stroke-width="2"/><circle cx="18" cy="-24" r="5" fill="#E0382C" stroke="{INK}" stroke-width="2"/>')
+
+
+def waves(y, w=900, amp=12, col=SEA_DEEP, kf=None, x0=-90, n=9):
+    """Scalloped wave band; kf lets the caller slide it sideways for a flowing look."""
+    seg = w / n
+    d = f'M{x0} {y}' + ''.join(f' q{seg / 4:.0f} {-amp} {seg / 2:.0f} 0 q{seg / 4:.0f} {amp} {seg / 2:.0f} 0' for _ in range(n)) + f' V{y + 400} H{x0} Z'
+    inner = f'<path d="{d}" fill="{col}" stroke="{INK}" stroke-width="3.4"/>'
+    return G(inner, kf, (x0, y)) if kf else inner
+
+
+def pier(x, y, w=300):
+    return (f'<rect x="{x}" y="{y}" width="{w}" height="26" fill="#8A5A3A" stroke="{INK}" stroke-width="{LW}"/>'
+            + ''.join(f'<rect x="{x + 24 + k * 90}" y="{y + 26}" width="18" height="84" fill="#6B452E" stroke="{INK}" stroke-width="3.4"/>' for k in range(int(w // 90))))
