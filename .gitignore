@@ -43,3 +43,5 @@ crayon-cartoon-series/episodes/*/frames/final/
 crayon-cartoon-series/episodes/*/final/scenes/
 crayon-cartoon-series/episodes/*/audio/script.json
 crayon-cartoon-series/**/__pycache__/
+ac-water-cutaway/out/
+ac-water-cutaway/stills/

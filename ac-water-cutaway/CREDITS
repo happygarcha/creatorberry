@@ -1,0 +1,8 @@
+AC water: don't drink it (Line-Art Cutaway film)
+
+Picture: drawn in code (three.js r170, MIT licence) from a model built in millimetres; rendered with headless Chromium and ffmpeg (LGPL/GPL).
+Type: IBM Plex Sans and IBM Plex Mono, SIL Open Font License 1.1 (fonts/OFL-*.txt), from github.com/google/fonts.
+Narration: Kokoro TTS v1.0 (Apache-2.0), voice am_adam, run offline; checked with faster-whisper (MIT). The voice is synthetic.
+Score and sound effects: synthesised in code (numpy/scipy), no samples, no third-party recordings.
+Style: Line-Art Cutaway from the Lemo-Opuscar library (style prompt only; story, model, shots, score and sound are new for this film).
+No logos, brands or third-party footage appear. The film is a simplified illustration, not medical or engineering advice.

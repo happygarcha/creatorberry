@@ -1,0 +1,95 @@
+{
+ "end": 60.0,
+ "vo": {
+  "v1": 0.8,
+  "v2": 5.4,
+  "v3": 14.5,
+  "v4": 22.8,
+  "v5": 34.4,
+  "v6": 39.3,
+  "v7": 50.4
+ },
+ "dur": {
+  "v1": 3.307,
+  "v2": 8.345,
+  "v3": 7.378,
+  "v4": 10.376,
+  "v5": 4.219,
+  "v6": 9.669,
+  "v7": 2.696
+ },
+ "subs": [
+  {
+   "id": "v1",
+   "t0": 0.75,
+   "t1": 4.46,
+   "en": "That clear water dripping from your air conditioner? Don't drink it."
+  },
+  {
+   "id": "v2",
+   "t0": 5.35,
+   "t1": 7.0,
+   "en": "It is condensation."
+  },
+  {
+   "id": "v2",
+   "t0": 7.03,
+   "t1": 14.06,
+   "en": "Warm, humid room air touches the cold coil, the moisture turns into drops, and they run into a pan and out the pipe."
+  },
+  {
+   "id": "v3",
+   "t0": 14.45,
+   "t1": 18.52,
+   "en": "The same coil also pulls moisture out of your air, so the room gets dry,"
+  },
+  {
+   "id": "v3",
+   "t0": 18.55,
+   "t1": 22.08,
+   "en": "and dry air can irritate your skin, eyes and throat."
+  },
+  {
+   "id": "v4",
+   "t0": 22.75,
+   "t1": 29.26,
+   "en": "In a closed bedroom, many room air conditioners just recirculate the air, so carbon dioxide builds up overnight."
+  },
+  {
+   "id": "v4",
+   "t0": 29.51,
+   "t1": 31.72,
+   "en": "Studies link that to less deep sleep."
+  },
+  {
+   "id": "v4",
+   "t0": 31.87,
+   "t1": 33.72,
+   "en": "Let some fresh air in."
+  },
+  {
+   "id": "v5",
+   "t0": 34.35,
+   "t1": 38.92,
+   "en": "Now the catch. On its way out, the water touches the coil, the pan and the pipe."
+  },
+  {
+   "id": "v6",
+   "t0": 39.25,
+   "t1": 45.06,
+   "en": "Germs can build up there, including, in some systems, the bacteria behind Legionnaires disease."
+  },
+  {
+   "id": "v6",
+   "t0": 45.41,
+   "t1": 49.16,
+   "en": "Parts can also add metals like copper, and lead from solder."
+  },
+  {
+   "id": "v7",
+   "t0": 50.35,
+   "t1": 53.52,
+   "en": "So drain it, or water your plants. Don't drink it."
+  }
+ ]
+}

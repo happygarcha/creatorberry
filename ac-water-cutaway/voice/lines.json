@@ -1,0 +1,45 @@
+[
+ {
+  "id": "v1",
+  "text": "That clear water dripping from your air conditioner? Don't drink it.",
+  "voice": "am_adam",
+  "speed": 1.0
+ },
+ {
+  "id": "v2",
+  "text": "It is condensation. Warm, humid room air touches the cold coil, the moisture turns into drops, and they run into a pan and out the pipe.",
+  "voice": "am_adam",
+  "speed": 1.0
+ },
+ {
+  "id": "v3",
+  "text": "The same coil also pulls moisture out of your air, so the room gets dry, and dry air can irritate your skin, eyes and throat.",
+  "voice": "am_adam",
+  "speed": 1.0
+ },
+ {
+  "id": "v4",
+  "text": "In a closed bedroom, many room air conditioners just recirculate the air, so carbon dioxide builds up overnight. Studies link that to less deep sleep. Let some fresh air in.",
+  "voice": "am_adam",
+  "speed": 1.0
+ },
+ {
+  "id": "v5",
+  "text": "Now the catch. On its way out, the water touches the coil, the pan and the pipe.",
+  "voice": "am_adam",
+  "speed": 1.0
+ },
+ {
+  "id": "v6",
+  "text": "Germs can build up there, including, in some systems, the bacteria behind Legion airs disease. Parts can also add metals like copper, and lead from solder.",
+  "voice": "am_adam",
+  "speed": 1.0,
+  "asr": "Germs can build up there, including in some systems, the bacteria behind legion airs disease. Parts can also add metals like copper and lead from solder."
+ },
+ {
+  "id": "v7",
+  "text": "So drain it, or water your plants. Don't drink it.",
+  "voice": "am_adam",
+  "speed": 1.0
+ }
+]
