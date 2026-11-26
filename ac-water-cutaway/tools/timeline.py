@@ -1,7 +1,7 @@
 """Narration starts + subtitle cues -> timeline.json (the one file the picture, the mix and the subtitles read)."""
 import json, os, re
 HERE = os.path.dirname(os.path.abspath(__file__)); P = os.path.join(HERE, '..')
-START = {'v1': 0.8, 'v2': 5.4, 'v3': 14.5, 'v4': 22.8, 'v5': 34.4, 'v6': 39.3, 'v7': 50.4}
+START = {'v1': 0.8, 'v2': 5.4, 'v3': 14.5, 'v4': 22.8, 'v5': 34.4, 'v6': 39.3, 'v7': 50.4, 'v8': 60.9}
 W = json.load(open(os.path.join(P, 'voice', 'words.json'))); D = json.load(open(os.path.join(P, 'voice', 'dur.json')))
 subs = []
 for vid, t0 in START.items():
@@ -24,8 +24,8 @@ TEXT = ["That clear water dripping from your air conditioner? Don't drink it.", 
  "Studies link that to less deep sleep.", "Let some fresh air in.",
  "Now the catch. On its way out, the water touches the coil, the pan and the pipe.",
  "Germs can build up there, including, in some systems, the bacteria behind Legionnaires disease.",
- "Parts can also add metals like copper, and lead from solder.", "So drain it, or water your plants. Don't drink it."]
+ "Parts can also add metals like copper, and lead from solder.", "So drain it, or water your plants. Don't drink it.", "Like, share and subscribe for more explainers."]
 assert len(TEXT) == len(subs), (len(TEXT), len(subs))
 for s_, t_ in zip(subs, TEXT): s_['en'] = t_
-json.dump({'end': 60.0, 'vo': START, 'dur': D, 'subs': subs}, open(os.path.join(P, 'timeline.json'), 'w'), indent=1)
+json.dump({'end': 65.0, 'vo': START, 'dur': D, 'subs': subs}, open(os.path.join(P, 'timeline.json'), 'w'), indent=1)
 for s in subs: print(f"{s['t0']:6.2f}-{s['t1']:6.2f}  {s['en']}")

@@ -41,5 +41,11 @@
   "text": "So drain it, or water your plants. Don't drink it.",
   "voice": "am_adam",
   "speed": 1.0
+ },
+ {
+  "id": "v8",
+  "text": "Like, share and subscribe for more explainers.",
+  "voice": "am_adam",
+  "speed": 1.0
  }
 ]

@@ -7,7 +7,7 @@ LIB = os.environ.get('LIB', '/root/lemo-opuscar'); sys.path.insert(0, os.path.jo
 import sfx as S
 SR = S.SR; HERE = os.path.dirname(os.path.abspath(__file__))
 TL = json.load(open(os.path.join(HERE, 'timeline.json'))); EV = json.load(open(os.path.join(HERE, 'events.json')))['ev']
-DUR = 60.0; N = int(DUR * SR)
+DUR = float(TL['end']); N = int(DUR * SR)
 BEAT = 60 / 96; rng = np.random.default_rng(11)
 mf = lambda m: 440 * 2 ** ((m - 69) / 12)
 def tt(d): return np.arange(int(round(d * SR))) / SR
@@ -79,6 +79,10 @@ for k, p_ in enumerate([C, E, G, C]): put(glock(mf(n(5 + (k == 3), p_)), 1.4), 5
 for k, p_ in enumerate([C, G, E, G, C, E, G, C]): put(pluck(mf(n(4 + k // 3, p_)), 1.4), 52.95 + k * .26, .30, -.5 + k * .12)
 put(pad([mf(n(2, C)), mf(n(3, G)), mf(n(4, E))], 7.0), 53.6, .42)
 put(glock(mf(n(6, C)), 2.6), 54.5, .36, .1)
+# closing card 60-65: resolve on C major, bells on like / share / subscribe
+put(pad([mf(n(2, C)), mf(n(3, G)), mf(n(4, E))], 5.2), 59.9, .40)
+for k, (p_, t_) in enumerate([(C, 60.9), (E, 61.15), (G, 61.55)]): put(glock(mf(n(6, p_)), 1.6), t_, .30, -.2 + .3 * k)
+put(glock(mf(n(6, C)), 3.0), 62.6, .30, 0)
 mus = S.limit(mus[:, 0], .8)[:, None].repeat(2, 1) * 0 + mus * 1.0
 
 # ---------------- foley from the picture events ----------------

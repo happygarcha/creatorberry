@@ -118,13 +118,36 @@ function overlay(t, c) {
   if (t >= K.block[0]) titleBlock(c, (t - K.block[0]) / 2.0, 96, 560);
 }
 function overlayTexts(T, c) { overlay(T, c); }
+// ---------- Closing frame: logo + LIKE / SHARE / SUBSCRIBE (line-art icons, ink only) ----------
+const P_LIKE = ['M8 46 H30 V94 H8 Z', 'M34 94 V48 L50 12 Q62 6 64 20 L58 40 H90 Q102 42 99 54 L92 84 Q90 94 78 94 Z'];
+const P_BELL = 'M0 -26 C-20 -26 -27 -6 -27 12 L-34 26 H34 L27 12 C27 -6 20 -26 0 -26 Z';
+function drawCard(c, T) {
+  const cx = 520, cy = 470, lp = seg(T, K.logo[0], K.logo[1]), R = 215 * back(lp, 1.7);
+  if (lp > 0) { c.save(); c.beginPath(); c.arc(cx, cy, Math.max(1, R * 0.985), 0, Math.PI * 2); c.clip(); c.drawImage(LOGO, cx - R, cy - R, 2 * R, 2 * R); c.restore();
+    c.save(); c.strokeStyle = INK; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, R + 8, 0, Math.PI * 2); c.stroke(); c.restore(); }
+  const rows = [['LIKE', 340, T_LIKE], ['SHARE', 500, T_SHARE], ['SUBSCRIBE', 660, T_SUB]], ix = 1010, tx = 1100;
+  rows.forEach(([word, y, t0], k) => {
+    const p = seg(T, t0 - 0.05, t0 + 0.4); if (p <= 0) return;
+    c.save(); c.strokeStyle = INK; c.lineWidth = 3.2; c.fillStyle = PAPER; const s = back(seg(T, t0 - 0.1, t0 + 0.3), 2);
+    c.translate(ix, y - 40); c.scale(1.5 * s, 1.5 * s); c.translate(-52, -52);
+    if (k === 0) { const press = Math.sin(Math.PI * seg(T, t0 + 0.05, t0 + 0.45)); c.translate(0, press * 8); P_LIKE.forEach(d => { const q = new Path2D(d); c.fill(q); c.stroke(q); }); }
+    if (k === 1) { c.beginPath(); c.moveTo(82, 22); c.lineTo(26, 52); c.lineTo(82, 82); c.stroke(); [[82, 22], [26, 52], [82, 82]].forEach(([x, y2]) => { c.beginPath(); c.arc(x, y2, 15, 0, Math.PI * 2); c.fill(); c.stroke(); }); }
+    c.restore();
+    wipeText(c, word, tx, y, p, `600 ${word === 'SUBSCRIBE' ? 92 : 110}px ${SANS}`, INK, -1, 0);
+    if (k === 2) {   // a pill outline under SUBSCRIBE, pressed once, and the bell rings
+      const q = seg(T, t0 + 0.1, t0 + 0.6); if (q > 0) { c.save(); c.strokeStyle = INK; c.lineWidth = 3; const w = textW('SUBSCRIBE', `600 92px ${SANS}`, -1) + 60, h = 130; c.beginPath(); c.roundRect(tx - 30, y - 98, w * eo(q), h, 65); c.stroke(); c.restore(); }
+      const bp = seg(T, t0 + 0.2, t0 + 0.55); if (bp > 0) { const bx = tx + textW('SUBSCRIBE', `600 92px ${SANS}`, -1) + 120, by = y - 36, ring = Math.sin((T - t0 - 0.3) * 26) * 0.5 * Math.exp(-(T - t0 - 0.3) * 1.6) * (T > t0 + 0.3 ? 1 : 0);
+        c.save(); c.translate(bx, by - 28); c.rotate(ring); c.scale(1.8 * back(bp, 2), 1.8 * back(bp, 2)); c.strokeStyle = INK; c.lineWidth = 2.4; c.fillStyle = PAPER; const bl = new Path2D(P_BELL); c.fill(bl); c.stroke(bl); c.beginPath(); c.arc(0, 34, 7, 0, Math.PI * 2); c.fill(); c.stroke(); c.restore(); }
+    }
+  });
+}
 // ---------- A frame ----------
 function frameAt(T) {
   drawPaper();
   renderer.setRenderTarget(null); renderer.setClearColor(0xffffff, 0); renderer.clear();
   ov.clearRect(0, 0, PX, PY);
   const clipOf = (tt) => { const cl = []; if (Q.get('noclip')) return cl; if (tt >= K.sweep[0] - 0.2 && tt < K.iris[0] + 0.1) { if (secZ(tt) < 399) { sweepClip(tt); cl.push(clipPlane); } if (tt >= K.clipOn) { clipPlane3.set(V3(-1, 0, 0), -172); cl.push(clipPlane3); } } return cl; };
-  renderView('main', { x: 0, y: 0, w: PX, h: PY }, (dt, j) => { const tt = clamp(T + dt, 0, FILM); setScene(tt); return { cam: camAt(tt, j), clip: clipOf(tt) }; }, { guides: true });
+  if (T < K.hatch[1]) renderView('main', { x: 0, y: 0, w: PX, h: PY }, (dt, j) => { const tt = clamp(T + dt, 0, FILM); setScene(tt); return { cam: camAt(tt, j), clip: clipOf(tt) }; }, { guides: true });
   setScene(T); camAt(T);
   // magnifier inset (39.6-48.6): the same model re-rendered close on the drain pan, cut at x = -172
   const mp = seg(T, K.mag[0], K.mag[0] + 0.6) * (1 - seg(T, K.mag[1] - 0.5, K.mag[1]));
@@ -138,15 +161,21 @@ function frameAt(T) {
     const ang = Math.atan2(a[1] - cy, a[0] - cx); ov.moveTo(cx + Math.cos(ang) * MAGSZ / 2, cy + Math.sin(ang) * MAGSZ / 2); ov.lineTo(a[0], a[1]); ov.stroke(); ov.setLineDash([]); dot(ov, a[0], a[1], INK, 3.4); ov.restore();
     tag(ov, T, [K.germs[0] + 0.6, K.mag[1] - 0.6], [cx + 90, cy - 70], { dx: 200, dy: -150, name: 'GERMS', spec: 'IN SOME SYSTEMS: LEGIONELLA' });
   }
-  overlay(T, ov);
+  if (T < K.hatch[1]) overlay(T, ov); else drawCard(ov, T);
   // through the cut: hatching fills the frame, then a round hole opens on the pan into the pulled-back view
   if (T > K.cut - 0.5 && T < K.iris[0]) { const k = seg(T, K.cut - 0.5, K.cut); ov.save(); ov.globalAlpha = ss(k); hatchFill(ov, c => c.rect(0, 0, PX, PY)); ov.restore(); }
+  if (T > K.hatch[0] && T < K.irisC[0]) { ov.save(); ov.globalAlpha = ss(seg(T, K.hatch[0], K.hatch[1])); hatchFill(ov, c => c.rect(0, 0, PX, PY)); ov.restore(); }
+  if (T >= K.irisC[0] && T < K.irisC[1]) {
+    const o = [520, 470], r = 1700 * ei(seg(T, K.irisC[0], K.irisC[1])) + 2;
+    hatchFill(ov, c => { c.rect(0, 0, PX, PY); c.moveTo(o[0] + r, o[1]); c.arc(o[0], o[1], r, 0, Math.PI * 2); });
+    ov.save(); ov.strokeStyle = INK; ov.lineWidth = 2; ov.beginPath(); ov.arc(o[0], o[1], r, 0, Math.PI * 2); ov.stroke(); ov.restore();
+  }
   if (T >= K.iris[0] && T < K.iris[1]) {
     const o = [960, 540], r = 2300 * ei(seg(T, K.iris[0], K.iris[1])) + 2;
     hatchFill(ov, c => { c.rect(0, 0, PX, PY); c.moveTo(o[0] + r, o[1]); c.arc(o[0], o[1], r, 0, Math.PI * 2); });
     ov.save(); ov.strokeStyle = INK; ov.lineWidth = 2; ov.beginPath(); ov.arc(o[0], o[1], r, 0, Math.PI * 2); ov.stroke(); ov.restore();
   }
-  if (T < K.block[0] - 0.3) subtitles(ov, T);
+  if (T < K.block[0] - 0.3 || T >= 60.8) subtitles(ov, T);
 }
 // ---------- Sound events ----------
 function buildEV() {
@@ -178,6 +207,8 @@ function buildEV() {
   ev.push({ t: K.trace[0], type: 'trace', d: K.trace[1] - K.trace[0], pan: 0.2 });
   for (let i = 0; i < 6; i++) ev.push({ t: K.block[0] + 0.3 + i * 0.35, type: 'tick', pan: -0.5 });
   ev.push({ t: K.block[0] + 1.2, type: 'ruler', d: 0.6, pan: -0.5 });
+  ev.push({ t: K.irisC[0], type: 'iris', d: K.irisC[1] - K.irisC[0], pan: -0.2 }); ev.push({ t: K.logo[0] + 0.1, type: 'glass', pan: -0.3 });
+  [T_LIKE, T_SHARE, T_SUB].forEach((t, i) => ev.push({ t, type: 'tick', pan: 0.2 })); ev.push({ t: T_SUB + 0.3, type: 'glass', pan: 0.4 });
   return ev.filter(e => e.t >= FROM && e.t < TO).sort((a, b) => a.t - b.t).map(e => ({ ...e, t: +(e.t - FROM).toFixed(4) }));
 }
 window.DUR = +(TO - FROM).toFixed(4);

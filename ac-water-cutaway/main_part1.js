@@ -27,5 +27,9 @@ const K = {
   mag: [39.6, 48.6], germs: [40.2, 45.0], metals: [45.5, 48.4], flood: [39.4, 41.4],
   close: [48.5, 50.3], carry: [50.3, 53.2], plant: [51.0, 52.0], title2: [50.4, 53.2],
   trace: [53.0, 55.0], block: [54.2, 59.9],
+  hatch: [59.2, 59.8], irisC: [59.9, 60.7], card: 60.0, logo: [60.15, 60.9],
 };
 const VO = TLJ.vo;
+const LOGO = new Image(); LOGO.src = 'logo.png'; await LOGO.decode();
+const W8 = [[-0.6, 0.1], [0.24, 0.48], [0.48, 0.64], [0.64, 0.92]].map(([a]) => VO.v8 + Math.max(0, a));   // like, share, and, subscribe word starts
+const T_LIKE = W8[0], T_SHARE = W8[1], T_SUB = W8[3];
