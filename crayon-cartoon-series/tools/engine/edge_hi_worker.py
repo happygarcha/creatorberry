@@ -10,7 +10,7 @@ async def one(j):
     if os.path.exists(j['out']) and os.path.getsize(j['out']) > 1000: return
     mp3 = j['out'] + '.mp3'
     for k in range(4):
-        try: await edge_tts.Communicate(j['text'], j['voice'], rate='+0%').save(mp3); break
+        try: await edge_tts.Communicate(j['text'], j['voice'], rate=os.environ.get('HINDI_RATE', '+0%')).save(mp3); break
         except Exception as e:
             if k == 3: raise
             await asyncio.sleep(2 * (k + 1))

@@ -42,7 +42,7 @@ PARLER_DESC = {   # Indic Parler-TTS named speakers; natural pace, close mic, no
     'BANKER': 'Rohit speaks in a confident, slightly smug male voice at a moderate pace, with a very close recording that has no background noise.',
     'FRIEND': 'Divya speaks in a clear, cheerful, expressive female voice at a moderate pace, with a very close recording that has no background noise.'}
 EDGE_VOICE = {'N': 'hi-IN-MadhurNeural', 'GUY': 'hi-IN-MadhurNeural', 'BANKER': 'hi-IN-MadhurNeural', 'FRIEND': 'hi-IN-SwaraNeural'}   # Microsoft Edge neural (default engine)
-ENGINE = os.environ.get('HINDI_ENGINE', 'edge')
+ENGINE = os.environ.get('HINDI_ENGINE', 'edge') + os.environ.get('HINDI_RATE', '').replace('+', 'p').replace('%', '')
 PARLER_PY = os.path.expanduser('~/venvs/parler/bin/python')
 
 
@@ -73,7 +73,7 @@ def tts_script(script_p, out):
             jobs.append({'text': txt, 'desc': PARLER_DESC[who], 'voice': EDGE_VOICE[who], 'out': cp})
     jp = out + '_jobs.json'; json.dump(jobs, open(jp, 'w'), ensure_ascii=False)
     here = os.path.dirname(os.path.abspath(__file__))
-    subprocess.run(['python3', os.path.join(here, 'edge_hi_worker.py'), jp] if ENGINE == 'edge' else [PARLER_PY, os.path.join(here, 'parler_hi_worker.py'), jp], check=True)
+    subprocess.run(['python3', os.path.join(here, 'edge_hi_worker.py'), jp] if ENGINE.startswith('edge') else [PARLER_PY, os.path.join(here, 'parler_hi_worker.py'), jp], check=True)
     for si, sh in enumerate(script['shots']):
         for li, ln in enumerate(sh.get('vo', [])):
             import hashlib
