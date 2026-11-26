@@ -640,6 +640,7 @@ function drawCard(c, T) {
   const cx = 520, cy = 470, lp = seg(T, K.logo[0], K.logo[1]), R = 215 * back(lp, 1.7);
   if (lp > 0) { c.save(); c.beginPath(); c.arc(cx, cy, Math.max(1, R * 0.985), 0, Math.PI * 2); c.clip(); c.drawImage(LOGO, cx - R, cy - R, 2 * R, 2 * R); c.restore();
     c.save(); c.strokeStyle = INK; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, R + 8, 0, Math.PI * 2); c.stroke(); c.restore(); }
+  { const f = `700 66px ${SANS}`, w = textW('ZAPZAPPER', f, 4); wipeText(c, 'ZAPZAPPER', cx - w / 2, cy + 215 + 92, seg(T, 60.7, 61.4), f, INK, 4, 0); }
   const rows = [['LIKE', 340, T_LIKE], ['SHARE', 500, T_SHARE], ['SUBSCRIBE', 660, T_SUB]], ix = 1010, tx = 1100;
   rows.forEach(([word, y, t0], k) => {
     const p = seg(T, t0 - 0.05, t0 + 0.4); if (p <= 0) return;
