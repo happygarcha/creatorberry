@@ -142,6 +142,15 @@ function drawCard(c, T) {
     }
   });
 }
+// ---------- Thumbnail overlay (?thumb=1): big statement left, logo bottom-left ----------
+function thumbOverlay(c) {
+  const f = `700 168px ${SANS}`;
+  [[["DON'T", 0]], [["DRINK", 1]], [["AC WATER", 0]]].forEach((ln, i) => { c.save(); c.font = f; c.letterSpacing = '-2px'; c.fillStyle = ln[0][1] ? ACC : INK; c.fillText(ln[0][0], 90, 300 + i * 175); c.restore(); });
+  c.save(); c.fillStyle = INK; c.fillRect(94, 760, 340, 5); c.restore();
+  const R = 78, cx = 170, cy = 900; c.save(); c.beginPath(); c.arc(cx, cy, R * 0.985, 0, Math.PI * 2); c.clip(); c.drawImage(LOGO, cx - R, cy - R, 2 * R, 2 * R); c.restore();
+  c.save(); c.strokeStyle = INK; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, R + 6, 0, Math.PI * 2); c.stroke(); c.restore();
+  c.save(); c.font = `700 44px ${SANS}`; c.letterSpacing = '3px'; c.fillStyle = INK; c.fillText('ZAPZAPPER', 280, 916); c.restore();
+}
 // ---------- A frame ----------
 function frameAt(T) {
   drawPaper();
@@ -162,7 +171,7 @@ function frameAt(T) {
     const ang = Math.atan2(a[1] - cy, a[0] - cx); ov.moveTo(cx + Math.cos(ang) * MAGSZ / 2, cy + Math.sin(ang) * MAGSZ / 2); ov.lineTo(a[0], a[1]); ov.stroke(); ov.setLineDash([]); dot(ov, a[0], a[1], INK, 3.4); ov.restore();
     tag(ov, T, [K.germs[0] + 0.6, K.mag[1] - 0.6], [cx + 90, cy - 70], { dx: 200, dy: -150, name: 'GERMS', spec: 'IN SOME SYSTEMS: LEGIONELLA' });
   }
-  if (T < K.hatch[1]) overlay(T, ov); else drawCard(ov, T);
+  if (Q.get('thumb')) thumbOverlay(ov); else if (T < K.hatch[1]) overlay(T, ov); else drawCard(ov, T);
   // through the cut: hatching fills the frame, then a round hole opens on the pan into the pulled-back view
   if (T > K.cut - 0.5 && T < K.iris[0]) { const k = seg(T, K.cut - 0.5, K.cut); ov.save(); ov.globalAlpha = ss(k); hatchFill(ov, c => c.rect(0, 0, PX, PY)); ov.restore(); }
   if (T > K.hatch[0] && T < K.irisC[0]) { ov.save(); ov.globalAlpha = ss(seg(T, K.hatch[0], K.hatch[1])); hatchFill(ov, c => c.rect(0, 0, PX, PY)); ov.restore(); }

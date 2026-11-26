@@ -111,7 +111,7 @@ function camFrom(arr, jit, cam = mainCam) {
   cam.near = clamp(dist * 0.02, 0.15, 60); cam.far = 30000; cam.updateMatrixWorld();
   cam.setViewOffset(PX, PY, ox + jit[0], oy + jit[1], PX, PY); cam.updateProjectionMatrix(); return cam;
 }
-const camAt = (t, jit = [0, 0]) => camFrom(CAM(t), jit);
+const camAt = (t, jit = [0, 0]) => camFrom(Q.get('thumb') ? [30, 13, L_(2050), 0, -180, 0, -470, -30] : CAM(t), jit);
 const magCam = new THREE.PerspectiveCamera(18, 1, 1, 8000);
 const MAGSZ = 560;
 function magAt(t, jit = [0, 0]) {
