@@ -57,7 +57,7 @@ def word_time(shot, word, which='start'):
     w = word.lower()
     for ln in shot.get('lines', []):
         for ww, t0, t1 in ln['words']:
-            if ww.lower().strip('.,!?:;"\'$').startswith(w): return t0 if which == 'start' else t1
+            if ww.lower().strip('.,!?:;"\'$।').startswith(w): return t0 if which == 'start' else t1
     raise KeyError(f'{word!r} not found in shot {shot["id"]}')
 
 
@@ -118,9 +118,9 @@ def _chunks(shot, ep_scene):
         emph = {e.lower() for e in d.get('emph', [])}
         cur, n = [], 0
         for w, t0, t1 in ln['words']:
-            clean = w.strip('.,!?:;"').lower()
+            clean = w.strip('.,!?:;"।').lower()
             cur.append((w, t0, t1, clean in emph)); n += len(w) + 1
-            end_punct = w[-1] in '.!?'
+            end_punct = w[-1] in '.!?।'
             if (n >= 15 and len(cur) >= 2) or len(cur) >= 4 or end_punct or n >= 22:
                 out.append(cur); cur, n = [], 0
         if cur: out.append(cur)

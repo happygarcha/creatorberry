@@ -16,7 +16,7 @@ import episode_tools as ET
 EP_DIR = os.path.abspath(sys.argv[1]); cmd = sys.argv[2]; args = sys.argv[3:]
 P = lambda *a: os.path.join(EP_DIR, *a)
 ep = load_episode(P('script', 'episode.json'))
-NAME = f"E{ep['episode']:02d}_" + ''.join(c if c.isalnum() else '_' for c in ep['title']).strip('_')
+NAME = (ep['slug'] if ep.get('slug') else f"E{ep['episode']:02d}_" + ''.join(c if c.isalnum() else '_' for c in ep['title']).strip('_'))
 os.makedirs(P('audio'), exist_ok=True); os.makedirs(P('final', 'scenes'), exist_ok=True); os.makedirs(P('subtitles'), exist_ok=True); os.makedirs(P('frames'), exist_ok=True)
 ENG = os.path.join(ROOT, 'tools', 'engine')
 
@@ -34,6 +34,8 @@ def do_script():
 
 
 def do_tts():
+    if ep.get('lang') == 'hi':
+        return run('python3', '-I', os.path.join(ENG, 'hindi_tts.py'), 'tts', P('audio', 'script.json'), P('audio', 'vo'))
     run('python3', '-I', os.path.join(ENG, 'timeline.py'), 'tts', P('audio', 'script.json'), P('audio', 'vo'))
 
 
@@ -63,7 +65,12 @@ def do_build():
         band = (f'<g transform="skewX(-12)">' + f'<rect x="-420" y="-100" width="360" height="{H() + 200}" fill="#161616"/>'
                 f'<rect x="-60" y="-100" width="40" height="{H() + 200}" fill="{YELLOW}"/></g>')
         scs.append(scene(b - .16, b + .16, frame_svg(G(band, [[0, {'tx': 0}], [.32, {'tx': W() + 520}, 'l']]), 'swipe'), bg='transparent', z=9))
-    html = page(scs, animlib.local_fonts(FONTS, __import__('cc_kit').FONT_SPECS))
+    head = animlib.local_fonts(FONTS, __import__('cc_kit').FONT_SPECS)
+    if ep.get('lang') == 'hi':   # Devanagari glyphs (Kalam, handwritten) for every series font family, picked per character by unicode-range
+        faces = ''.join(f"@font-face{{font-family:'{fam}';font-weight:{wt};src:url(file://{FONTS}/node_modules/@fontsource/kalam/files/kalam-devanagari-{k}-normal.woff2);unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}}"
+                        for fam in ('Caveat', 'Caveat Brush', 'Patrick Hand SC') for wt, k in ((400, 400), (600, 700), (700, 700)))
+        head += f'<style>{faces}</style>'
+    html = page(scs, head)
     open(P('episode.html'), 'w').write(html)
     ev = sfx_events(ep, TL, freeze)
     ev += [['whoosh', round(sh[sc['id']]['end'] - .16, 3), .5, None] for sc in ep['scenes'][:-1]]

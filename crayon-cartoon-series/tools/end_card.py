@@ -27,23 +27,28 @@ def icon_bell(x, y, s=1.0):
 
 def build(c):
     d = c.d
-    tl, ts, tsub, tcr = c.w('like'), c.w('share'), c.w('subscribe'), c.w('crazy')
-    t_for = c.w('for')
+    hi = c.sc.get('lang') == 'hi'
+    if hi:   # Hindi card: words = [लाइक, शेयर, और, सब्सक्राइब, करें]
+        W_ = c.sh['lines'][0]['words']; tl, ts, tsub, tcr = W_[0][1], W_[1][1], W_[3][1], W_[-1][1]; t_for = .15
+        L_LIKE, L_SHARE, L_SUB, L_T1, L_T2 = 'लाइक', 'शेयर', 'सब्सक्राइब', 'और मज़ेदार', 'जानकारी के लिए!'
+    else:
+        tl, ts, tsub, tcr = c.w('like'), c.w('share'), c.w('subscribe'), c.w('crazy'); t_for = c.w('for')
+        L_LIKE, L_SHARE, L_SUB, L_T1, L_T2 = 'LIKE', 'SHARE', 'SUBSCRIBE', 'FOR MORE FUN', 'EXPLANATIONS!'
     R1, R2, R3 = S(.285), S(.475), S(.665)
     cxp, s = 98, .78                     # characters at the left, icons right
     ix, tx = 268, 330
     fy = lambda R: R + 100
     # --- icons + words (pop on the spoken word)
-    like_w = G(icon_like(ix, R1, 1.2) + text(tx, R1 + 2, 'LIKE', 100, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(tl - .05, .34, .4), (ix, R1))
+    like_w = G(icon_like(ix, R1, 1.2) + text(tx, R1 + 2, L_LIKE, 100, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(tl - .05, .34, .4), (ix, R1))
     like_pressed = G(icon_like(ix, R1, 1.2, '#4DA3FF'), [[0, {'o': 0}], [tl - .001, {'o': 0}], [tl + .05, {'o': 1}]])
     like_bounce = G(like_w + like_pressed, merge([[tl, {'s': 1.0}], [tl + .06, {'s': .82}, 'o'], [tl + .26, {'s': 1.18}, 'b'], [tl + .5, {'s': 1.0}, 'io']]), (ix, R1))
-    share_w = G(icon_share(ix, R2, 1.2) + text(tx, R2 + 2, 'SHARE', 100, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(ts - .05, .34, .4), (ix, R2))
+    share_w = G(icon_share(ix, R2, 1.2) + text(tx, R2 + 2, L_SHARE, 100, SCRIPT_B, '#FFFFFF', 'start', stroke=INK, sw=14), pop(ts - .05, .34, .4), (ix, R2))
     share_w = G(share_w, wiggle(ts + .1, ts + 1.0, 7, .3), (ix, R2))
     pill = (f'<rect x="196" y="{R3 - 46}" width="370" height="92" rx="46" fill="#E0382C" stroke="{INK}" stroke-width="6"/>'
-            + text(381, R3 + 2, 'SUBSCRIBE', 60, SCRIPT_B, '#FFFFFF'))
+            + text(381, R3 + 2, L_SUB, 60 if not hi else 52, SCRIPT_B, '#FFFFFF'))
     pill = G(pill, merge(pop(tsub - .05, .34, .4), [[tsub + .0, {'ty': 0}], [tsub + .08, {'ty': 8}, 'o'], [tsub + .3, {'ty': 0}, 'io']]), (381, R3))
     bell = G(G(icon_bell(604, R3, 1.1), wiggle(tsub + .3, tsub + 2.2, 20, .26), (604, R3 - 22)), pop(tsub + .15, .3, .4), (604, R3))
-    title = G(caps(W() / 2, S(.152), 'FOR MORE FUN', 68, INK, rot=-2) + caps(W() / 2, S(.198), 'EXPLANATIONS!', 68, '#8A1F1A', rot=-2), slam(t_for), (W() / 2, S(.175)))
+    title = G(caps(W() / 2, S(.152), L_T1, 68, INK, rot=-2) + caps(W() / 2, S(.198), L_T2, 68, '#8A1F1A', rot=-2), slam(t_for), (W() / 2, S(.175)))
     # --- characters: point/press, then react
     def hop_react(t0, amp, period, seed):
         return merge(bob(t0, d - .2, amp, period, 'ty'), [[d - .2, {'ty': 0}]])

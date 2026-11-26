@@ -22,11 +22,16 @@ for i in range(16 if decor == 'cash' else (7 if decor == 'envelopes' else 5)):
     elif decor == 'planes': o += props.plane(r.uniform(80, W() - 80), r.uniform(H() * .42, H() * .62), r.uniform(.45, .7), flip=bool(i % 2))
     elif decor == 'envelopes': o += props.envelope(r.uniform(60, W() - 60), r.uniform(H() * .42, H() * .66), r.uniform(.9, 1.5)) + props.spinner(0, 0, 1) * 0
     else: o += cash(r.uniform(40, W() - 40), r.uniform(H() * .08, H() * .6), r.uniform(.7, 1.1), r.uniform(-60, 60))
-sizes = [118, 150, 118]
+dev = any('\u0900' <= ch <= '\u097F' for ln in lines for ch in ln)
+sizes = [100, 124, 92] if dev else [118, 150, 118]
+pitch = 150 if dev else 118
 for i, ln in enumerate(lines):
-    o += caps(cx, S(.13) + i * 118, ln, sizes[min(i, 2)] if len(lines) > 1 else 130, '#FFFFFF' if i != 1 else YELLOW, stroke='#161616', sw=14, rot=-3)
+    o += caps(cx, S(.13) + i * pitch, ln, sizes[min(i, 2)] if len(lines) > 1 else 130, '#FFFFFF' if i != 1 else YELLOW, stroke='#161616', sw=14, rot=-3)
 o += cast.char(ch, cx, S(.93), 2.9, pose)
-html = page([scene(0, 2, frame_svg(o, 'thumbnail'))], animlib.local_fonts(FONTS, cc_kit.FONT_SPECS))
+head = animlib.local_fonts(FONTS, cc_kit.FONT_SPECS)
+if any('\u0900' <= ch <= '\u097F' for ln in lines for ch in ln):   # Devanagari glyphs for the series fonts
+    head += '<style>' + ''.join(f"@font-face{{font-family:'{fam}';font-weight:{wt};src:url(file://{FONTS}/node_modules/@fontsource/kalam/files/kalam-devanagari-{k}-normal.woff2);unicode-range:U+0900-097F,U+200C-200D,U+25CC}}" for fam in ('Caveat', 'Caveat Brush', 'Patrick Hand SC') for wt, k in ((400, 400), (600, 700), (700, 700))) + '</style>'
+html = page([scene(0, 2, frame_svg(o, 'thumbnail'))], head)
 open('/tmp/_thumb.html', 'w').write(html)
 subprocess.run(['python3', os.path.join(ROOT, 'tools', 'engine', 'render.py'), '/tmp/_thumb.html', '/tmp/_thumb', '--stills', '1'], check=True)
 os.makedirs(os.path.join(ep_dir, 'final'), exist_ok=True)

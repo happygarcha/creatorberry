@@ -1,0 +1,401 @@
+{
+ "lang": "hi",
+ "slug": "AC_Ka_Pani_Mat_Piyein_Hindi_60s",
+ "title": "एसी का पानी मत पिएँ",
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "target_seconds": [
+   60,
+   60
+  ]
+ },
+ "gap": [
+  0.5,
+  1.0
+ ],
+ "scenes": [
+  {
+   "id": "S1",
+   "title": "Hook",
+   "min": 6.0,
+   "background": "cream",
+   "music": "tense",
+   "characters": [
+    "GUY"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "एसी का टपकता पानी साफ़ दिखता है। इसे कभी मत पीजिए।",
+     "emph": [
+      "साफ़",
+      "मत"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "ये तो साफ़ पानी है!",
+     "emph": [
+      "साफ़"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "एसी का पानी मत पिएँ",
+    "at": "word:मत"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:टपकता",
+     "gain": 0.6
+    },
+    {
+     "name": "stamp",
+     "at": "word:मत",
+     "gain": 0.9
+    },
+    {
+     "name": "gasp",
+     "at": "word:ये",
+     "gain": 0.6
+    }
+   ],
+   "note": "स्रोत: EPA, यूनिवर्सिटी एक्सटेंशन गाइड"
+  },
+  {
+   "id": "S2",
+   "title": "Part 1",
+   "min": 6.0,
+   "background": "blue",
+   "music": "mystery",
+   "characters": [
+    "FRIEND"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "भाग एक। गर्म, नम हवा एसी के ठंडे कॉइल से टकराकर बूंदें बन जाती है। इसे कंडेंसेशन कहते हैं।",
+     "emph": [
+      "गर्म",
+      "कंडेंसेशन"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "ठंडे गिलास जैसा!",
+     "emph": [
+      "गिलास"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "भाग 1: कंडेंसेशन",
+    "at": "word:कंडेंसेशन"
+   },
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": "word:गर्म",
+     "gain": 0.5
+    },
+    {
+     "name": "pop",
+     "at": "word:बूंदें",
+     "gain": 0.7
+    },
+    {
+     "name": "register_ding",
+     "at": "word:कंडेंसेशन",
+     "gain": 0.6
+    }
+   ],
+   "note": "स्रोत: HVAC और जल-गुणवत्ता गाइड"
+  },
+  {
+   "id": "S3",
+   "title": "Part 2",
+   "min": 6.0,
+   "background": "navy",
+   "music": "mystery",
+   "characters": [
+    "GUY"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "भाग दो। एसी हवा की नमी भी खींचती है, इसलिए कमरा सूखा हो जाता है, और आँखें, त्वचा, गला परेशान होते हैं।",
+     "emph": [
+      "नमी",
+      "सूखा"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "आँखें सूख रही हैं!",
+     "emph": [
+      "सूख"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "भाग 2: सूखी हवा",
+    "at": "word:सूखा"
+   },
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": "word:नमी",
+     "gain": 0.5
+    },
+    {
+     "name": "pop",
+     "at": "word:आँखें",
+     "gain": 0.7
+    },
+    {
+     "name": "whistle_up",
+     "at": "word:गला",
+     "gain": 0.5
+    }
+   ],
+   "note": "सही नमी: करीब 30-50 प्रतिशत"
+  },
+  {
+   "id": "S4",
+   "title": "Part 3",
+   "min": 6.0,
+   "background": "navy",
+   "music": "tense",
+   "characters": [
+    "FRIEND"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "भाग तीन। बंद कमरे में एसी अंदर की हवा ही घुमाती है, इसलिए कार्बन डाइऑक्साइड बढ़ती है। ताज़ी हवा आने दीजिए।",
+     "emph": [
+      "कार्बन",
+      "ताज़ी"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "खिड़की खोल दो!",
+     "emph": [
+      "खिड़की"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "भाग 3: बड़ी ग़लती",
+    "at": "word:तीन"
+   },
+   "sfx": [
+    {
+     "name": "stamp",
+     "at": "word:तीन",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:कार्बन",
+     "gain": 0.7
+    },
+    {
+     "name": "whoosh",
+     "at": "word:ताज़ी",
+     "gain": 0.6
+    }
+   ],
+   "note": "स्रोत: सिंगापुर बेडरूम अध्ययन, PubMed 2023"
+  },
+  {
+   "id": "S5",
+   "title": "Part 4",
+   "min": 6.0,
+   "background": "blue",
+   "music": "mystery",
+   "characters": [
+    "FRIEND"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "भाग चार। कॉइल, पैन और पाइप से गुज़रते हुए इसमें कीटाणु और धातुएँ आ सकती हैं, यहाँ तक कि लेजियोनेयर्स के बैक्टीरिया भी। इसे मत पीजिए।",
+     "emph": [
+      "कीटाणु",
+      "धातुएँ",
+      "मत"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "पौधों में डालो!",
+     "emph": [
+      "पौधों"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "भाग 4: सुरक्षित नहीं",
+    "at": "word:मत"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:कीटाणु",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:धातुएँ",
+     "gain": 0.7
+    },
+    {
+     "name": "error_beep",
+     "at": "word:लेजियोनेयर्स",
+     "gain": 0.6
+    },
+    {
+     "name": "stamp",
+     "at": "word:मत",
+     "gain": 0.9
+    },
+    {
+     "name": "giggle",
+     "at": "word:पौधों",
+     "gain": 0.5
+    }
+   ],
+   "note": "स्रोत: Slate, एक्सटेंशन Q&A, EPA"
+  },
+  {
+   "id": "S6",
+   "title": "Conclusion",
+   "min": 7.998,
+   "background": "cream",
+   "music": "warm",
+   "characters": [
+    "BANKER",
+    "GUY"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "एसी का पानी नाली के लिए है, पीने के लिए नहीं।",
+     "emph": [
+      "नाली",
+      "नहीं"
+     ]
+    },
+    {
+     "who": "BANKER",
+     "text": "पर ये मुफ़्त है!",
+     "emph": [
+      "मुफ़्त"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "मुफ़्त कीटाणु भी!",
+     "emph": [
+      "कीटाणु"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "नाली में डालें, पिएँ नहीं",
+    "at": "word:नाली"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:नाली",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:कीटाणु",
+     "gain": 0.7
+    }
+   ],
+   "note": "सरल जानकारी, चिकित्सकीय सलाह नहीं"
+  },
+  {
+   "id": "ENDCARD",
+   "title": "End Card: Like, Share, Subscribe",
+   "min": 6.0,
+   "background": "mustard",
+   "music": "triumph",
+   "captions": false,
+   "builder": "end_card",
+   "retention_hook": "Branded call to action: like, share, subscribe for more fun explanations (no next-episode teaser)",
+   "characters": [
+    "GUY",
+    "FRIEND",
+    "BANKER"
+   ],
+   "props": [
+    "like icon",
+    "share icon",
+    "subscribe button + bell"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "लाइक, शेयर और सब्सक्राइब करें!",
+     "emph": [
+      "लाइक"
+     ],
+     "pre": 0.3
+    }
+   ],
+   "actions": [
+    "Everyday Guy presses the Like icon",
+    "Friend points toward Share",
+    "Banker presses the red Subscribe button",
+    "The bell rings",
+    "All three react: hop, laugh, flustered Banker",
+    "Hold the full card long enough to read"
+   ],
+   "camera": "static",
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:लाइक",
+     "gain": 0.9
+    },
+    {
+     "name": "pop",
+     "at": "word:शेयर",
+     "gain": 0.9
+    },
+    {
+     "name": "button_click",
+     "at": "word:सब्सक्राइब",
+     "gain": 0.9
+    },
+    {
+     "name": "register_ding",
+     "at": "word:सब्सक्राइब+0.1",
+     "gain": 0.8
+    },
+    {
+     "name": "cartoon_bell",
+     "at": "word:सब्सक्राइब+0.35",
+     "gain": 0.9
+    },
+    {
+     "name": "giggle",
+     "at": "word:करें",
+     "gain": 0.5
+    }
+   ],
+   "transition": "end (loops back to the first scene)",
+   "lang": "hi"
+  }
+ ]
+}
