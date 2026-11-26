@@ -102,7 +102,7 @@ def s3(c):
 
 # ------------------------------------------------------------------ S4: the big mistake (sealed bedroom, CO2)
 def s4(c):
-    d = c.d; tf = (c.w('ताज़ी'), 0); t_m, t_c, t_dp, t_fr = c.w('तीन'), c.w('कार्बन'), c.w('कार्बन'), c.w('ताज़ी')
+    d = c.d; tf = (c.w('ताज़ी'), 0); t_m, t_c, t_dp, t_fr = c.w('खिड़कियाँ'), c.w('कार्बन'), c.w('कार्बन'), c.w('ताज़ी')
     bgd = props.grad_bg('#1B2744', '#0E1424') + props.glow(120, S(.40), 150, '#FFC773', .55) + sparkle_field(c, 24, 4, 0, .5)
     moon = f'<circle cx="560" cy="{S(.30)}" r="44" fill="#FFF6D6" stroke="{INK}" stroke-width="4"/><circle cx="574" cy="{S(.30) - 6}" r="36" fill="#1B2744"/>'
     win = f'<rect x="470" y="{S(.24)}" width="190" height="230" rx="8" fill="#223A66" stroke="{INK}" stroke-width="7"/><path d="M565 {S(.24)} V{S(.24) + 230} M470 {S(.24) + 115} H660" stroke="{INK}" stroke-width="5"/>' + moon.replace('cx="560"', 'cx="530"').replace('cx="574"', 'cx="544"') + f'<rect x="470" y="{S(.24) + 230}" width="190" height="14" fill="#8A5A3A" stroke="{INK}" stroke-width="4"/>'
