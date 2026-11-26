@@ -45,3 +45,6 @@ crayon-cartoon-series/episodes/*/audio/script.json
 crayon-cartoon-series/**/__pycache__/
 ac-water-cutaway/out/
 ac-water-cutaway/stills/
+kolkata-metro-cutaway/out/
+kolkata-metro-cutaway/stills/
+kolkata-metro-cutaway/sheet_*.jpg

@@ -1,0 +1,389 @@
+{
+ "lang": "hi",
+ "slug": "Kolkata_Underwater_Metro_Hindi",
+ "title": "कोलकाता की नदी के नीचे मेट्रो",
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "target_seconds": [
+   60,
+   100
+  ]
+ },
+ "gap": [
+  0.5,
+  1.0
+ ],
+ "scenes": [
+  {
+   "id": "S1",
+   "title": "Hook",
+   "min": 6.0,
+   "background": "navy",
+   "music": "tense",
+   "characters": [
+    "GUY"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "कोलकाता में अब मेट्रो ट्रेन हुगली नदी के नीचे से दौड़ती है! यह भारत की पहली अंडरवाटर मेट्रो है।",
+     "emph": [
+      "नदी",
+      "पहली"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "ऊपर नावें, नीचे ट्रेन? सच में?",
+     "emph": [
+      "नीचे"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "नदी के नीचे मेट्रो",
+    "at": "word:नदी"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:मेट्रो",
+     "gain": 0.7
+    },
+    {
+     "name": "stamp",
+     "at": "word:पहली",
+     "gain": 0.8
+    },
+    {
+     "name": "gasp",
+     "at": "word:ऊपर",
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "title": "Route",
+   "min": 6.0,
+   "background": "navy",
+   "music": "warm",
+   "characters": [
+    "FRIEND"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "यह ईस्ट-वेस्ट मेट्रो का हिस्सा है, जो हावड़ा मैदान से एस्प्लेनेड तक जाता है। इसका उद्घाटन छह मार्च दो हज़ार चौबीस को हुआ।",
+     "emph": [
+      "हावड़ा",
+      "उद्घाटन"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "और पंद्रह मार्च से यात्री इसमें सफ़र कर रहे हैं!",
+     "emph": [
+      "यात्री"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "हावड़ा से एस्प्लेनेड",
+    "at": "word:हावड़ा"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:हावड़ा",
+     "gain": 0.7
+    },
+    {
+     "name": "stamp",
+     "at": "word:उद्घाटन",
+     "gain": 0.8
+    },
+    {
+     "name": "giggle",
+     "at": "word:यात्री",
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "title": "Tunnel length",
+   "min": 6.0,
+   "background": "navy",
+   "music": "tense",
+   "characters": [
+    "GUY"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "हुगली के नीचे की सुरंग लगभग पाँच सौ बीस मीटर लंबी है, और ट्रेन इसे करीब पैंतालीस सेकंड में पार कर लेती है।",
+     "emph": [
+      "सुरंग",
+      "सेकंड"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "पलक झपकते ही!",
+     "emph": [
+      "पलक"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "520 मीटर, 45 सेकंड",
+    "at": "word:मीटर"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:सुरंग",
+     "gain": 0.7
+    },
+    {
+     "name": "stamp",
+     "at": "word:सेकंड",
+     "gain": 0.8
+    },
+    {
+     "name": "whoosh",
+     "at": "word:पलक",
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "title": "How it was built",
+   "min": 6.0,
+   "background": "navy",
+   "music": "warm",
+   "characters": [
+    "FRIEND"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "इसे टनल बोरिंग मशीन ने खोदा, जो मिट्टी काटते हुए आगे बढ़ती है और पीछे मज़बूत कंक्रीट के छल्ले जोड़ती जाती है, ताकि नदी का पानी अंदर न आए।",
+     "emph": [
+      "मशीन",
+      "छल्ले"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "पानी का अंदर आना मना है!",
+     "emph": [
+      "मना"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "मशीन ने खोदी सुरंग",
+    "at": "word:मशीन"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:मशीन",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:छल्ले",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:मना",
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "id": "S5",
+   "title": "Deepest station",
+   "min": 6.0,
+   "background": "navy",
+   "music": "warm",
+   "characters": [
+    "BANKER"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "हावड़ा मैदान स्टेशन भारत का सबसे गहरा मेट्रो स्टेशन है, ज़मीन से लगभग तैंतीस मीटर नीचे, यानी करीब ग्यारह मंज़िला इमारत जितना।",
+     "emph": [
+      "गहरा",
+      "तैंतीस"
+     ]
+    },
+    {
+     "who": "BANKER",
+     "text": "इतना नीचे तो सीढ़ियाँ नहीं, एस्केलेटर ही चाहिए!",
+     "emph": [
+      "एस्केलेटर"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "सबसे गहरा स्टेशन",
+    "at": "word:गहरा"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:गहरा",
+     "gain": 0.7
+    },
+    {
+     "name": "stamp",
+     "at": "word:तैंतीस",
+     "gain": 0.8
+    },
+    {
+     "name": "giggle",
+     "at": "word:एस्केलेटर",
+     "gain": 0.6
+    }
+   ]
+  },
+  {
+   "id": "S6",
+   "title": "Final joke",
+   "min": 6.0,
+   "background": "cream",
+   "music": "warm",
+   "characters": [
+    "GUY",
+    "BANKER"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "तो अगली बार हुगली पार करें, तो याद रखिए, ऊपर नावें चल रही होंगी, और नीचे आपकी मेट्रो!",
+     "emph": [
+      "नावें",
+      "नीचे"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "मछलियाँ भी देखती होंगी!",
+     "emph": [
+      "मछलियाँ"
+     ]
+    },
+    {
+     "who": "BANKER",
+     "text": "पर टिकट तो उन्हें भी लेना पड़ेगा!",
+     "emph": [
+      "टिकट"
+     ]
+    }
+   ],
+   "headline": {
+    "text": "ऊपर नावें, नीचे मेट्रो",
+    "at": "word:नावें"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:नावें",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:मछलियाँ",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:टिकट",
+     "gain": 0.7
+    }
+   ]
+  },
+  {
+   "id": "ENDCARD",
+   "title": "End Card: Like, Share, Subscribe",
+   "min": 6.0,
+   "background": "mustard",
+   "music": "triumph",
+   "captions": false,
+   "builder": "end_card",
+   "retention_hook": "Branded call to action: like, share, subscribe for more fun explanations (no next-episode teaser)",
+   "characters": [
+    "GUY",
+    "FRIEND",
+    "BANKER"
+   ],
+   "props": [
+    "like icon",
+    "share icon",
+    "subscribe button + bell"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "लाइक, शेयर और सब्सक्राइब करें!",
+     "emph": [
+      "लाइक"
+     ],
+     "pre": 0.3
+    }
+   ],
+   "actions": [
+    "Everyday Guy presses the Like icon",
+    "Friend points toward Share",
+    "Banker presses the red Subscribe button",
+    "The bell rings",
+    "All three react: hop, laugh, flustered Banker",
+    "Hold the full card long enough to read"
+   ],
+   "camera": "static",
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:लाइक",
+     "gain": 0.9
+    },
+    {
+     "name": "pop",
+     "at": "word:शेयर",
+     "gain": 0.9
+    },
+    {
+     "name": "button_click",
+     "at": "word:सब्सक्राइब",
+     "gain": 0.9
+    },
+    {
+     "name": "register_ding",
+     "at": "word:सब्सक्राइब+0.1",
+     "gain": 0.8
+    },
+    {
+     "name": "cartoon_bell",
+     "at": "word:सब्सक्राइब+0.35",
+     "gain": 0.9
+    },
+    {
+     "name": "giggle",
+     "at": "word:करें",
+     "gain": 0.5
+    }
+   ],
+   "transition": "end (loops back to the first scene)",
+   "lang": "hi"
+  }
+ ]
+}
