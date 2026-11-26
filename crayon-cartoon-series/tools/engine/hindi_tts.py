@@ -35,7 +35,24 @@ def synth(text, voice='pratham', length_scale=1.0, noise=.667, noise_w=.8):
     return y, cfg['audio']['sample_rate']
 
 
-ROLE_VOICE = {'N': 'rohan', 'GUY': 'pratham', 'BANKER': 'pratham', 'FRIEND': 'priyamvada'}
+ROLE_VOICE = {'N': 'rohan', 'GUY': 'pratham', 'BANKER': 'pratham', 'FRIEND': 'priyamvada'}      # Piper fallback (rejected for quality)
+PARLER_DESC = {   # Indic Parler-TTS named speakers; natural pace, close mic, no noise
+    'N': 'Rohit speaks in a clear, natural, warm and expressive male voice at a calm moderate pace, with a very close recording that has no background noise.',
+    'GUY': 'Aman speaks in a clear, expressive, slightly surprised male voice at a moderate pace, with a very close recording that has no background noise.',
+    'BANKER': 'Rohit speaks in a confident, slightly smug male voice at a moderate pace, with a very close recording that has no background noise.',
+    'FRIEND': 'Divya speaks in a clear, cheerful, expressive female voice at a moderate pace, with a very close recording that has no background noise.'}
+PARLER_PY = os.path.expanduser('~/venvs/parler/bin/python')
+
+
+def parler_prepare(script):
+    """Synthesise every missing line in one worker run (model loads once); returns {(si, li): wav path}."""
+    import hashlib, subprocess, tempfile
+    jobs, paths = [], {}
+    cdir = None
+    return jobs, paths
+
+
+
 
 
 def tts_script(script_p, out):
@@ -45,14 +62,21 @@ def tts_script(script_p, out):
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import timeline as TL
     script = json.load(open(script_p)); clips, durs = {}, {}
+    import hashlib, subprocess
+    jobs = []
+    for sh in script['shots']:
+        for ln in sh.get('vo', []):
+            who = ln.get('who', 'N'); txt = ln.get('say', ln['text'])
+            cp = os.path.join(os.path.dirname(out), 'clips', f"parler_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav"); os.makedirs(os.path.dirname(cp), exist_ok=True)
+            jobs.append({'text': txt, 'desc': PARLER_DESC[who], 'out': cp})
+    jp = out + '_jobs.json'; json.dump(jobs, open(jp, 'w'), ensure_ascii=False)
+    subprocess.run([PARLER_PY, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'parler_hi_worker.py'), jp], check=True)
     for si, sh in enumerate(script['shots']):
         for li, ln in enumerate(sh.get('vo', [])):
             import hashlib
-            vname = ROLE_VOICE[ln.get('who', 'N')]; txt = ln.get('say', ln['text'])
-            cp = os.path.join(os.path.dirname(out), 'clips', f"{vname}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav")   # cached: the model's sampling is random, so a line is synthesised once and reused
-            os.makedirs(os.path.dirname(cp), exist_ok=True)
-            if os.path.exists(cp): y, sr = sf.read(cp, dtype='float32')
-            else: y, sr = synth(txt, vname); sf.write(cp, y, sr)
+            who = ln.get('who', 'N'); txt = ln.get('say', ln['text'])
+            cp = os.path.join(os.path.dirname(out), 'clips', f"parler_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav")   # cached: sampling is random, so a line is synthesised once and reused
+            y, sr = sf.read(cp, dtype='float32')
             y = resample_poly(y, 24000, sr).astype(np.float32) if sr != 24000 else y
             r = np.sqrt(np.mean(y[np.abs(y) > 1e-3] ** 2)); y = y * (0.1 / max(r, 1e-6))            # equal loudness across the voices
             y = TL.trim(np.clip(y, -1, 1)); clips[(si, li)], durs[(si, li)] = y, len(y) / 24000

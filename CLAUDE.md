@@ -20,6 +20,7 @@
 - Episodes 1 and 2 were rendered before these rules and keep their original faster pacing unless the user asks for a re-render.
 
 ## On-screen source credits and language (permanent rules, apply to every video; never ask again)
-- Source credits ("Source: ...") are SMALL (about 14 px on the 720x1280 canvas), low-contrast and sit in a bottom corner, never in the middle of the frame, never over the captions or props. In code: `note_text()` in the scene file.
+- NO source text on screen, ever (not in a corner, not small): sources go only into the upload description and research notes. `note_text()` in scene files is a no-op.
+- The Hindi voice must sound natural: use Indic Parler-TTS (see `tools/engine/hindi_tts.py`); Piper hi_IN was rejected by the user as not good.
 - Reply to the user in the language they wrote their request in. When a video is requested in Hindi, everything on screen (headline, labels, captions, source credit, end card) is Devanagari, the narration is spoken Hindi, and the upload sheet is in Hindi. Hindi tools: `tools/engine/hindi_tts.py` (Piper hi_IN voices), set `"lang": "hi"` in episode.json.
 - A standalone video (no episode number) uses `videos/<slug>/` and `"slug"` in episode.json; a requested exact runtime (e.g. 60.000 s) is hit by tuning the last scene's `min`.

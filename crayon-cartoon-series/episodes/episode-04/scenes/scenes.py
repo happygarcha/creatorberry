@@ -20,10 +20,8 @@ class C:
 
 
 def note_text(c, t0=0.0, y=None):
-    """Source credit: small, low-contrast, tucked into the bottom-right corner (never in the middle of the frame)."""
-    n = c.sc.get('note')
-    col = '#E8EEF4' if c.sc['background'] in ('navy', 'blue', 'red') else '#3A3A3A'
-    return G(caps(W() - 36, S(.792), n, 14, col, anchor='end'), [[0, {'o': 0}], [t0, {'o': 0}], [t0 + .4, {'o': .72}]]) if n else ''
+    """Sources are NEVER drawn on the video (permanent user rule): they live only in the upload description. Kept as a no-op so scenes stay unchanged."""
+    return ''
 
 
 def over_of(c, size=64):

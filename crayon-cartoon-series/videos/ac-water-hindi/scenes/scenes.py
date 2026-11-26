@@ -20,10 +20,8 @@ class C:
 
 
 def note_text(c, t0=0.0, y=None):
-    """Source credit: small, low-contrast, tucked into the bottom-right corner (never in the middle of the frame)."""
-    n = c.sc.get('note')
-    col = '#E8EEF4' if c.sc['background'] in ('navy', 'blue', 'red') else '#3A3A3A'
-    return G(caps(W() - 36, S(.792), n, 14, col, anchor='end'), [[0, {'o': 0}], [t0, {'o': 0}], [t0 + .4, {'o': .72}]]) if n else ''
+    """Sources are NEVER drawn on the video (permanent user rule): they live only in the upload description. Kept as a no-op so scenes stay unchanged."""
+    return ''
 
 
 def over_of(c, size=58):
@@ -90,7 +88,7 @@ def s2(c):
 
 # ------------------------------------------------------------------ S3: dry air
 def s3(c):
-    d = c.d; tg = c.talk('GUY'); t_m, t_dry, t_th = c.w('नमी'), c.w('सूखा'), c.w('त्वचा')
+    d = c.d; tg = (c.w('आँखें'), 0); t_m, t_dry, t_th = c.w('नमी'), c.w('सूखा'), c.w('त्वचा')
     bgd = props.grad_bg('#304A66', '#16212E') + sparkle_field(c, 20, 8, 0.0, .55)
     ac = props.split_ac(360, S(.27), 430)
     pull_ = ''.join(G(props.droplet(120 + k * 60, S(.50), .7), [[0, {'o': 0}], [t_m + k * .35 - .001, {'o': 0, 'ty': 0, 'tx': 0}], [t_m + k * .35, {'o': 1}], [t_m + k * .35 + 1.4, {'ty': -150, 'tx': (360 - (120 + k * 60)) * .5, 'o': 0}, 'io']]) for k in range(8))
@@ -104,7 +102,7 @@ def s3(c):
 
 # ------------------------------------------------------------------ S4: the big mistake (sealed bedroom, CO2)
 def s4(c):
-    d = c.d; tf = c.talk('FRIEND'); t_m, t_c, t_dp, t_fr = c.w('तीन'), c.w('कार्बन'), c.w('कार्बन'), c.w('ताज़ी')
+    d = c.d; tf = (c.w('ताज़ी'), 0); t_m, t_c, t_dp, t_fr = c.w('तीन'), c.w('कार्बन'), c.w('कार्बन'), c.w('ताज़ी')
     bgd = props.grad_bg('#1B2744', '#0E1424') + props.glow(120, S(.40), 150, '#FFC773', .55) + sparkle_field(c, 24, 4, 0, .5)
     moon = f'<circle cx="560" cy="{S(.30)}" r="44" fill="#FFF6D6" stroke="{INK}" stroke-width="4"/><circle cx="574" cy="{S(.30) - 6}" r="36" fill="#1B2744"/>'
     win = f'<rect x="470" y="{S(.24)}" width="190" height="230" rx="8" fill="#223A66" stroke="{INK}" stroke-width="7"/><path d="M565 {S(.24)} V{S(.24) + 230} M470 {S(.24) + 115} H660" stroke="{INK}" stroke-width="5"/>' + moon.replace('cx="560"', 'cx="530"').replace('cx="574"', 'cx="544"') + f'<rect x="470" y="{S(.24) + 230}" width="190" height="14" fill="#8A5A3A" stroke="{INK}" stroke-width="4"/>'
