@@ -41,6 +41,8 @@ PARLER_DESC = {   # Indic Parler-TTS named speakers; natural pace, close mic, no
     'GUY': 'Aman speaks in a clear, expressive, slightly surprised male voice at a moderate pace, with a very close recording that has no background noise.',
     'BANKER': 'Rohit speaks in a confident, slightly smug male voice at a moderate pace, with a very close recording that has no background noise.',
     'FRIEND': 'Divya speaks in a clear, cheerful, expressive female voice at a moderate pace, with a very close recording that has no background noise.'}
+EDGE_VOICE = {'N': 'hi-IN-MadhurNeural', 'GUY': 'hi-IN-MadhurNeural', 'BANKER': 'hi-IN-MadhurNeural', 'FRIEND': 'hi-IN-SwaraNeural'}   # Microsoft Edge neural (default engine)
+ENGINE = os.environ.get('HINDI_ENGINE', 'edge')
 PARLER_PY = os.path.expanduser('~/venvs/parler/bin/python')
 
 
@@ -67,15 +69,16 @@ def tts_script(script_p, out):
     for sh in script['shots']:
         for ln in sh.get('vo', []):
             who = ln.get('who', 'N'); txt = ln.get('say', ln['text'])
-            cp = os.path.join(os.path.dirname(out), 'clips', f"parler_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav"); os.makedirs(os.path.dirname(cp), exist_ok=True)
-            jobs.append({'text': txt, 'desc': PARLER_DESC[who], 'out': cp})
+            cp = os.path.join(os.path.dirname(out), 'clips', f"{ENGINE}_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav"); os.makedirs(os.path.dirname(cp), exist_ok=True)
+            jobs.append({'text': txt, 'desc': PARLER_DESC[who], 'voice': EDGE_VOICE[who], 'out': cp})
     jp = out + '_jobs.json'; json.dump(jobs, open(jp, 'w'), ensure_ascii=False)
-    subprocess.run([PARLER_PY, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'parler_hi_worker.py'), jp], check=True)
+    here = os.path.dirname(os.path.abspath(__file__))
+    subprocess.run(['python3', os.path.join(here, 'edge_hi_worker.py'), jp] if ENGINE == 'edge' else [PARLER_PY, os.path.join(here, 'parler_hi_worker.py'), jp], check=True)
     for si, sh in enumerate(script['shots']):
         for li, ln in enumerate(sh.get('vo', [])):
             import hashlib
             who = ln.get('who', 'N'); txt = ln.get('say', ln['text'])
-            cp = os.path.join(os.path.dirname(out), 'clips', f"parler_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav")   # cached: sampling is random, so a line is synthesised once and reused
+            cp = os.path.join(os.path.dirname(out), 'clips', f"{ENGINE}_{who}_{hashlib.md5(txt.encode()).hexdigest()[:10]}.wav")   # cached: sampling is random, so a line is synthesised once and reused
             y, sr = sf.read(cp, dtype='float32')
             y = resample_poly(y, 24000, sr).astype(np.float32) if sr != 24000 else y
             r = np.sqrt(np.mean(y[np.abs(y) > 1e-3] ** 2)); y = y * (0.1 / max(r, 1e-6))            # equal loudness across the voices
