@@ -1,0 +1,433 @@
+{
+ "episode": 5,
+ "title": "Never Drink AC Water",
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "target_seconds": [
+   60,
+   180
+  ]
+ },
+ "gap": [
+  0.4,
+  0.8
+ ],
+ "retention_map": {
+  "hook": "clean-looking AC drip: do not drink it",
+  "spike": "where it comes from",
+  "scope": "dry air",
+  "cause": "sealed bedroom CO2 mistake",
+  "recovery": "why the water is unsafe",
+  "conclusion": "checklist, final joke; standard end card (automatic)"
+ },
+ "scenes": [
+  {
+   "id": "S1",
+   "title": "Hook: do not drink it",
+   "min": 9.0,
+   "background": "cream",
+   "music": "tense",
+   "retention_hook": "Instant hook: the clean-looking water dripping from your AC; do not drink it",
+   "characters": [
+    "GUY"
+   ],
+   "props": [
+    "outdoor unit",
+    "glass",
+    "drips"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "That water dripping from your air conditioner looks clean. Do not drink it.",
+     "emph": [
+      "clean",
+      "Do"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "But it looks like pure water!",
+     "emph": [
+      "pure"
+     ]
+    }
+   ],
+   "actions": [
+    "Drops fall from the AC drain pipe into a glass",
+    "DO NOT DRINK stamp slams in"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "DO NOT DRINK AC WATER",
+    "at": "word:Do"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:dripping",
+     "gain": 0.6
+    },
+    {
+     "name": "stamp",
+     "at": "word:Do",
+     "gain": 0.9
+    },
+    {
+     "name": "gasp",
+     "at": "word:But",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Source: EPA, university extension guidance"
+  },
+  {
+   "id": "S2",
+   "title": "Part 1: where it comes from",
+   "min": 14.0,
+   "background": "blue",
+   "music": "mystery",
+   "retention_hook": "Mechanism: condensation on the cold coils",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "ac cutaway",
+    "coil",
+    "drops"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Part one. Where does it come from? Warm, humid air from your room touches the freezing cold coils inside the AC. The moisture turns into drops. That is called condensation. The drops run into a pan and out the drain pipe.",
+     "emph": [
+      "humid",
+      "condensation",
+      "pan"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "Like a cold glass sweating!",
+     "emph": [
+      "sweating"
+     ]
+    }
+   ],
+   "actions": [
+    "Warm air arrows enter AC cutaway",
+    "Droplets form on blue coils and drip to pan and pipe"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "PART 1: CONDENSATION",
+    "at": "word:condensation"
+   },
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": "word:Warm",
+     "gain": 0.5
+    },
+    {
+     "name": "pop",
+     "at": "word:drops",
+     "gain": 0.7
+    },
+    {
+     "name": "register_ding",
+     "at": "word:condensation",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: HVAC and water-quality references"
+  },
+  {
+   "id": "S3",
+   "title": "Part 2: dry air",
+   "min": 13.0,
+   "background": "navy",
+   "music": "mystery",
+   "retention_hook": "New fact: the AC also dries the air",
+   "characters": [
+    "GUY"
+   ],
+   "props": [
+    "humidity gauge",
+    "ac",
+    "moisture"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Part two. The AC does not only cool the air. It also pulls moisture out of it. That makes the room dry, and dry air can irritate your skin, eyes, and throat. A comfortable range is commonly said to be thirty to fifty percent humidity.",
+     "emph": [
+      "moisture",
+      "dry",
+      "thirty"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "My eyes feel dusty!",
+     "emph": [
+      "dusty"
+     ]
+    }
+   ],
+   "actions": [
+    "Moisture drawn into the AC",
+    "Humidity gauge needle swings from green into the red TOO DRY zone"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "PART 2: DRY AIR",
+    "at": "word:dry"
+   },
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": "word:pulls",
+     "gain": 0.5
+    },
+    {
+     "name": "pop",
+     "at": "word:skin",
+     "gain": 0.7
+    },
+    {
+     "name": "whistle_up",
+     "at": "word:thirty",
+     "gain": 0.5
+    }
+   ],
+   "transition": "swipe",
+   "note": "Source: indoor air quality guidance (typical 30-50% range)"
+  },
+  {
+   "id": "S4",
+   "title": "Part 3: the big mistake",
+   "min": 19.0,
+   "background": "navy",
+   "music": "tense",
+   "retention_hook": "Big mistake: sleeping in a sealed room breathing the same air",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "bed",
+    "co2",
+    "window"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Part three. The big mistake. Many room air conditioners just recirculate the air inside. In a closed bedroom, the carbon dioxide you breathe out builds up all night. Studies found more carbon dioxide in air conditioned bedrooms, and less deep sleep when bedroom ventilation is low. The fix is simple: let some fresh air in.",
+     "emph": [
+      "mistake",
+      "carbon",
+      "deep",
+      "fresh"
+     ]
+    },
+    {
+     "who": "FRIEND",
+     "text": "Crack the window a little!",
+     "emph": [
+      "window"
+     ]
+    }
+   ],
+   "actions": [
+    "Sleeper in a sealed bedroom; CO2 particles rise and CO2 meter climbs",
+    "Window cracks open; fresh air flows in"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "PART 3: BIG MISTAKE",
+    "at": "word:mistake"
+   },
+   "sfx": [
+    {
+     "name": "stamp",
+     "at": "word:mistake",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:carbon",
+     "gain": 0.7
+    },
+    {
+     "name": "sad_trombone",
+     "at": "word:deep",
+     "gain": 0.4
+    },
+    {
+     "name": "whoosh",
+     "at": "word:fresh",
+     "gain": 0.6
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: Singapore bedroom study; 2023 bedroom ventilation field study (PubMed)"
+  },
+  {
+   "id": "S5",
+   "title": "Part 4: can you drink it",
+   "min": 20.0,
+   "background": "blue",
+   "music": "mystery",
+   "retention_hook": "Payoff: why the water is not safe",
+   "characters": [
+    "FRIEND"
+   ],
+   "props": [
+    "drain pan",
+    "germs",
+    "tags",
+    "plant"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "Part four. Can you drink it? Fresh condensate is almost like distilled water. But on its way out, it touches the coils, the drain pan, and the pipes. Dust and germs can build up there, including, in some systems, the bacteria that cause Legionnaires disease. Parts can also add metals like copper, and some coils use lead solder. So, no. Do not drink it.",
+     "emph": [
+      "germs",
+      "Legionnaires",
+      "lead",
+      "no"
+     ],
+     "say": "Part four. Can you drink it? Fresh condensate is almost like distilled water. But on its way out, it touches the coils, the drain pan, and the pipes. Dust and germs can build up there, including, in some systems, the bacteria that cause legion airs disease. Parts can also add metals like copper, and some coils use lead solder. So, no. Do not drink it."
+    },
+    {
+     "who": "FRIEND",
+     "text": "Water the plants instead!",
+     "emph": [
+      "plants"
+     ]
+    }
+   ],
+   "actions": [
+    "Water passes coils, pan and pipes; germs pop in; copper and lead tags",
+    "Big red X over the glass; Friend waters a plant"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "PART 4: NOT SAFE",
+    "at": "word:no"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:germs",
+     "gain": 0.7
+    },
+    {
+     "name": "error_beep",
+     "at": "word:Legionnaires",
+     "gain": 0.6
+    },
+    {
+     "name": "pop",
+     "at": "word:copper",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:lead",
+     "gain": 0.7
+    },
+    {
+     "name": "stamp",
+     "at": "word:no",
+     "gain": 0.9
+    },
+    {
+     "name": "giggle",
+     "at": "word:plants",
+     "gain": 0.5
+    }
+   ],
+   "transition": "swipe",
+   "note": "Sources: Slate, university extension Q&A, EPA water-quality guidance"
+  },
+  {
+   "id": "S6",
+   "title": "Conclusion and final joke",
+   "min": 13.0,
+   "background": "cream",
+   "music": "warm",
+   "retention_hook": "Conclusion: three takeaways + final joke",
+   "characters": [
+    "BANKER",
+    "GUY"
+   ],
+   "props": [
+    "checklist"
+   ],
+   "dialogue": [
+    {
+     "who": "NARRATOR",
+     "text": "So, AC water is for the drain, not for drinking. Keep the room from getting too dry, and let fresh air in.",
+     "emph": [
+      "drain",
+      "dry",
+      "fresh"
+     ]
+    },
+    {
+     "who": "BANKER",
+     "text": "But it is free water!",
+     "emph": [
+      "free"
+     ]
+    },
+    {
+     "who": "GUY",
+     "text": "So is the free bacteria!",
+     "emph": [
+      "bacteria"
+     ]
+    }
+   ],
+   "actions": [
+    "Checklist ticks: do not drink it; keep air humid; let fresh air in",
+    "Banker tempted by free water; Guy warns him"
+   ],
+   "camera": "slow push-in",
+   "headline": {
+    "text": "DRAIN IT, DO NOT DRINK IT",
+    "at": "word:drain"
+   },
+   "sfx": [
+    {
+     "name": "pop",
+     "at": "word:drain",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:dry",
+     "gain": 0.7
+    },
+    {
+     "name": "pop",
+     "at": "word:fresh",
+     "gain": 0.7
+    },
+    {
+     "name": "giggle",
+     "at": "word:bacteria",
+     "gain": 0.7
+    }
+   ],
+   "transition": "swipe",
+   "note": "Simplified explainer; not medical advice"
+  }
+ ]
+}

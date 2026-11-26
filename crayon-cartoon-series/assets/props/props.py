@@ -326,3 +326,82 @@ def waves(y, w=900, amp=12, col=SEA_DEEP, kf=None, x0=-90, n=9):
 def pier(x, y, w=300):
     return (f'<rect x="{x}" y="{y}" width="{w}" height="26" fill="#8A5A3A" stroke="{INK}" stroke-width="{LW}"/>'
             + ''.join(f'<rect x="{x + 24 + k * 90}" y="{y + 26}" width="18" height="84" fill="#6B452E" stroke="{INK}" stroke-width="3.4"/>' for k in range(int(w // 90))))
+
+
+# ---------------------------------------------------------------- Rich-graphics props (Episode 5: AC water)
+from cc_kit import uid as _uid, W as _W, H as _H
+
+
+def grad_bg(c1, c2, c3=None):
+    """Full-frame vertical gradient background (soft, adds depth to the flat style)."""
+    i = _uid('gb'); stops = f'<stop offset="0" stop-color="{c1}"/>' + (f'<stop offset=".55" stop-color="{c3}"/>' if c3 else '') + f'<stop offset="1" stop-color="{c2}"/>'
+    return f'<defs><linearGradient id="{i}" x1="0" y1="0" x2="0" y2="1">{stops}</linearGradient></defs><rect x="-200" y="-200" width="{_W() + 400}" height="{_H() + 400}" fill="url(#{i})"/>'
+
+
+def glow(x, y, r, col='#FFD27A', op=.55):
+    i = _uid('gl')
+    return (f'<defs><radialGradient id="{i}"><stop offset="0" stop-color="{col}" stop-opacity="{op}"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></radialGradient></defs>'
+            f'<circle cx="{x}" cy="{y}" r="{r}" fill="url(#{i})"/>')
+
+
+def droplet(x, y, s=1.0, col='#6FC3F0'):
+    return g(x, y, s, f'<path d="M0 -22 C10 -8 14 0 14 8 A14 14 0 0 1 -14 8 C-14 0 -10 -8 0 -22 Z" fill="{col}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-5 4 q0 6 5 8" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"/>')
+
+
+def split_ac(x, y, w=420, s=1.0, grille_open=False):
+    """Wall-mounted split AC (anchor = top-centre). Louvre, display light, soft shading."""
+    i = _uid('ac'); h = w * .3
+    return g(x, y, s, f'<defs><linearGradient id="{i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D5DDE3"/></linearGradient></defs>'
+                      f'<rect x="{-w / 2}" y="0" width="{w}" height="{h}" rx="22" fill="url(#{i})" stroke="{INK}" stroke-width="{LW + 1}"/>'
+                      f'<rect x="{-w / 2 + 14}" y="{h - 34}" width="{w - 28}" height="18" rx="9" fill="#9FB0BC" stroke="{INK}" stroke-width="3"/>'
+                      f'<path d="M{-w / 2 + 30} {h * .36} H{w / 2 - 30}" stroke="#C6D0D8" stroke-width="3"/>'
+                      f'<circle cx="{w / 2 - 34}" cy="{h * .36 - 10}" r="5" fill="#4DD18A" stroke="{INK}" stroke-width="2"/>')
+
+
+def outdoor_unit(x, y, s=1.0, spin=None):
+    fan = ''.join(f'<path d="M0 0 Q18 -10 10 -44 Q-12 -26 0 0 Z" fill="#9AA6AE" stroke="{INK}" stroke-width="2.6" transform="rotate({a})"/>' for a in range(0, 360, 72))
+    if spin: fan = G(fan, [[spin[0], {'r': 0}], [spin[1], {'r': 360 * 4 * (spin[1] - spin[0])}, 'l']], (0, 0))
+    return g(x, y, s, f'<rect x="-92" y="-150" width="184" height="150" rx="14" fill="#E9EEF1" stroke="{INK}" stroke-width="{LW}"/><circle cx="-12" cy="-76" r="56" fill="#CBD5DB" stroke="{INK}" stroke-width="4"/>'
+                      f'<g transform="translate(-12 -76)">{fan}<circle r="9" fill="#6E7A83" stroke="{INK}" stroke-width="3"/></g>'
+                      f'<path d="M58 -130 H84 M58 -112 H84 M58 -94 H84 M58 -76 H84 M58 -58 H84" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>')
+
+
+def glass(x, y, s=1.0, level=.35):
+    """Drinking glass (anchor = base centre); level 0-1 water."""
+    h = 120 * level
+    return g(x, y, s, f'<path d="M-38 -130 L-30 0 H30 L38 -130 Z" fill="#DDEFF9" fill-opacity=".55" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+                      f'<path d="M-31 {-h} L-30 0 H30 L31 {-h} Z" fill="#6FC3F0" fill-opacity=".8"/><path d="M-26 -118 L-22 -30" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".7"/>')
+
+
+def gauge(x, y, r=120, needle=None, label='', zones=('#E0382C', '#F2B134', '#4DD18A', '#F2B134', '#E0382C'), keys=None):
+    """Semicircle gauge, needle sweeps -80..+80 degrees; keys animate the needle ({'r': deg})."""
+    arcs = ''
+    for k, c in enumerate(zones):
+        a0, a1 = math.radians(180 + k * 36), math.radians(180 + (k + 1) * 36)
+        arcs += f'<path d="M{r * math.cos(a0):.1f} {r * math.sin(a0):.1f} A{r} {r} 0 0 1 {r * math.cos(a1):.1f} {r * math.sin(a1):.1f}" fill="none" stroke="{c}" stroke-width="22"/>'
+    nd = f'<path d="M0 0 L0 {-r + 18}" stroke="{INK}" stroke-width="7" stroke-linecap="round"/><circle r="12" fill="{INK}"/>'
+    nd = G(nd, keys or [[0, {'r': 0}]], (0, 0))
+    return g(x, y, 1.0, f'<rect x="{-r - 30}" y="{-r - 40}" width="{2 * r + 60}" height="{r + 90}" rx="22" fill="#1F2A36" stroke="{INK}" stroke-width="5"/>' + arcs + nd + caps(0, 52, label, 26, '#FFFFFF'))
+
+
+def co2(x, y, s=1.0):
+    return g(x, y, s, f'<circle cx="-16" cy="0" r="10" fill="#3A3F46" stroke="{INK}" stroke-width="2.6"/><circle cx="0" cy="0" r="12" fill="#E0382C" stroke="{INK}" stroke-width="2.6"/><circle cx="16" cy="0" r="10" fill="#3A3F46" stroke="{INK}" stroke-width="2.6"/>')
+
+
+def germ(x, y, s=1.0, col='#7BC96F'):
+    return g(x, y, s, f'<path d="M-18 0 a18 26 0 1 1 36 0 a18 26 0 1 1 -36 0 Z" transform="rotate(30)" fill="{col}" stroke="{INK}" stroke-width="3"/><circle cx="-5" cy="-6" r="3.6" fill="{INK}"/><circle cx="8" cy="-3" r="3.6" fill="{INK}"/>'
+                      f'<path d="M-6 8 q6 6 12 0" fill="none" stroke="{INK}" stroke-width="2.6" stroke-linecap="round"/>' + f'<path d="M-24 -18 l-8 -8 M22 -22 l8 -8 M-26 12 l-10 4" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>')
+
+
+def potted_plant(x, y, s=1.0):
+    return g(x, y, s, f'<path d="M-30 -60 H30 L22 0 H-22 Z" fill="#B8654A" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+                      f'<path d="M0 -60 C-6 -100 -36 -110 -46 -140 C-14 -136 0 -112 0 -60 Z M0 -60 C6 -110 30 -120 50 -150 C60 -110 24 -96 0 -60 Z" fill="#5FB35A" stroke="{INK}" stroke-width="3.4" stroke-linejoin="round"/>')
+
+
+def bed(x, y, w=520, s=1.0):
+    """Bed seen from the side-front (anchor = floor, centre)."""
+    return g(x, y, s, f'<rect x="{-w / 2}" y="-120" width="{w}" height="70" rx="10" fill="#6B452E" stroke="{INK}" stroke-width="{LW}"/>'
+                      f'<rect x="{-w / 2 - 6}" y="-80" width="{w + 12}" height="40" rx="12" fill="#F3EFE6" stroke="{INK}" stroke-width="{LW}"/>'
+                      f'<rect x="{-w / 2 + 6}" y="-170" width="150" height="60" rx="26" fill="#FFFFFF" stroke="{INK}" stroke-width="{LW}"/>'
+                      f'<path d="M{-w / 2 + 120} -80 Q{-w / 2 + 160} -150 {-w / 2 + 230} -120 Q{-w / 2 + 330} -150 {w / 2 - 20} -90 V-50 H{-w / 2 + 120} Z" fill="#4D73B8" stroke="{INK}" stroke-width="{LW}" stroke-linejoin="round"/>'
+                      f'<rect x="{-w / 2}" y="-50" width="{w}" height="50" fill="#5A3A26" stroke="{INK}" stroke-width="{LW}"/>')

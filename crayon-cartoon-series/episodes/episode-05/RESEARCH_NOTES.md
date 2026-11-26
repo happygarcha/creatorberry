@@ -1,0 +1,6 @@
+# Episode 5 research notes: AC water (26 Nov 2026)
+Idea taken from a reference Short (Hindi "ADXplained", 4 parts: where the water comes from, dry air, sleeping-with-AC mistake, can you drink it). Script rewritten in English and re-checked; not copied.
+- Condensate: forms where warm humid air meets cold coils (basic HVAC). Sources disagree on pure water vs risk (Slate says low in minerals; Hawaii health column says no). Pans, drain lines and metal parts can add bacteria (Legionella outbreaks linked to AC condensate in hospitals, hotels, ships per industry sources) and metals (extension Q&A: coils often use lead solder; long copper runs raise copper). Conclusion used: treat as non-potable; plants/non-drinking use.
+- Dry air: ACs dehumidify; 30-50% comfort range is the commonly cited guideline. The reference Short's "bucket of water" tip was NOT repeated: no supporting source found.
+- Bedroom CO2: Singapore 2004 study found higher CO2 in air-conditioned than naturally ventilated bedrooms; 2023 field study (PubMed 37142023) found less deep sleep with lower ventilation. The "oxygen runs out" idea was not claimed.
+- Not claimed: specific ppm values, health outcomes beyond the studies, any drinking-water standard conclusions.
