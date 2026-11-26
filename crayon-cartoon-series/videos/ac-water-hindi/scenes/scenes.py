@@ -19,9 +19,11 @@ class C:
     def mouth(s, who, i=0): return mouth_windows(s.sh, who, s.sc, i)
 
 
-def note_text(c, t0=0.0, y=412):
+def note_text(c, t0=0.0, y=None):
+    """Source credit: small, low-contrast, tucked into the bottom-right corner (never in the middle of the frame)."""
     n = c.sc.get('note')
-    return G(caps(W() / 2, y, n, 20, '#DDE6EE' if c.sc['background'] in ('navy', 'blue') else '#4A4A4A'), fade(t0, .4)) if n else ''
+    col = '#E8EEF4' if c.sc['background'] in ('navy', 'blue', 'red') else '#3A3A3A'
+    return G(caps(W() - 36, S(.792), n, 14, col, anchor='end'), [[0, {'o': 0}], [t0, {'o': 0}], [t0 + .4, {'o': .72}]]) if n else ''
 
 
 def over_of(c, size=58):
@@ -117,7 +119,7 @@ def s4(c):
         t0 = t_c + k * .22; x = rnd.uniform(90, 640); y0 = rnd.uniform(FY - 120, FY - 20); y1 = y0 - rnd.uniform(150, 420)
         co2s += G(props.co2(x, y0, .8), [[0, {'o': 0}], [t0 - .001, {'o': 0, 'ty': 0}], [t0, {'o': 1}], [t0 + 3.2, {'ty': y1 - y0, 'tx': rnd.uniform(-30, 30)}, 'o']])
     gk = [[0, {'r': -60}], [t_c, {'r': -60}], [t_c + 7, {'r': 60}, 'io']]
-    meter = G(props.gauge(560, S(.56), 70, label='CO2', keys=gk), pop(t_c - .3), (560, S(.56)))
+    meter = G(props.gauge(560, S(.56), 70, label='कार्बन', keys=gk), pop(t_c - .3), (560, S(.56)))
     tags = tag(200, S(.50), 'बंद कमरा', t_m + .3, 220, '#F7B5AD', 26)
     air = ''.join(f'<g transform="translate(600 {S(.30) + 40 + k * 50})">' + G('<path d="M0 0 q18 -14 36 0 t36 0" fill="none" stroke="#7CF0B5" stroke-width="7" stroke-linecap="round"/><path d="M72 0 l-12 -10 m12 10 l-12 10" stroke="#7CF0B5" stroke-width="6" stroke-linecap="round"/>', [[0, {'o': 0}], [t_fr + k * .45 - .001, {'o': 0, 'tx': 0}], [t_fr + k * .45, {'o': 1}], [t_fr + k * .45 + 1.6, {'tx': -150, 'ty': 30, 'o': 0}, 'o']]) + '</g>' for k in range(4))
     fresh = tag(550, S(.455), 'ताज़ी हवा', t_fr, 230, '#CDEBC5', 26)
@@ -149,7 +151,7 @@ def s5(c):
     can = G(f'<path d="M440 {FY - 10} h60 l-6 40 h-48 Z" fill="#6FB0E0" stroke="{INK}" stroke-width="4"/><path d="M500 {FY - 2} l50 -20" stroke="{INK}" stroke-width="8" stroke-linecap="round"/>', merge(pop(tf[0]), wiggle(tf[0], d, 8, .8, 'r')), (470, FY))
     friend = acting('FRIEND', 390, FY + 70, .95, [(0, dict(pose='standing', expr='worried')), (tf[0] - .05, dict(pose='laughing', expr='grin', talk=c.mouth('FRIEND')))], t_end=d)
     t_di, t_pc, t_pa, t_pi = c.w('कॉइल'), c.w('कॉइल'), c.w('पैन'), c.w('पाइप')
-    world = bgd + G(glass_lbl(c, t_di), pop(t_di), (360, S(.62))) + G(coil, pop(t_pc), (360, S(.33))) + G(pan_, pop(t_pa), (360, S(.42))) + G(pipe, pop(t_pi), (650, S(.5))) + germs + t1 + gl + xx + plant + friend + note_text(c, 1.0)
+    world = bgd + G(coil, pop(t_pc), (360, S(.33))) + G(pan_, pop(t_pa), (360, S(.42))) + G(pipe, pop(t_pi), (650, S(.5))) + germs + t1 + gl + xx + plant + friend + note_text(c, 1.0)
     return world, [[0, {'s': 1.0}], [d, {'s': 1.04}, 'l']], (W() / 2, S(.5)), over_of(c) + dots_progress(4)
 
 

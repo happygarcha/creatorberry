@@ -19,9 +19,11 @@ class C:
     def mouth(s, who, i=0): return mouth_windows(s.sh, who, s.sc, i)
 
 
-def note_text(c, t0=0.0, y=412):
+def note_text(c, t0=0.0, y=None):
+    """Source credit: small, low-contrast, tucked into the bottom-right corner (never in the middle of the frame)."""
     n = c.sc.get('note')
-    return G(caps(W() / 2, y, n, 20, '#E8E8E8' if c.sc['background'] in ('navy', 'red') else '#4A4A4A'), fade(t0, .4)) if n else ''
+    col = '#E8EEF4' if c.sc['background'] in ('navy', 'blue', 'red') else '#3A3A3A'
+    return G(caps(W() - 36, S(.792), n, 14, col, anchor='end'), [[0, {'o': 0}], [t0, {'o': 0}], [t0 + .4, {'o': .72}]]) if n else ''
 
 
 def over_of(c, size=64):

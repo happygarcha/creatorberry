@@ -18,3 +18,8 @@
 - tools/qc.py checks the speech pace (limit 175 words per minute while speaking) and that the voice is at least 18 dB above the music while speaking; fix and re-mix if it warns.
 - If a script is long, keep it and still keep a new visual development at least every 8 s; split into two parts only if it would exceed 180 s, and ask first in that case.
 - Episodes 1 and 2 were rendered before these rules and keep their original faster pacing unless the user asks for a re-render.
+
+## On-screen source credits and language (permanent rules, apply to every video; never ask again)
+- Source credits ("Source: ...") are SMALL (about 14 px on the 720x1280 canvas), low-contrast and sit in a bottom corner, never in the middle of the frame, never over the captions or props. In code: `note_text()` in the scene file.
+- Reply to the user in the language they wrote their request in. When a video is requested in Hindi, everything on screen (headline, labels, captions, source credit, end card) is Devanagari, the narration is spoken Hindi, and the upload sheet is in Hindi. Hindi tools: `tools/engine/hindi_tts.py` (Piper hi_IN voices), set `"lang": "hi"` in episode.json.
+- A standalone video (no episode number) uses `videos/<slug>/` and `"slug"` in episode.json; a requested exact runtime (e.g. 60.000 s) is hit by tuning the last scene's `min`.
