@@ -103,6 +103,7 @@ function drawCard(c, T) {
 // ---------- Thumbnail overlay (?thumb=1): big statement left, logo bottom-left ----------
 function thumbOverlay(c) {
   const f = `700 150px ${SANS}`;
+  c.save(); c.fillStyle = 'rgba(246,245,240,0.94)'; c.fillRect(60, 90, 480, 760); c.fillStyle = INK; c.fillRect(60, 90, 6, 760); c.restore();
   [[["नदी के", 0]], [["नीचे", 0]], [["मेट्रो!", 1]]].forEach((ln, i) => { c.save(); c.font = f; c.fillStyle = ln[0][1] ? ACC : INK; c.fillText(ln[0][0], 90, 270 + i * 190); c.restore(); });
   c.save(); c.fillStyle = INK; c.fillRect(94, 790, 340, 5); c.restore();
   const R = 70, cx = 164, cy = 905; c.save(); c.beginPath(); c.arc(cx, cy, R * 0.985, 0, Math.PI * 2); c.clip(); c.drawImage(LOGO, cx - R, cy - R, 2 * R, 2 * R); c.restore();

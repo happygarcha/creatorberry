@@ -82,6 +82,8 @@ mus = S.limit(mus[:, 0], .8)[:, None].repeat(2, 1) * 0 + mus * 1.0
 # ---------------- foley from the picture events ----------------
 fol = np.zeros((N, 2))
 def F_(x, at, g=1.0, pan=0.0): S.add(fol, x.astype(np.float64), at, g, pan)
+def L2(*a):
+    m = min(len(x) for x in a); return [x[:m] for x in a]
 def glide(f0, f1, d, v=1.0):
     t = tt(d); f = f0 * (f1 / f0) ** (t / d); return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.minimum(t / .03, 1) * np.minimum((d - t) / .06, 1) * v
 for e in EV:
@@ -103,14 +105,14 @@ for e in EV:
     elif ty == 'air': F_(S.bp(S.noise(d), 300, 1600) * np.hanning(int(d * SR)), t0, .07, pan)
     elif ty == 'lift': F_(S.whoosh(d, .7), t0, .15, pan)
     elif ty == 'seat': F_(S.click(.9, .8), t0, .24 * e.get('v', .8), pan); F_(S.thump(.5, 80), t0, .10, pan)
-    elif ty == 'dive': F_(S.rumble(d, .5) * .7 + S.bp(S.noise(d), 1500, 5000) * (np.linspace(0, 1, int(d * SR)) ** 2) * .5, t0, .12, pan)
+    elif ty == 'dive': a_, b_, c_ = L2(S.rumble(d, .5), S.bp(S.noise(d), 1500, 5000), np.linspace(0, 1, int(d * SR)) ** 2); F_(a_ * .7 + b_ * c_ * .5, t0, .12, pan)
     elif ty == 'iris': F_(S.whoosh(d, .8), t0, .16, pan); F_(glide(900, 1400, .3, .5) * S.env_exp(.3, .12), t0 + .05, .08, pan)
     elif ty == 'glass': F_(S.ding(.8), t0, .18, pan)
     elif ty == 'pop': F_(S.pop(.7), t0, .15, pan)
     elif ty == 'flood': F_(S.lp(glide(300, 1100, d, .6), 3500) * np.hanning(int(d * SR)), t0, .10, pan)
     elif ty == 'drain': F_(S.lp(glide(1100, 300, d, .6), 3500) * np.hanning(int(d * SR)), t0, .10, pan)
     elif ty == 'whoosh': F_(S.whoosh(d, .7), t0, .12, pan)
-    elif ty == 'train': F_(S.rumble(d, .6) * np.hanning(int(d * SR)) ** .5 * .8 + S.bp(S.noise(d), 600, 2400) * np.hanning(int(d * SR)) ** 2 * .35, t0, .13, (pan + p1) / 2)
+    elif ty == 'train': a_, b_, h_ = L2(S.rumble(d, .6), S.bp(S.noise(d), 600, 2400), np.hanning(int(d * SR))); F_(a_ * h_ ** .5 * .8 + b_ * h_ ** 2 * .35, t0, .13, (pan + p1) / 2)
     elif ty == 'trace': F_(S.lp(glide(500, 2400, d, .5), 5000) * np.hanning(int(d * SR)) ** .6, t0, .08, pan)
 # room tone (very quiet), present through the near-silences
 room = np.zeros((N, 2)); r_ = S.lp(S.noise(DUR), 400) * .02; room[:, 0] = r_[:N]; room[:, 1] = S.lp(S.noise(DUR), 400)[:N] * .02

@@ -560,6 +560,7 @@ function drawCard(c, T) {
 // ---------- Thumbnail overlay (?thumb=1): big statement left, logo bottom-left ----------
 function thumbOverlay(c) {
   const f = `700 150px ${SANS}`;
+  c.save(); c.fillStyle = 'rgba(246,245,240,0.94)'; c.fillRect(60, 90, 480, 760); c.fillStyle = INK; c.fillRect(60, 90, 6, 760); c.restore();
   [[["नदी के", 0]], [["नीचे", 0]], [["मेट्रो!", 1]]].forEach((ln, i) => { c.save(); c.font = f; c.fillStyle = ln[0][1] ? ACC : INK; c.fillText(ln[0][0], 90, 270 + i * 190); c.restore(); });
   c.save(); c.fillStyle = INK; c.fillRect(94, 790, 340, 5); c.restore();
   const R = 70, cx = 164, cy = 905; c.save(); c.beginPath(); c.arc(cx, cy, R * 0.985, 0, Math.PI * 2); c.clip(); c.drawImage(LOGO, cx - R, cy - R, 2 * R, 2 * R); c.restore();
@@ -572,7 +573,7 @@ function frameAt(T) {
   renderer.setRenderTarget(null); renderer.setClearColor(0xffffff, 0); renderer.clear();
   ov.clearRect(0, 0, PX, PY);
   const clipOf = (tt) => { if (Q.get('noclip')) return []; sweepClip(tt); return [clipPlane]; };
-  if (T < K.hatch[1]) renderView('main', { x: 0, y: 0, w: PX, h: PY }, (dt, j) => { const tt = clamp(T + dt, 0, FILM); setScene(tt); return { cam: camAt(tt, j), clip: Q.get('thumb') ? [] : clipOf(tt) }; }, { guides: false });
+  if (T < K.hatch[1]) renderView('main', { x: 0, y: 0, w: PX, h: PY }, (dt, j) => { const tt = clamp(T + dt, 0, FILM); setScene(tt); return { cam: camAt(tt, j), clip: clipOf(tt) }; }, { guides: false });
   setScene(T); camAt(T);
   if (Q.get('thumb')) thumbOverlay(ov); else if (T < K.hatch[1]) overlay(T, ov); else drawCard(ov, T);
   // cuts between sections: hatching fills the frame, then a round hole opens (the same hatch as the section faces)
